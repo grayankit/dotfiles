@@ -16,5 +16,12 @@ if [ ! -d "$TPM_DIR" ]; then
 else
   echo "  - TPM already installed."
 fi
+# Optional: Install tmux-resurrect manually
+RESURRECT_DIR="$HOME/.config/tmux/plugins/tmux-resurrect"
+if [ ! -d "$RESURRECT_DIR" ]; then
+  git clone https://github.com/tmux-plugins/tmux-resurrect "$RESURRECT_DIR"
+else
+  echo "  - tmux-resurrect already installed."
+fi
 
 echo "[✓] Installation complete. Now run ./scripts/setup.sh"
