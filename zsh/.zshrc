@@ -50,6 +50,7 @@ source <(fzf --zsh)
 
 alias ls="eza"
 alias vim="nvim"
+alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
 #Histfile
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
