@@ -1,59 +1,52 @@
+
+# Initialize Zsh completion and prompt
 autoload -Uz compinit promptinit
 compinit
 promptinit
 
+# Starship prompt
 eval "$(starship init zsh)"
 
-export PATH=$PATH:/home/narayan/.spicetify
+# Add tools to PATH
+export PATH="$PATH:/home/narayan/.spicetify"
+export PATH="$HOME/.shorebird/bin:$PATH"
+export PATH="$HOME/.bun/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+export ANDROID_HOME="$HOME/Android/Sdk/"
+
+# Node Version Manager
 source /usr/share/nvm/init-nvm.sh
 
-## [Completion]
-## Completion scripts setup. Remove the following line to uninstall
-[[ -f /home/narayan/.dart-cli-completion/zsh-config.zsh ]] && . /home/narayan/.dart-cli-completion/zsh-config.zsh || true
-## [/Completion]
+# Dart CLI completion (if available)
+[[ -f $HOME/.dart-cli-completion/zsh-config.zsh ]] && source $HOME/.dart-cli-completion/zsh-config.zsh
 
-export PATH="/home/narayan/.shorebird/bin:$PATH"
-export PATH="/home/narayan/.bun/bin:$PATH"
-export PATH="/home/narayan/.cargo/bin/:$PATH"
-export ANDROID_HOME="/home/narayan/Android/Sdk/"
-
-### Added by Zinit's installer
-if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
-fi
-
+# Zinit Plugin Manager
 source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
+# Zinit plugins and annexes
 zinit light-mode for \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
+  zdharma-continuum/zinit-annex-as-monitor \
+  zdharma-continuum/zinit-annex-bin-gem-node \
+  zdharma-continuum/zinit-annex-patch-dl \
+  zdharma-continuum/zinit-annex-rust
 
-### End of Zinit's installer chunk
 zinit light zsh-users/zsh-syntax-highlighting
-# Set up fzf key bindings and fuzzy completion
+
+# fzf bindings
 source <(fzf --zsh)
 
+# Custom environment
+[ -f "$HOME/.local/bin/env" ] && source "$HOME/.local/bin/env"
 
-
-. "$HOME/.local/bin/env"
 # Aliases
-
 alias ls="eza"
 alias vim="nvim"
 alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
-#Histfile
+
+# Shell history settings
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
-# Share history in every terminal session
 setopt SHARE_HISTORY
