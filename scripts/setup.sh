@@ -30,4 +30,25 @@ elif [ -f "$HOME/.zshrc" ]; then
 fi
 
 stow zsh
+
+echo "[*] Cleaning up flag files before stowing..."
+
+FLAGS=(spotify-flags.conf code-flags.conf)
+for flag in "${FLAGS[@]}"; do
+  SRC="$HOME/.config/$flag"
+  DEST="$HOME/dotfiles/flags/$flag"
+
+  if [ -L "$SRC" ]; then
+    echo "  - Removing symlink: $flag"
+    rm "$SRC"
+  elif [ -f "$SRC" ]; then
+    echo "  - Moving existing file: $flag"
+    mkdir -p "$(dirname "$DEST")"
+    mv "$SRC" "$DEST"
+  fi
+done
+
+echo "[*] Stowing flags..."
+stow flags
+
 echo "[✓] Setup complete."
