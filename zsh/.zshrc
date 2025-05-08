@@ -33,6 +33,7 @@ zinit light-mode for \
   zdharma-continuum/zinit-annex-rust
 
 zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
 
 # fzf bindings
 source <(fzf --zsh)
