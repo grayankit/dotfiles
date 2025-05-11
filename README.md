@@ -25,6 +25,7 @@ dotfiles/
 │       ├── hypr/
 │       ├── nvim/
 │       └── waybar/
+├── flags/               # flags for mostly native wayland
 ├── zsh/                 # Zsh config
 │   └── .zshrc
 ├── scripts/             # Setup scripts
@@ -41,7 +42,7 @@ dotfiles/
 ### 1. Clone This Repo
 
 ```bash
-git clone --recursive https://github.com/your-username/dotfiles.git ~/dotfiles
+git clone --recursive https://github.com/grayankit/dotfiles.git ~/dotfiles
 ```
 
 > Use `--recursive` if you later add submodules.
