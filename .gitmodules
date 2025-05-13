@@ -1,3 +1,6 @@
 [submodule "config/.config/tmux/plugins/tmux-resurrect"]
 	path = config/.config/tmux/plugins/tmux-resurrect
 	url = https://github.com/tmux-plugins/tmux-resurrect
+[submodule "config/.config/tmux/plugins/tmux-sensible"]
+	path = config/.config/tmux/plugins/tmux-sensible
+	url = https://github.com/tmux-plugins/tmux-sensible
