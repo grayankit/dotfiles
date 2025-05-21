@@ -3,7 +3,7 @@ set -e
 
 echo "[*] Cleaning up ~/.config for stow..."
 
-CONFIG_APPS=(hypr nvim waybar alacritty tmux wlogout ml4w rofi scripts)
+CONFIG_APPS=(hypr nvim waybar alacritty tmux wlogout ml4w rofi scripts niri)
 
 for app in "${CONFIG_APPS[@]}"; do
   if [ -L "$HOME/.config/$app" ]; then
