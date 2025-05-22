@@ -38,13 +38,13 @@
     },
 
     // Rofi Application Launcher
-    "custom/appmenu": {
-        "format": "Apps",
-        "tooltip-format": "Left: Open the application launcher\nRight: Show all keybindings",
-        "on-click": "/home/narayan/.config/rofi/launchers/type-2/launcher.sh",
-        "on-click-right": "~/.config/ml4w/scripts/keybindings.sh",
-        "tooltip": false
-    },
+  //  "custom/appmenu": {
+   //     "format": "Apps",
+    //    "tooltip-format": "Left: Open the application launcher\nRight: Show all keybindings",
+     //   "on-click": "/home/narayan/.config/rofi/launchers/type-2/launcher.sh",
+      //  "on-click-right": "~/.config/ml4w/scripts/keybindings.sh",
+       // "tooltip": false
+    // },
     
     // Power Menu
     "custom/exit": {
@@ -158,20 +158,13 @@
     // Pulseaudio
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "{icon}  {volume}%",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
+        "format": "{icon}  {volume}",
+        "format-bluetooth": "{volume} {icon} ",
+        "format-bluetooth-muted": " {icon}  ",
         "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
-        "format-source-muted": "",
         "format-icons": {
             "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", " ", " "]
+            "default": [" ", "  ", "  "]
         },
         "on-click": "pwvucontrol"
     },
