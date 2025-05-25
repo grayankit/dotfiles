@@ -272,6 +272,9 @@ require("lazy").setup({
 		-- use opts = {} for passing setup options
 		-- this is equivalent to setup({}) function
 	},
+	{
+		"github/copilot.vim",
+	},
 
 	-- NOTE: Plugins can also be configured to run Lua code when they are loaded.
 	--
