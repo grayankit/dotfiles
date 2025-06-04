@@ -1,4 +1,3 @@
-
 # Initialize Zsh completion and prompt
 autoload -Uz compinit promptinit
 compinit
@@ -52,5 +51,3 @@ HISTSIZE=10000
 SAVEHIST=10000
 setopt SHARE_HISTORY
 
-# Autostart Tmux session if not already in one
-[ -z "$TMUX" ] && exec tmux
