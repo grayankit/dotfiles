@@ -26,6 +26,7 @@ if [ -L "$HOME/.zshrc" ]; then
   rm "$HOME/.zshrc"
 elif [ -f "$HOME/.zshrc" ]; then
   echo "  - Moving existing .zshrc to dotfiles"
+  mkdir -p "$HOME/dotfiles/zsh"
   mv "$HOME/.zshrc" "$HOME/dotfiles/zsh/.zshrc"
 fi
 
@@ -50,5 +51,18 @@ done
 
 echo "[*] Stowing flags..."
 stow flags
+
+echo "[*] Linking WezTerm config..."
+
+if [ -L "$HOME/.wezterm.lua" ]; then
+  echo "  - Removing symlink: .wezterm.lua"
+  rm "$HOME/.wezterm.lua"
+elif [ -f "$HOME/.wezterm.lua" ]; then
+  echo "  - Moving existing .wezterm.lua to dotfiles"
+  mkdir -p "$HOME/dotfiles/wezterm"
+  mv "$HOME/.wezterm.lua" "$HOME/dotfiles/wezterm/.wezterm.lua"
+fi
+
+stow wezterm
 
 echo "[✓] Setup complete."
