@@ -16,7 +16,7 @@ return {
 	-- Optional blur (works via Hyprland or Picom)
 	window_background_gradient = {
 		orientation = "Vertical",
-		colors = { "#1e1e2e", "#11111b" },
+		colors = { "#111111", "#11111b" },
 	},
 
 	-- Padding for a cleaner look

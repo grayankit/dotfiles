@@ -5,6 +5,7 @@ promptinit
 
 # Starship prompt
 eval "$(starship init zsh)"
+eval "$(atuin init zsh)"
 
 # Add tools to PATH
 export PATH="$PATH:/home/narayan/.spicetify"
@@ -50,4 +51,3 @@ HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 setopt SHARE_HISTORY
-
