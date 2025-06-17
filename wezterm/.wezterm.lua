@@ -6,7 +6,7 @@ return {
 
 	-- Tmux and Neovim friendly
 	enable_tab_bar = false,
-	term = "wezterm",
+	term = "xterm-256color",
 
 	-- Appearance
 	--	color_scheme = "Catppuccin Mocha",

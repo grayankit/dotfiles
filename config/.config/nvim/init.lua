@@ -97,7 +97,10 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" }
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
---
+-- Split Vertically
+vim.keymap.set("n", "<leader>sv", "<C-w>v", { desc = "[S]plit [V]ertically" })
+-- Split Horizontally
+vim.keymap.set("n", "<leader>sh", "<C-w>s", { desc = "[S]plit [H]orizontally" })
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
@@ -852,7 +855,12 @@ require("lazy").setup({
 		event = "VimEnter",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = { signs = false },
+		keys = {
+			{ "<leader>ct", "<cmd>TodoTrouble<cr>", desc = "[C]ode [T]odo" },
+			{ "<leader>cT", "<cmd>TodoTelescope<cr>", desc = "[C]ode [T]odo Telescope" },
+		},
 	},
+	-- TODO: Change Icons
 
 	{ -- Collection of various small independent plugins/modules
 		"echasnovski/mini.nvim",
@@ -889,6 +897,22 @@ require("lazy").setup({
 
 			-- ... and there is more!
 			--  Check out: https://github.com/echasnovski/mini.nvim
+		end,
+	},
+	{
+		"echasnovski/mini.files",
+		config = function()
+			local MiniFiles = require("mini.files")
+			MiniFiles.setup({
+				mappings = {
+					go_in = "<CR>",
+					go_in_plus = "L",
+					go_out = "-",
+					go_out_plus = "H",
+				},
+			})
+
+			vim.keymap.set("n", "<leader>ee", "<cmd> lua MiniFiles.open()", { desc = "[E]xplore files" })
 		end,
 	},
 	{ -- Highlight, edit, and navigate code
