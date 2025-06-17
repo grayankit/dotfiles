@@ -45,6 +45,8 @@ source <(fzf --zsh)
 alias ls="eza"
 alias vim="nvim"
 alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
+alias fbl="flutter build linux --release"
+alias fbi="flutter build apk --release"
 
 # Shell history settings
 HISTFILE=~/.zsh_history
