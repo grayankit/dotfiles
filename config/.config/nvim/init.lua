@@ -912,7 +912,22 @@ require("lazy").setup({
 				},
 			})
 
-			vim.keymap.set("n", "<leader>ee", "<cmd> lua MiniFiles.open()", { desc = "[E]xplore files" })
+			vim.keymap.set("n", "<leader>ee", "<cmd> lua MiniFiles.open()<CR>", { desc = "[E]xplore files" })
+		end,
+	},
+	{
+		"echasnovski/mini.trailspace",
+		event = { "BufReadPost", "BufNewFile" },
+		config = function()
+			local MiniTrailspace = require("mini.trailspace")
+
+			MiniTrailspace.setup({
+				only_in_normal_buffers = true, -- Only enable in normal buffers
+			})
+
+			vim.keymap.set("n", "<leader>cw", function()
+				MiniTrailspace.trim()
+			end, { desc = "[C]ode [W]hitespace" })
 		end,
 	},
 	{ -- Highlight, edit, and navigate code
@@ -933,6 +948,11 @@ require("lazy").setup({
 				"query",
 				"vim",
 				"vimdoc",
+				"javascript",
+				"typescript",
+				"html",
+				"css",
+				"tsx",
 			},
 			-- Autoinstall languages that are not installed
 			auto_install = true,
