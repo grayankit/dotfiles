@@ -1,19 +1,20 @@
 {
     // "layer": "top", // Waybar at top layer
-    
+
     // "position": "bottom", // Waybar position (top|bottom|left|right)
-    
+
     "height": 30, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
-    
+
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
 
     // Load Modules
     "include": [
         "~/.config/ml4w/settings/waybar-quicklinks.json",
-        "~/.config/waybar/modules.json"
-    ],    
+        "~/.config/waybar/modules.json",
+				"~/.config/waybar/modules/popup-apps.json"
+    ],
     "modules-left": [
         "custom/appmenu",
         "group/quicklinks",
@@ -23,13 +24,16 @@
         "hyprland/workspaces"
     ],
     "modules-right": [
-        "mpd", 
-        "pulseaudio", 
-        "network", 
+
+        "mpd",
+        "pulseaudio",
+        "network",
         "bluetooth",
-        "keyboard-state", 
-        "battery", 
-        "clock", 
+        "keyboard-state",
+        "battery",
+        "clock",
+				"custom/vesktop",
+				"custom/obsidian",
         "tray",
         "custom/exit"
     ]

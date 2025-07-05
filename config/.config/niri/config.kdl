@@ -348,8 +348,8 @@ binds {
 
     Mod+Tab { toggle-overview; }
 
-    // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+Return { spawn "alacritty";}
+    // Suggested binds for running programs: terminal, app launcher, screen locker. 
+    Mod+Return { spawn "wezterm";}
     Mod+Shift+Return { spawn "bash" "-c" "notify-send -u critical 'Time' \"$(date)\""; }
 
     Mod+D { spawn "/home/narayan/.config/rofi/launchers/type-6/launcher.sh" ; }
@@ -371,12 +371,6 @@ binds {
     XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
     XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
-    XF86AudioPlay        allow-when-locked=true { spawn "playerctl" "play-pause"; }
-    XF86AudioNext        allow-when-locked=true { spawn "playerctl" "next"; }
-    XF86AudioPrev        allow-when-locked=true { spawn "playerctl" "previous"; }
-
-    Mod+Q { close-window; }
-    Mod+W { toggle-column-tabbed-display; }
 
     Mod+Left  { focus-column-left; }
     Mod+Down  { focus-window-down; }

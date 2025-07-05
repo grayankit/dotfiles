@@ -1,0 +1,24 @@
+{
+    "custom/vesktop": {
+        "format": "󰙯",
+        "tooltip": true,
+        "tooltip-format": "Toggle Discord (Vesktop)",
+        "on-click": "pgrep vesktop && hyprctl dispatch togglespecialworkspace discord || vesktop",
+        "on-click-right": "hyprctl dispatch focuswindow class:vesktop",
+        "interval": 2,
+        "exec": "pgrep vesktop > /dev/null && echo 'active' || echo 'inactive'",
+        "return-type": "string",
+        "signal": 8
+    },
+    "custom/obsidian": {
+        "format": "󱞁",
+        "tooltip": true,
+        "tooltip-format": "Toggle Notes (Obsidian)",
+        "on-click": "pgrep obsidian && hyprctl dispatch togglespecialworkspace notes || obsidian",
+        "on-click-right": "hyprctl dispatch focuswindow class:obsidian",
+        "interval": 2,
+        "exec": "pgrep obsidian > /dev/null && echo 'active' || echo 'inactive'",
+        "return-type": "string",
+        "signal": 8
+    }
+}
