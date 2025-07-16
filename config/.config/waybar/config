@@ -22,7 +22,6 @@
 				"custom/spotify"
     ],
     "modules-right": [
-
         "mpd",
         "pulseaudio",
         "network",

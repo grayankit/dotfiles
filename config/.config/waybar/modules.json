@@ -78,7 +78,7 @@
         "format-icons": {
             "locked": "",
             "unlocked": ""
-        }
+        },
     },
 
     // System tray
@@ -182,7 +182,8 @@
             "headphone": "",
             "default": [" ", "  ", "  "]
         },
-        "on-click": "pwvucontrol"
+        "on-click": "pwvucontrol",
+        "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
     },
 
     // Bluetooth
