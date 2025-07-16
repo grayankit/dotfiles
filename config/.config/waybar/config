@@ -16,12 +16,10 @@
 				"~/.config/waybar/modules/popup-apps.json"
     ],
     "modules-left": [
-        "custom/appmenu",
-        "group/quicklinks",
-        "hyprland/window"
+        "hyprland/workspaces",
     ],
     "modules-center": [
-        "hyprland/workspaces"
+				"custom/spotify"
     ],
     "modules-right": [
 
@@ -32,7 +30,6 @@
         "keyboard-state",
         "battery",
         "clock",
-				"custom/vesktop",
 				"custom/obsidian",
         "tray",
         "custom/exit"

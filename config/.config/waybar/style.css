@@ -44,13 +44,14 @@ window#waybar {
 
 #workspaces {
     margin: 5px 1px 6px 1px;
-    padding: 0px 1px;
+    padding: 0px 2px;
     border-radius: 15px;
     border: 0px;
     font-weight: bold;
     font-style: normal;
     font-size: 16px;
     color: @textcolor1;
+    background: @iconcolor;
 }
 
 #workspaces button {
@@ -366,4 +367,24 @@ label:focus {
     min-width: 24px;
     transition: all 0.3s ease;
 }
+#custom-spotify {
+    background-color: #1db954;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 0 10px;
+    margin: 0 5px;
+}
 
+#custom-spotify.playing {
+    background-color: #1db954;
+}
+
+#custom-spotify.paused {
+    background-color: #535353;
+}
+
+#custom-spotify.no-spotify,
+#custom-spotify.no-track {
+    background-color: #ff6b6b;
+    color: #ffffff;
+}
