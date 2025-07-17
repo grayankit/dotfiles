@@ -1,19 +1,19 @@
 /*
- * __        __          _                  ____  _         _       
- * \ \      / /_ _ _   _| |__   __ _ _ __  / ___|| |_ _   _| | ___  
- *  \ \ /\ / / _` | | | | '_ \ / _` | '__| \___ \| __| | | | |/ _ \ 
- *   \ V  V / (_| | |_| | |_) | (_| | |     ___) | |_| |_| | |  __/ 
- *    \_/\_/ \__,_|\__, |_.__/ \__,_|_|    |____/ \__|\__, |_|\___| 
- *                 |___/                              |___/         
- *  
- * by Stephan Raabe (2024) 
- * ----------------------------------------------------- 
+ * __        __          _                  ____  _         _
+ * \ \      / /_ _ _   _| |__   __ _ _ __  / ___|| |_ _   _| | ___
+ *  \ \ /\ / / _` | | | | '_ \ / _` | '__| \___ \| __| | | | |/ _ \
+ *   \ V  V / (_| | |_| | |_) | (_| | |     ___) | |_| |_| | |  __/
+ *    \_/\_/ \__,_|\__, |_.__/ \__,_|_|    |____/ \__|\__, |_|\___|
+ *                 |___/                              |___/
+ *
+ * by Stephan Raabe (2024)
+ * -----------------------------------------------------
 */
 
 @define-color backgroundlight #000000;
 @define-color backgrounddark #000000;
 @define-color workspacesbackground1 #000000;
-@define-color workspacesbackground2 #000000;
+@define-color #000000;
 @define-color bordercolor #000000;
 @define-color textcolor1 #FFFFFF;
 @define-color textcolor2 #FFFFFF;
@@ -21,7 +21,7 @@
 @define-color iconcolor #BA3444;
 
 /* -----------------------------------------------------
- * General 
+ * General
  * ----------------------------------------------------- */
 
 * {
@@ -39,7 +39,7 @@ window#waybar {
 }
 
 /* -----------------------------------------------------
- * Workspaces 
+ * Workspaces
  * ----------------------------------------------------- */
 
 #workspaces {
@@ -50,8 +50,8 @@ window#waybar {
     font-weight: bold;
     font-style: normal;
     font-size: 16px;
-    color: @textcolor1;
-    background: @iconcolor;
+    color: @iconcolor;
+    background: @backgroundlight;
 }
 
 #workspaces button {
@@ -65,7 +65,7 @@ window#waybar {
 
 #workspaces button.active {
     color: @textcolor1;
-    background: @workspacesbackground2;
+    background: @iconcolor;
     border-radius: 15px;
     min-width: 40px;
     transition: all 0.3s ease-in-out;
@@ -147,7 +147,7 @@ window#waybar.empty #window {
  * Custom Quicklinks
  * ----------------------------------------------------- */
 
-#custom-browser, 
+#custom-browser,
 #custom-filemanager,
 #network,
 #pulseaudio,
@@ -371,8 +371,8 @@ label:focus {
     background-color: #1db954;
     color: #ffffff;
     border-radius: 10px;
-    padding: 0 10px;
-    margin: 0 5px;
+    padding: 0 5px;
+    margin: 0 3px;
 }
 
 #custom-spotify.playing {

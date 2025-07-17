@@ -61,11 +61,11 @@
         "exec-if": "pgrep spotify",
         "escape": true,
         "interval": 2,
-        "on-click": "playerctl -a play-pause",
+        "on-click": "playerctl --player=spotify play-pause",
         "on-click-right": "playerctl next",
         "on-click-middle": "playerctl previous",
         "format-icons": {
-            "spotify": "",
+            "spotify": "",
             "default": "🎵"
         }
     },
