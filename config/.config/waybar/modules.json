@@ -53,7 +53,12 @@
         "on-click": "wlogout -b 5",
         "tooltip": false
     },
-    "custom/spotify":{
+    "custom/spotify-prev": {
+        "format": "󰒮",
+        "on-click": "playerctl --player=spotify previous",
+        "exec-if": "pgrep spotify"
+    },
+    "custom/spotify-info": {
         "format": "{icon} {text}",
         "return-type": "json",
         "max-length": 40,
@@ -62,12 +67,17 @@
         "escape": true,
         "interval": 2,
         "on-click": "playerctl --player=spotify play-pause",
-        "on-click-right": "playerctl next",
-        "on-click-middle": "playerctl previous",
+        "tooltip": true,
         "format-icons": {
-            "spotify": "",
-            "default": "🎵"
+            "playing": "󰏤",
+            "paused": "󰐊",
+            "stopped": "󰓛"
         }
+    },
+    "custom/spotify-next": {
+        "format": "󰒭",
+        "on-click": "playerctl --player=spotify next",
+        "exec-if": "pgrep spotify"
     },
 
     // Keyboard State

@@ -367,24 +367,90 @@ label:focus {
     min-width: 24px;
     transition: all 0.3s ease;
 }
-#custom-spotify {
-    background-color: #1db954;
+/* Spotify Control Buttons */
+#custom-spotify-prev,
+#custom-spotify-next {
+    background: #1db954;
     color: #ffffff;
-    border-radius: 10px;
-    padding: 0 5px;
-    margin: 0 3px;
+    border-radius: 15px;
+    padding: 8px 12px;
+    margin: 3px 2px;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid transparent;
+    min-width: 40px;
 }
 
-#custom-spotify.playing {
-    background-color: #1db954;
+#custom-spotify-prev:hover,
+#custom-spotify-next:hover {
+    background: #1aa34a;
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
-#custom-spotify.paused {
-    background-color: #535353;
+/* Main Spotify Info Display */
+#custom-spotify-info {
+    background: #191414;
+    color: #ffffff;
+    border-radius: 20px;
+    padding: 8px 15px;
+    margin: 3px 5px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 2px solid #1db954;
+    min-width: 200px;
 }
 
-#custom-spotify.no-spotify,
-#custom-spotify.no-track {
-    background-color: #ff6b6b;
+#custom-spotify-info:hover {
+    background: #2a2a2a;
+    border-color: #1ed760;
+}
+
+/* Different states for the info display */
+#custom-spotify-info.playing {
+    border-color: #1db954;
+    background: #191414;
+}
+
+#custom-spotify-info.paused {
+    border-color: #ffa500;
+    background: #2a2a2a;
+    opacity: 0.8;
+}
+
+#custom-spotify-info.stopped {
+    border-color: #ff6b6b;
+    background: #404040;
+    opacity: 0.6;
+}
+
+#custom-spotify-info.no-spotify,
+#custom-spotify-info.no-track {
+    background: #ff6b6b;
+    border-color: #ff1744;
     color: #ffffff;
 }
+
+/* Pulse animation for playing state - using supported keyframes */
+@keyframes pulse {
+    0% {
+        border-color: #1db954;
+    }
+    50% {
+        border-color: #1ed760;
+    }
+    100% {
+        border-color: #1db954;
+    }
+}
+
+#custom-spotify-info.playing {
+    animation-name: pulse;
+    animation-duration: 2s;
+    animation-timing-function: steps(12);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+/* Responsive adjustments */
+
+/* Grouping effect - makes the three modules look connected */
