@@ -1,10 +1,8 @@
 return {
 	{
-		"michaelrommel/nvim-silicon",
-		lazy = true,
-		cmd = "Silicon",
-		opts = {
-			disable_defaults = true,
-		},
+		"krivahtoo/silicon.nvim",
+		font = "FantasqueSansMono Nerd Font=16",
+		theme = "Monokai Extended",
+		cilpborad = true,
 	},
 }
