@@ -2,6 +2,7 @@
 autoload -Uz compinit promptinit
 compinit
 promptinit
+bindkey -v
 
 # Starship prompt
 eval "$(starship init zsh)"
