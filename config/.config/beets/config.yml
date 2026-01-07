@@ -1,0 +1,15 @@
+directory: ~/Music/library
+library: ~/.config/beets/musiclibrary.db
+plugins: fetchart embedart chromaprint fromfilename scrub
+
+import:
+    move: yes
+    write: yes
+
+# Since Nightcore changes pitch, acoustic fingerprinting (chromaprint) 
+# might fail to match the original song. 
+# We prioritize filename matching for Nightcore.
+match:
+    preferred:
+        countries: ['US', 'GB', 'ID']
+        media: ['Digital Media', 'CD']
