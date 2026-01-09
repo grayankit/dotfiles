@@ -50,6 +50,9 @@ alias fbl="flutter build linux --release"
 alias fba="flutter build apk --release"
 alias cat="bat"
 
+# Default editor
+export VISUAL='zed --wait'
+export EDITOR='zed --wait'
 
 # Shell history settings
 HISTFILE=~/.zsh_history

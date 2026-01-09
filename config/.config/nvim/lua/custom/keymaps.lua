@@ -1,5 +1,5 @@
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = "cpp",
+	pattern = { "c", "cpp" },
 	callback = function()
 		vim.keymap.set("n", "<F5>", function()
 			vim.cmd("w") -- Save the file
@@ -9,3 +9,6 @@ vim.api.nvim_create_autocmd("FileType", {
 		end, { buffer = true, desc = "Compile and run C++ file" })
 	end,
 })
+vim.keymap.set("v", "<leader>ss", function()
+	require("nvim-silicon").shoot()
+end, { desc = "Screenshot Code" })
