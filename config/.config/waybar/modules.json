@@ -53,11 +53,6 @@
         "on-click": "wlogout -b 5",
         "tooltip": false
     },
-    "custom/spotify-prev": {
-        "format": "󰒮",
-        "on-click": "playerctl --player=spotify previous",
-        "exec-if": "pgrep spotify"
-    },
     "custom/spotify-info": {
         "format": "{icon} {text}",
         "return-type": "json",
@@ -74,12 +69,6 @@
             "stopped": "󰓛"
         }
     },
-    "custom/spotify-next": {
-        "format": "󰒭",
-        "on-click": "playerctl --player=spotify next",
-        "exec-if": "pgrep spotify"
-    },
-
     // Keyboard State
     "keyboard-state": {
         "numlock": true,
@@ -93,7 +82,7 @@
 
     // System tray
     "tray": {
-        // "icon-size": 21,
+        "icon-size":20,
         "spacing": 10
     },
 
@@ -106,20 +95,20 @@
 
     // System
     "custom/system": {
-        "format": "",
+        "format": "⚙",
         "tooltip": false
     },
 
     // CPU
     "cpu": {
-        "format": "/ C {usage}% ",
+        "format": "| C {usage}% ",
         "on-click": "alacritty -e htop"
     },
 
     // Memory
     "memory": {
-        "format": "/ M {}% ",
-        "on-click": "alacritty -e htop"
+        "format": "| M {}% ",
+        "on-click": "alacritty -e htop",
     },
 
     // Harddisc space used
@@ -131,7 +120,7 @@
     },
 
     "hyprland/language": {
-        "format": "/ K {short}"
+        "format": "| K {short}"
     },
 
     // Group Hardware
@@ -147,7 +136,6 @@
             "disk",
             "cpu",
             "memory",
-            "hyprland/language"
         ]
     },
 

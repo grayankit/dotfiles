@@ -208,7 +208,7 @@ window#waybar.empty #window {
     margin:0px;
     padding:0px;
     font-size:16px;
-    color:@iconcolor;
+    color:@textcolor2;
 }
 
 #language {
@@ -396,18 +396,18 @@ label:focus {
     margin: 3px 5px;
     font-size: 14px;
     font-weight: 500;
-    border: 2px solid #1db954;
+    border: 2px solid #BA3444;
     min-width: 200px;
 }
 
 #custom-spotify-info:hover {
     background: #2a2a2a;
-    border-color: #1ed760;
+    border-color: #BA3444;
 }
 
 /* Different states for the info display */
 #custom-spotify-info.playing {
-    border-color: #1db954;
+    border-color: #BA3444;
     background: #191414;
 }
 

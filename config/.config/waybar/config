@@ -17,22 +17,19 @@
     ],
     "modules-left": [
         "hyprland/workspaces",
-				"custom/spotify-prev",
-				"custom/spotify-next"
     ],
     "modules-center": [
-			"custom/spotify-info",
+			"custom/spotify-info"
     ],
     "modules-right": [
-        "mpd",
         "pulseaudio",
         "network",
-        "bluetooth",
-        "keyboard-state",
+				"group/hardware",
         "battery",
         "clock",
 				"custom/obsidian",
         "tray",
         "custom/exit"
+
     ]
 }
