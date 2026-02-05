@@ -451,6 +451,27 @@ label:focus {
     animation-direction: alternate;
 }
 
+/* General styling for the Power Profile module */
+#power-profiles-daemon {
+    color: #ffffff;             /* White text/icon */
+    background-color: #1a1a1a;  /* Dark black/grey background */
+    border-bottom: 2px solid #ff0000; /* Subtle red underline */
+    padding: 0 2px;
+    margin: 2px 2px;
+    border-radius: 4px;
+}
+
+#power-profiles-daemon.performance {
+    color: #ff0000;             /* Red icon */
+    background-color: #000000;  /* Pure black background */
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.7); /* Red glow */
+}
+
+#power-profiles-daemon.power-saver {
+    color: #ffffff;
+    background-color: #440000;  /* Deep dark red background */
+}
 /* Responsive adjustments */
 
 /* Grouping effect - makes the three modules look connected */
