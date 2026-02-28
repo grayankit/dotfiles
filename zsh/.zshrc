@@ -49,6 +49,11 @@ alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
 alias fbl="flutter build linux --release"
 alias fba="flutter build apk --release"
 alias cat="bat"
+speak() {
+  curl -X POST http://localhost:3001/api/speak \
+    -H "Content-Type: application/json" \
+    -d "{\"text\":\"$*\"}"
+}
 
 # Default editor
 export VISUAL='nvim'
