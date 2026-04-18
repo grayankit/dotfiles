@@ -1,6 +1,21 @@
 [submodule "config/.config/tmux/plugins/tmux-resurrect"]
 	path = config/.config/tmux/plugins/tmux-resurrect
 	url = https://github.com/tmux-plugins/tmux-resurrect
-[submodule "config/.config/tmux/plugins/tmux-sensible"]
-	path = config/.config/tmux/plugins/tmux-sensible
-	url = https://github.com/tmux-plugins/tmux-sensible
+[submodule "config/.config/tmux/plugins/tmux-sessionx"]
+	path = config/.config/tmux/plugins/tmux-sessionx
+	url = https://github.com/tmux-plugins/tmux-sessionx
+[submodule "config/.config/tmux/plugins/tmux-yank"]
+	path = config/.config/tmux/plugins/tmux-yank
+	url = https://github.com/tmux-plugins/tmux-yank
+[submodule "config/.config/tmux/plugins/tmux"]
+	path = config/.config/tmux/plugins/tmux
+	url = https://github.com/catppuccin/tmux
+[submodule "config/.config/tmux/plugins/tmux-continuum"]
+	path = config/.config/tmux/plugins/tmux-continuum
+	url = https://github.com/tmux-plugins/tmux-continuum
+[submodule "config/.config/tmux/plugins/tmux-copycat"]
+	path = config/.config/tmux/plugins/tmux-copycat
+	url = https://github.com/tmux-plugins/tmux-copycat
+[submodule "config/.config/tmux/plugins/tpm"]
+	path = config/.config/tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
