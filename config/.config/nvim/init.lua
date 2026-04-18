@@ -19,9 +19,6 @@ vim.opt.number = true
 --  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
 
--- Enable mouse mode, can be useful for resizing splits for example!
-vim.opt.mouse = "a"
-
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
@@ -68,12 +65,10 @@ vim.opt.inccommand = "split"
 -- Show which line your cursor is on
 vim.opt.cursorline = true
 
+vim.opt.smartindent = true
+
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
-
--- Change tabstop and shiftwidth to 2 spaces
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -193,10 +188,6 @@ require("lazy").setup({
 		-- use opts = {} for passing setup options
 		-- this is equivalent to setup({}) function
 	},
-	{
-		"github/copilot.vim",
-	},
-
 	-- NOTE: Plugins can also be configured to run Lua code when they are loaded.
 	--
 	-- This is often very useful to both group configuration, as well as handle
@@ -277,8 +268,17 @@ require("lazy").setup({
 
 	{ -- Fuzzy Finder (files, lsp, etc)
 		"nvim-telescope/telescope.nvim",
+		-- By default, Telescope is included and acts as your picker for everything.
+
+		-- If you would like to switch to a different picker (like snacks, or fzf-lua)
+		-- you can disable the Telescope plugin by setting enabled to false and enable
+		-- your replacement picker by requiring it explicitly (e.g. 'custom.plugins.snacks')
+
+		-- Note: If you customize your config for yourself,
+		-- it’s best to remove the Telescope plugin config entirely
+		-- instead of just disabling it here, to keep your config clean.
+		enabled = true,
 		event = "VimEnter",
-		branch = "0.1.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			{ -- If encountering errors, see telescope-fzf-native README for installation instructions
@@ -332,9 +332,7 @@ require("lazy").setup({
 				-- },
 				-- pickers = {}
 				extensions = {
-					["ui-select"] = {
-						require("telescope.themes").get_dropdown(),
-					},
+					["ui-select"] = { require("telescope.themes").get_dropdown() },
 				},
 			})
 
@@ -344,18 +342,73 @@ require("lazy").setup({
 
 			-- See `:help telescope.builtin`
 			local builtin = require("telescope.builtin")
-			vim.keymap.set("n", "<leader>sH", builtin.help_tags, { desc = "[S]earch [H]elp" })
+			vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
 			vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
-			vim.keymap.set("n", "<leader>p", builtin.find_files, { desc = "[S]earch [F]iles" })
+			vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
 			vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
-			vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
+			vim.keymap.set({ "n", "v" }, "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
 			vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
 			vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
 			vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
 			vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+			vim.keymap.set("n", "<leader>sc", builtin.commands, { desc = "[S]earch [C]ommands" })
 			vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
 
-			-- Slightly advanced example of overriding default behavior and theme
+			-- This runs on LSP attach per buffer (see main LSP attach function in 'neovim/nvim-lspconfig' config for more info,
+			-- it is better explained there). This allows easily switching between pickers if you prefer using something else!
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("telescope-lsp-attach", { clear = true }),
+				callback = function(event)
+					local buf = event.buf
+
+					-- Find references for the word under your cursor.
+					vim.keymap.set("n", "grr", builtin.lsp_references, { buffer = buf, desc = "[G]oto [R]eferences" })
+
+					-- Jump to the implementation of the word under your cursor.
+					-- Useful when your language has ways of declaring types without an actual implementation.
+					vim.keymap.set(
+						"n",
+						"gri",
+						builtin.lsp_implementations,
+						{ buffer = buf, desc = "[G]oto [I]mplementation" }
+					)
+
+					-- Jump to the definition of the word under your cursor.
+					-- This is where a variable was first declared, or where a function is defined, etc.
+					-- To jump back, press <C-t>.
+					vim.keymap.set("n", "grd", builtin.lsp_definitions, { buffer = buf, desc = "[G]oto [D]efinition" })
+
+					-- Fuzzy find all the symbols in your current document.
+					-- Symbols are things like variables, functions, types, etc.
+					vim.keymap.set(
+						"n",
+						"gO",
+						builtin.lsp_document_symbols,
+						{ buffer = buf, desc = "Open Document Symbols" }
+					)
+
+					-- Fuzzy find all the symbols in your current workspace.
+					-- Similar to document symbols, except searches over your entire project.
+					vim.keymap.set(
+						"n",
+						"gW",
+						builtin.lsp_dynamic_workspace_symbols,
+						{ buffer = buf, desc = "Open Workspace Symbols" }
+					)
+
+					-- Jump to the type of the word under your cursor.
+					-- Useful when you're not sure what type a variable is and you want to see
+					-- the definition of its *type*, not where it was *defined*.
+					vim.keymap.set(
+						"n",
+						"grt",
+						builtin.lsp_type_definitions,
+						{ buffer = buf, desc = "[G]oto [T]ype Definition" }
+					)
+				end,
+			})
+
+			-- Override default behavior and theme when searching
 			vim.keymap.set("n", "<leader>/", function()
 				-- You can pass additional configuration to Telescope to change the theme, layout, etc.
 				builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
@@ -378,9 +431,7 @@ require("lazy").setup({
 				builtin.find_files({ cwd = vim.fn.stdpath("config") })
 			end, { desc = "[S]earch [N]eovim files" })
 		end,
-	},
-
-	-- LSP Plugins
+	}, -- LSP Plugins
 	{
 		-- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
 		-- used for completion, annotations and signatures of Neovim apis
@@ -605,7 +656,7 @@ require("lazy").setup({
 			--  - settings (table): Override the default settings passed when initializing the server.
 			--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 			local servers = {
-				-- clangd = {},
+				clangd = {},
 				-- gopls = {},
 				-- pyright = {},
 				-- rust_analyzer = {},
@@ -616,8 +667,6 @@ require("lazy").setup({
 				--
 				-- But for many setups, the LSP (`ts_ls`) will work just fine
 				-- ts_ls = {},
-				--
-
 				lua_ls = {
 					-- cmd = { ... },
 					-- filetypes = { ... },
@@ -934,13 +983,16 @@ require("lazy").setup({
 			end, { desc = "[C]ode [W]hitespace" })
 		end,
 	},
+
 	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
+		lazy = false,
 		build = ":TSUpdate",
-		main = "nvim-treesitter.configs", -- Sets main module to use for opts
-		-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-		opts = {
-			ensure_installed = {
+		branch = "main",
+		-- [[ Configure Treesitter ]] See `:help nvim-treesitter-intro`
+		config = function()
+			-- ensure basic parser are installed
+			local parsers = {
 				"bash",
 				"c",
 				"diff",
@@ -952,32 +1004,62 @@ require("lazy").setup({
 				"query",
 				"vim",
 				"vimdoc",
-				"javascript",
-				"typescript",
-				"html",
-				"css",
-				"tsx",
-			},
-			-- Autoinstall languages that are not installed
-			auto_install = true,
-			highlight = {
-				enable = true,
-				-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-				--  If you are experiencing weird indenting issues, add the language to
-				--  the list of additional_vim_regex_highlighting and disabled languages for indent.
-				additional_vim_regex_highlighting = { "ruby" },
-			},
-			indent = { enable = true, disable = { "ruby" } },
-		},
-		-- There are additional nvim-treesitter modules that you can use to interact
-		-- with nvim-treesitter. You should go explore a few and see what interests you:
-		--
-		--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-		--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-		--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-	},
+			}
+			require("nvim-treesitter").install(parsers)
 
-	-- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
+			---@param buf integer
+			---@param language string
+			local function treesitter_try_attach(buf, language)
+				-- check if parser exists and load it
+				if not vim.treesitter.language.add(language) then
+					return
+				end
+				-- enables syntax highlighting and other treesitter features
+				vim.treesitter.start(buf, language)
+
+				-- enables treesitter based folds
+				-- for more info on folds see `:help folds`
+				-- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+				-- vim.wo.foldmethod = 'expr'
+
+				-- check if treesitter indentation is available for this language, and if so enable it
+				-- in case there is no indent query, the indentexpr will fallback to the vim's built in one
+				local has_indent_query = vim.treesitter.query.get(language, "indents") ~= nil
+
+				-- enables treesitter based indentation
+				if has_indent_query then
+					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end
+			end
+
+			local available_parsers = require("nvim-treesitter").get_available()
+			vim.api.nvim_create_autocmd("FileType", {
+				callback = function(args)
+					local buf, filetype = args.buf, args.match
+
+					local language = vim.treesitter.language.get_lang(filetype)
+					if not language then
+						return
+					end
+
+					local installed_parsers = require("nvim-treesitter").get_installed("parsers")
+
+					if vim.tbl_contains(installed_parsers, language) then
+						-- enable the parser if it is installed
+						treesitter_try_attach(buf, language)
+					elseif vim.tbl_contains(available_parsers, language) then
+						-- if a parser is available in `nvim-treesitter` auto install it, and enable it after the installation is done
+						require("nvim-treesitter").install(language):await(function()
+							treesitter_try_attach(buf, language)
+						end)
+					else
+						-- try to enable treesitter features in case the parser exists but is not available from `nvim-treesitter`
+						treesitter_try_attach(buf, language)
+					end
+				end,
+			})
+		end,
+	}, -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
 	-- init.lua. If you want these files, they are in the repository, so you can just download them and
 	-- place them in the correct locations.
 
@@ -991,7 +1073,7 @@ require("lazy").setup({
 	-- require 'kickstart.plugins.lint',
 	-- require 'kickstart.plugins.autopairs',
 	-- require 'kickstart.plugins.neo-tree',
-	-- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+	--require("kickstart.plugins.gitsigns"), -- adds gitsigns recommend keymaps
 
 	-- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
 	--    This is the easiest way to modularize your config.
