@@ -52,24 +52,7 @@
         "tooltip-format": "Powermenu",
         "on-click": "wlogout -b 5",
         "tooltip": false
-    },
-    "custom/spotify-info": {
-        "format": "{icon} {text}",
-        "return-type": "json",
-        "max-length": 40,
-        "exec": "~/.config/scripts/spotify.sh",
-        "exec-if": "pgrep spotify",
-        "escape": true,
-        "interval": 2,
-        "on-click": "playerctl --player=spotify play-pause",
-        "tooltip": true,
-        "format-icons": {
-            "playing": "󰏤",
-            "paused": "󰐊",
-            "stopped": "󰓛"
-        }
-    },
-    // Keyboard State
+    },    // Keyboard State
     "keyboard-state": {
         "numlock": true,
         "capslock": true,
@@ -150,7 +133,7 @@
         "tooltip-format-ethernet": "  {ifname} ({ipaddr}/{cidr})",
         "tooltip-format-disconnected": "Disconnected",
         "max-length": 50,
-        "on-click": "alacritty -e nmtui"
+        "on-click": "wezterm -e nmtui"
     },
 
     // Battery
