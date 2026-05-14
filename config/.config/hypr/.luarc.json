@@ -5,9 +5,6 @@
     ]
   },
   "diagnostics": {
-    "globals": [
-      "vim",
-      "hl"
-    ]
+    "globals": ["hl"]
   }
 }
