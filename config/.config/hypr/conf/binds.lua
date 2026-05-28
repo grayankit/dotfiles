@@ -71,7 +71,7 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 hl.bind(
 	SUPER_SHIFT .. " + V",
 	hl.dsp.exec_cmd(
-		"cliphist list | rofi -dmenu -theme $HOME/.config/rofi/launchers/type-1/style-2.rasi | cliphist decode | wl-copy"
+		"wezterm start --class clipse -- clipse"
 	)
 )
 hl.bind(SUPER_SHIFT .. " + R", hl.dsp.exec_cmd("$HOME/.config/scripts/refresh-rate.sh"))

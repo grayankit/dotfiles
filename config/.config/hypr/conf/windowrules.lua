@@ -11,6 +11,13 @@
 -- hl.window_rule({ match = { class = "^(obsidian)$" }, workspace = "special:notes" })
 
 hl.window_rule({
+    name = "clipse",
+    match = { class = "clipse" },
+    float = true,
+    size = { 622, 652 }
+})
+
+hl.window_rule({
     name = "pwvucontrol",
     match = { class = "com.saivert.pwvucontrol" },
     float = true,

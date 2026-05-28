@@ -26,4 +26,5 @@ return {
 		top = 2,
 		bottom = 2,
 	},
+	enable_kitty_graphics = true,
 }
