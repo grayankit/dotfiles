@@ -1,0 +1,25 @@
+* {
+  all: unset;
+  font-family: "JetBrainsMono Nerd Font";
+}
+
+.clock {
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 2px solid #BA3444;
+  border-radius: 12px;
+  padding: 8px 14px;
+  min-width: 120px;
+  min-height: 60px;
+}
+
+.time {
+  font-size: 26px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.date {
+  font-size: 12px;
+  font-weight: normal;
+  color: #aaaaaa;
+}

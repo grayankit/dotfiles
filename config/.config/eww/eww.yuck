@@ -1,0 +1,27 @@
+(defpoll time :interval "1m"
+  `date "+%H:%M"`
+)
+
+(defpoll date :interval "1m"
+  `date "+%a %d %b"`
+)
+
+(defwidget clock_box []
+  (box :class "clock"
+       :orientation "v"
+       :space-evenly false
+       (label :text time :class "time")
+       (label :text date :class "date")))
+
+(defwindow clock
+  :monitor 0
+  :geometry (geometry :width 120 :height 64)
+  :windowtype "normal"
+  :stacking "overlay"
+  :focusable "false"
+  :decorations "none"
+  :wm-ignore true
+  :wm-class "eww-clock"
+  :window-anchors ["top" "right"]
+  :exclusive "false"
+  (clock_box))
