@@ -65,22 +65,20 @@ fi
 
 new_mode="${res}@${new_rate}"
 
-# Apply new mode
-# hyprctl expects the whole quoted argument as one parameter
-if hyprctl keyword monitor "$MON,${new_mode},0x0,1" >/dev/null 2>&1; then
+# Apply new mode using hyprctl eval (Hyprland 0.55+ Lua API)
+result=$(hyprctl eval "hl.monitor({output=\"${MON}\",mode=\"${new_mode}\",position=\"0x0\",scale=1})" 2>&1)
+if [ "$result" = "ok" ]; then
 notify "Refresh Rate Changed" "<b>${MON}</b><br>
 <span color='lightblue'>${rate_int} Hz</span> → <span color='lightgreen'>${new_rate} Hz</span>"
   printf 'Changed %s from %s Hz to %s Hz\n' "$MON" "$rate_int" "$new_rate"
   exit 0
 else
-  # Some monitors require the exact float rate string (e.g., 60.02). Try to find available exact mode.
-  exact_mode=$(printf '%s\n' "$monitor_block" | grep -oE "${res}@[0-9]+\.[0-9]+Hz?" | head -n1)
-  # normalize exact_mode: replace trailing "Hz" if present and use matching rate from availableModes
+  # Fallback: try with exact float rate string from availableModes
   exact_mode=$(printf '%s\n' "$monitor_block" | grep -oE "${res}@[0-9]+(\.[0-9]+)?" | grep "@${new_rate}" | head -n1)
 
   if [ -n "$exact_mode" ]; then
-    # try with exact float string
-    if hyprctl keyword monitor "$MON,${exact_mode},0x0,1" >/dev/null 2>&1; then
+    result2=$(hyprctl eval "hl.monitor({output=\"${MON}\",mode=\"${exact_mode}\",position=\"0x0\",scale=1})" 2>&1)
+    if [ "$result2" = "ok" ]; then
 notify "Refresh Rate Changed" "<b>${MON}</b><br>
 <span color='lightblue'>${rate_int} Hz</span> → <span color='lightgreen'>${new_rate} Hz</span>"
       printf 'Changed %s from %s Hz to %s Hz\n' "$MON" "$rate_int" "${exact_mode#*@}"
