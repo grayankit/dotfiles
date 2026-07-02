@@ -24,7 +24,30 @@ cur=$(brightnessctl get)
 max=$(brightnessctl max)
 perc=$(( cur * 100 / max ))
 
-# ---- 4. Send a progress‑style notification -----------------------------------------
+# ---- 4. Sync external monitor brightness ----------------------------------
+# Write the target percentage to a file.
+echo "$perc" > /tmp/target_brightness
+(
+    # Try to acquire the lock. If busy, another instance is already processing
+    # updates in the background, so we can just exit this subshell.
+    if flock -n 9; then
+        while true; do
+            target=$(cat /tmp/target_brightness)
+            current=$(cat /tmp/current_brightness 2>/dev/null || echo "-1")
+
+            if [ "$current" != "$target" ]; then
+                # Apply the brightness via ddcutil (this takes ~1-2s)
+                ddcutil --display=1 setvcp 10 "$target" 2>/dev/null
+                echo "$target" > /tmp/current_brightness
+            else
+                # We are up to date!
+                break
+            fi
+        done
+    fi
+) 9>/tmp/ddcutil_sync.lock &
+
+# ---- 5. Send a progress‑style notification -----------------------------------------
 # Use dunstify when dunst is running – it displays a small bar based on the value hint.
 # Otherwise fall back to a plain notify‑send (no icon, simple text).
 if pgrep dunst >/dev/null; then
