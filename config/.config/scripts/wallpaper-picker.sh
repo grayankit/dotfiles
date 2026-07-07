@@ -49,8 +49,8 @@ REAL_WALLPAPER_PATH="$WALLPAPER_DIR/$SELECTED"
 # Use awww to set the image with the 'wipe' transition
 awww img "$REAL_WALLPAPER_PATH" --transition-type wipe
 
-# Extract colors from the new wallpaper using Wallust
-wallust run "$REAL_WALLPAPER_PATH"
+# Extract colors from the new wallpaper using Wallust (skipping terminal sequences)
+wallust run -s -q "$REAL_WALLPAPER_PATH"
 
 # Reload UI components to apply the new colors
 # Reload Waybar
