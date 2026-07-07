@@ -10,15 +10,7 @@
  * -----------------------------------------------------
 */
 
-@define-color backgroundlight #000000;
-@define-color backgrounddark #000000;
-@define-color workspacesbackground1 #000000;
-@define-color #000000;
-@define-color bordercolor #000000;
-@define-color textcolor1 #FFFFFF;
-@define-color textcolor2 #FFFFFF;
-@define-color textcolor3 #FFFFFF;
-@define-color iconcolor #BA3444;
+@import "colors.css";
 
 /* -----------------------------------------------------
  * General

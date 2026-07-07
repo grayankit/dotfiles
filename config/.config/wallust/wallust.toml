@@ -1,0 +1,9 @@
+# wallust v3.5
+backend = "fastresize"
+color_space = "salience"
+palette = "saliencedark"
+
+[templates]
+hyprland = { template = 'hyprland-colors.j2', target = '~/.config/hypr/conf/colors.lua' }
+waybar = { template = 'waybar-colors.j2', target = '~/.config/waybar/colors.css' }
+rofi = { template = 'rofi-colors.j2', target = '~/.config/rofi/colors.rasi' }

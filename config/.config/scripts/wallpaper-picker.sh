@@ -48,3 +48,15 @@ REAL_WALLPAPER_PATH="$WALLPAPER_DIR/$SELECTED"
 
 # Use awww to set the image with the 'wipe' transition
 awww img "$REAL_WALLPAPER_PATH" --transition-type wipe
+
+# Extract colors from the new wallpaper using Wallust
+wallust run "$REAL_WALLPAPER_PATH"
+
+# Reload UI components to apply the new colors
+# Reload Waybar
+if pgrep -x waybar > /dev/null; then
+    killall -SIGUSR2 waybar
+fi
+
+# Reload Hyprland to apply the new border colors
+hyprctl reload

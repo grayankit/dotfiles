@@ -3,7 +3,7 @@ set -e
 
 echo "[*] Cleaning up ~/.config for stow..."
 
-CONFIG_APPS=(hypr nvim waybar alacritty tmux wlogout ml4w rofi scripts niri yazi beets eww dunst)
+CONFIG_APPS=(hypr nvim waybar alacritty tmux wlogout ml4w rofi scripts niri yazi beets eww dunst wallust)
 
 for app in "${CONFIG_APPS[@]}"; do
   if [ -L "$HOME/.config/$app" ]; then
@@ -64,5 +64,22 @@ elif [ -f "$HOME/.wezterm.lua" ]; then
 fi
 
 stow wezterm
+
+echo "[*] Linking Ghostty config..."
+
+if [ -L "$HOME/.config/ghostty/config" ]; then
+  echo "  - Removing symlink: ghostty/config"
+  rm "$HOME/.config/ghostty/config"
+elif [ -f "$HOME/.config/ghostty/config" ]; then
+  echo "  - Moving existing ghostty/config to dotfiles"
+  mkdir -p "$HOME/dotfiles/ghostty"
+  mv "$HOME/.config/ghostty/config" "$HOME/dotfiles/ghostty/config"
+elif [ -d "$HOME/.config/ghostty" ]; then
+  echo "  - Moving existing ghostty directory to dotfiles"
+  rm -rf "$HOME/dotfiles/ghostty"
+  mv "$HOME/.config/ghostty" "$HOME/dotfiles/ghostty"
+fi
+
+stow -t "$HOME/.config" ghostty
 
 echo "[✓] Setup complete."
