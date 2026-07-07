@@ -19,7 +19,7 @@ hl.bind(SUPER_SHIFT .. " + B", hl.dsp.exec_cmd("~/.config/ml4w/scripts/waybar.sh
 hl.bind("SUPER + CTRL + B", hl.dsp.exec_cmd("~/.config/ml4w/scripts/waybar.sh toggle"))
 hl.bind("SUPER + CTRL + C", hl.dsp.exec_cmd("~/.config/eww/scripts/toggle-clock.sh"))
 hl.bind(mainMod .. " + F1", hl.dsp.exec_cmd("~/.config/scripts/gamemode.sh"))
-hl.bind(SUPER_SHIFT .. " + W", hl.dsp.exec_cmd("~/.config/ml4w/scripts/reload-hyprpaper.sh"))
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("~/.config/scripts/wallpaper-picker.sh"))
 
 hl.bind(
 	"XF86AudioRaiseVolume",
