@@ -14,6 +14,7 @@ export PATH="$HOME/.shorebird/bin:$PATH"
 export PATH="$HOME/.bun/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export ANDROID_HOME="$HOME/Android/Sdk/"
+export OPENCODE_ENABLE_EXA=1
 
 # Node Version Manager
 source /usr/share/nvm/init-nvm.sh
@@ -49,6 +50,8 @@ alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
 alias fbl="flutter build linux --release"
 alias fba="flutter build apk --release"
 alias cat="bat"
+alias writec="sleep 2 && xdotool type --clearmodifiers"
+alias musicdl='yt-dlp -x --audio-format flac --embed-metadata --embed-thumbnail -o "~/Music/Downloads/%(artist)s - %(title)s.%(ext)s"'
 speak() {
   curl -X POST http://localhost:3001/api/speak \
     -H "Content-Type: application/json" \
@@ -64,3 +67,12 @@ HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 setopt SHARE_HISTORY
+
+# pnpm
+export PNPM_HOME="/home/narayan/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end
+. "/home/narayan/.deno/env"
