@@ -1,0 +1,88 @@
+@import "~/.config/rofi/colors.rasi"
+
+configuration {
+    show-icons:                  true;
+    drun-display-format:         "{name}";
+    hover-select:                true;
+    me-select-entry:             "";
+    me-accept-entry:             "MousePrimary";
+}
+
+window {
+    width:                       850px;
+    height:                      750px;
+    border-radius:               15px;
+    background-color:            @background;
+    location:                    center;
+    anchor:                      center;
+}
+
+mainbox {
+    orientation:                 vertical;
+    children:                    [ "inputbar", "listbox" ];
+    spacing:                     20px;
+    padding:                     20px;
+    background-color:            transparent;
+}
+
+inputbar {
+    spacing:                     10px;
+    padding:                     15px;
+    border-radius:               10px;
+    background-color:            @background-alt;
+    text-color:                  @foreground;
+    children:                    [ "entry" ];
+}
+
+entry {
+    background-color:            inherit;
+    text-color:                  inherit;
+    placeholder:                 "Search Wallpapers...";
+    placeholder-color:           inherit;
+    cursor:                      text;
+}
+
+listbox {
+    orientation:                 vertical;
+    children:                    [ "listview" ];
+    background-color:            transparent;
+}
+
+listview {
+    columns:                     3;
+    lines:                       3;
+    spacing:                     20px;
+    background-color:            transparent;
+    layout:                      vertical;
+    fixed-height:                true;
+    fixed-columns:               true;
+}
+
+element {
+    orientation:                 vertical;
+    spacing:                     10px;
+    padding:                     15px;
+    border-radius:               10px;
+    background-color:            transparent;
+    text-color:                  @foreground;
+    cursor:                      pointer;
+}
+
+element normal.normal { background-color: transparent; text-color: inherit; }
+element selected.normal { background-color: @selected; text-color: @background; }
+
+element-icon {
+    size:                        200px;
+    background-color:            transparent;
+    horizontal-align:            0.5;
+    vertical-align:              0.5;
+    cursor:                      inherit;
+}
+
+element-text {
+    horizontal-align:            0.5;
+    vertical-align:              0.5;
+    background-color:            transparent;
+    text-color:                  inherit;
+    cursor:                      inherit;
+}

@@ -33,10 +33,9 @@ if [ -z "$ENTRIES" ]; then
     exit 1
 fi
 
-# Pass the generated list to Rofi with your theme and grid overrides
+# Pass the generated list to Rofi with your dedicated wallpaper theme
 SELECTED=$(echo -e -n "$ENTRIES" | rofi -dmenu -i -show-icons -p "Wallpaper" \
-    -theme "$HOME/.config/rofi/launchers/type-6/style-4.rasi" \
-    -theme-str 'listview { columns: 3; lines: 3; } element { orientation: vertical; } element-icon { size: 15em; } element-text { horizontal-align: 0.5; }' )
+    -theme "$HOME/.config/rofi/wallpaper-picker.rasi")
 
 # Exit if no wallpaper was selected
 if [ -z "$SELECTED" ]; then
