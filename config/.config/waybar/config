@@ -13,7 +13,6 @@
     "include": [
         "~/.config/ml4w/settings/waybar-quicklinks.json",
         "~/.config/waybar/modules.json",
-				"~/.config/waybar/modules/popup-apps.json"
     ],
     "modules-left": [
         "hyprland/workspaces",
