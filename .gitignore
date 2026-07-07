@@ -1,1 +1,6 @@
 tmp/
+
+# Wallust generated dynamic color files
+config/.config/hypr/conf/colors.lua
+config/.config/rofi/colors.rasi
+config/.config/waybar/colors.css
