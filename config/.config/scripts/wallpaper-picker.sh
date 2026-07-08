@@ -57,8 +57,10 @@ if pgrep -x waybar > /dev/null; then
     killall -SIGUSR2 waybar
 fi
 
-# Reload Dunst
-killall dunst
+# Reload Dunst and ensure Mako doesn't hijack D-Bus
+killall mako 2>/dev/null
+killall dunst 2>/dev/null
+dunst > /dev/null 2>&1 &
 
 # Reload Hyprland to apply the new border colors
 hyprctl reload
