@@ -57,5 +57,8 @@ if pgrep -x waybar > /dev/null; then
     killall -SIGUSR2 waybar
 fi
 
+# Reload Dunst
+killall dunst
+
 # Reload Hyprland to apply the new border colors
 hyprctl reload

@@ -4,3 +4,4 @@ tmp/
 config/.config/hypr/conf/colors.lua
 config/.config/rofi/colors.rasi
 config/.config/waybar/colors.css
+config/.config/dunst/dunstrc.d/01-wallust.conf

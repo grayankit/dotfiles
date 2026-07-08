@@ -7,3 +7,4 @@ palette = "saliencedark"
 hyprland = { template = 'hyprland-colors.j2', target = '~/.config/hypr/conf/colors.lua' }
 waybar = { template = 'waybar-colors.j2', target = '~/.config/waybar/colors.css' }
 rofi = { template = 'rofi-colors.j2', target = '~/.config/rofi/colors.rasi' }
+dunst = { template = 'dunst-colors.j2', target = '~/.config/dunst/dunstrc.d/01-wallust.conf' }
