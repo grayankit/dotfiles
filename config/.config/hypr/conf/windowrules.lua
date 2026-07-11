@@ -11,24 +11,24 @@
 -- hl.window_rule({ match = { class = "^(obsidian)$" }, workspace = "special:notes" })
 
 hl.window_rule({
-    name = "clipse",
-    match = { class = "clipse" },
-    float = true,
-    size = { 622, 652 }
+	name = "clipse",
+	match = { class = "clipse" },
+	float = true,
+	size = { 622, 652 },
 })
 
 hl.window_rule({
-    name = "pwvucontrol",
-    match = { class = "com.saivert.pwvucontrol" },
-    float = true,
-    size = { 1200, 800 },
-    center = true
+	name = "pwvucontrol",
+	match = { class = "com.saivert.pwvucontrol" },
+	float = true,
+	size = { 1200, 800 },
+	center = true,
 })
 
 hl.window_rule({
-    name = "spotify",
-    match = { class = "^([sS]potify)$" },
-    float = true,
-    size = { 1200, 800 },
-    center = true
+	name = "spotify",
+	match = { class = "^([sS]potify)$" },
+	float = true,
+	size = { 1200, 800 },
+	center = true,
 })
