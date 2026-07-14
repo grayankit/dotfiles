@@ -12,7 +12,7 @@ It uses [GNU Stow](https://www.gnu.org/software/stow/) to manage symlinks and in
 * ⚡ Auto-installs Tmux plugins (TPM, Resurrect)
 * 💠 Zsh configuration with `.zshrc` tracking
 * 💻 Hyprland, Waybar, and Neovim config management
-* 📦 Optional Arch package restoration via `pkglist.txt`
+* 📦 Official + AUR package restore via split package lists
 
 ---
 
@@ -31,7 +31,8 @@ dotfiles/
 ├── scripts/             # Setup scripts
 │   ├── install.sh       # One-time system setup
 │   └── setup.sh         # Safe to run any time
-├── pkglist.txt          # Optional list of packages
+├── pkglist-pacman.txt   # Explicit official (repo) packages
+├── pkglist-aur.txt      # Explicit AUR packages
 └── README.md
 ```
 
@@ -56,8 +57,9 @@ cd ~/dotfiles/scripts
 ./install.sh
 ```
 
-* Installs basic packages (zsh, neovim, hyprland, etc.)
-* Installs packages listed in `pkglist.txt` (if present)
+* Installs base tools (zsh, neovim, tmux, waybar, stow, git)
+* Restores official packages from `pkglist-pacman.txt`
+* Bootstraps `yay` if needed, then restores AUR packages from `pkglist-aur.txt`
 
 ---
 
@@ -70,7 +72,6 @@ cd ~/dotfiles/scripts
 * Cleans conflicting files
 * Moves unmanaged configs into the dotfiles repo
 * Symlinks everything via `stow`
-* Installs Tmux plugins automatically
 
 ---
 
@@ -83,23 +84,28 @@ Automatically installs:
 * [`tmux-plugins/tpm`](https://github.com/tmux-plugins/tpm)
 * [`tmux-plugins/tmux-resurrect`](https://github.com/tmux-plugins/tmux-resurrect)
 
-Located at `~/.config/tmux/plugins/` and loaded via `.tmux.conf`.
+Located at `~/.config/tmux/plugins/` and loaded via `.tmux.conf`. Prefer cloning with `--recursive` so other tmux plugin submodules are present too.
 
 ---
 
-## 📦 Arch Package Restore (Optional)
+## 📦 Arch Package Lists
 
-To dump current packages:
+Split so official and AUR packages restore correctly:
+
+| File | Source command | Install |
+|------|----------------|---------|
+| `pkglist-pacman.txt` | `pacman -Qqen` | `sudo pacman -S --needed - < pkglist-pacman.txt` |
+| `pkglist-aur.txt` | `pacman -Qqem` | `yay -S --needed - < pkglist-aur.txt` |
+
+### Refresh lists (after installing packages)
 
 ```bash
-pacman -Qqen > pkglist.txt
+cd ~/dotfiles
+pacman -Qqen | sort > pkglist-pacman.txt
+pacman -Qqem | sort > pkglist-aur.txt
 ```
 
-This lets `install.sh` restore your packages on a new machine:
-
-```bash
-sudo pacman -S --needed - < pkglist.txt
-```
+`install.sh` runs both restores and installs `yay` from the AUR if it is missing.
 
 ---
 
@@ -117,9 +123,9 @@ cd ~/dotfiles/scripts
 ## 🤛 FAQ
 
 **Q: Why not track plugin repos directly in Git?**
-A: To keep the repo clean and avoid embedded Git warnings. Plugins are installed via scripts.
+A: Some are git submodules under `config/.config/tmux/plugins/`; others can still be installed via scripts.
 
-**Q: What if I want to use submodules instead?**
-A: You can — see `git submodule add <url>` and update the `setup.sh`.
+**Q: What if I want to use more submodules?**
+A: Use `git submodule add <url>` and clone with `--recursive`.
 
 ---
