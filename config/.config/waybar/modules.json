@@ -25,6 +25,12 @@
         }
     },
 
+    "niri/workspaces": {
+        "on-click": "activate",
+        "format": "{index}",
+        "all-outputs": false
+    },
+
     // Hyprland Window
     "hyprland/window": {
         "rewrite": {
@@ -65,8 +71,8 @@
 
     // System tray
     "tray": {
-        "icon-size":20,
-        "spacing": 10
+        "icon-size": 14,
+        "spacing": 6
     },
 
     // Clock
@@ -184,15 +190,16 @@
         "icon": false,
     },
 
-    // Idle Inhibator
+    // Idle Inhibitor (caffeine)
     "idle_inhibitor": {
         "format": "{icon}",
         "tooltip": true,
-        "format-icons":{
-            "activated": "",
-            "deactivated": ""
-        },
-        "on-click-right": "hyprlock"
+        "tooltip-format-activated": "Idle inhibit ON (no sleep)",
+        "tooltip-format-deactivated": "Idle inhibit OFF",
+        "format-icons": {
+            "activated": "",
+            "deactivated": "󰾪"
+        }
     },
 
 
@@ -206,7 +213,31 @@
     "balanced": "",
     "power-saver": ""
   }
-}
+},
+
+    "mpris": {
+        "format": "♪ {dynamic}",
+        "format-paused": "⏸ {dynamic}",
+        "format-stopped": "",
+        "dynamic-order": ["title", "artist"],
+        "dynamic-separator": " - ",
+        "title-len": 28,
+        "artist-len": 20,
+        "dynamic-len": 48,
+        "tooltip-format": "{player}\n{title}\n{artist} · {album}"
+    },
+
+    "custom/mpris-prev": {
+        "format": "󰒮",
+        "tooltip": false,
+        "on-click": "playerctl previous"
+    },
+
+    "custom/mpris-next": {
+        "format": "󰒭",
+        "tooltip": false,
+        "on-click": "playerctl next"
+    }
 }
 
 

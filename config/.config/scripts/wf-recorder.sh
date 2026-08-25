@@ -4,7 +4,19 @@ current_output=$(pactl get-default-sink)
 
 pgrep -x "wf-recorder" && pkill -INT -x wf-recorder && notify-send -h string:wf-recorder:record -t 1000 "Finished Recording" && exit 0
 
-monitors=$(hyprctl monitors -j | jq -r '.[].name')
+list_monitors() {
+    if [ "${XDG_CURRENT_DESKTOP:-}" = "niri" ] || pgrep -x niri >/dev/null 2>&1; then
+        if niri msg --json outputs >/dev/null 2>&1; then
+            niri msg --json outputs | jq -r 'keys[]'
+            return
+        fi
+        niri msg outputs 2>/dev/null | awk '/^Output / {print $2}' | tr -d ':'
+        return
+    fi
+    hyprctl monitors -j | jq -r '.[].name'
+}
+
+monitors=$(list_monitors)
 selected_monitor=$(echo "$monitors" | rofi -dmenu -p "Record Monitor" -lines 3)
 
 if [ -z "$selected_monitor" ]; then
@@ -24,4 +36,5 @@ notify-send -h string:wf-recorder:record -t 950 "Recording in:" "<span color='#9
 sleep 1
 
 dateTime=$(date +%m-%d-%Y-%H:%M:%S)
-wf-recorder --bframes max_b_frames -f $HOME/Videos/$dateTime.mp4 -o "$selected_monitor" --audio="${current_output}".monitor
+mkdir -p "$HOME/Videos"
+wf-recorder --bframes max_b_frames -f "$HOME/Videos/$dateTime.mp4" -o "$selected_monitor" --audio="${current_output}".monitor

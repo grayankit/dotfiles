@@ -1,6 +1,6 @@
 # 📁 Dotfiles
 
-This repository contains my personal configuration files for Arch Linux with Hyprland, Zsh, Tmux, Neovim, and more.
+This repository contains my personal configuration files for Arch Linux with **Niri** (daily driver) and Hyprland (fallback), plus Zsh, Tmux, Neovim, and more.
 
 It uses [GNU Stow](https://www.gnu.org/software/stow/) to manage symlinks and includes setup scripts for quick system restoration and configuration.
 
@@ -11,7 +11,8 @@ It uses [GNU Stow](https://www.gnu.org/software/stow/) to manage symlinks and in
 * 🧠 Symlink-based dotfile management via `stow`
 * ⚡ Auto-installs Tmux plugins (TPM, Resurrect)
 * 💠 Zsh configuration with `.zshrc` tracking
-* 💻 Hyprland, Waybar, and Neovim config management
+* 💻 Niri + Hyprland, Waybar, and Neovim config management
+* 🪟 Dual compositor scripts (detect `XDG_CURRENT_DESKTOP`)
 * 📦 Official + AUR package restore via split package lists
 
 ---
@@ -22,9 +23,12 @@ It uses [GNU Stow](https://www.gnu.org/software/stow/) to manage symlinks and in
 dotfiles/
 ├── config/              # ~/.config/* files (Hypr, Neovim, etc.)
 │   └── .config/
-│       ├── hypr/
+│       ├── hypr/            # Hyprland fallback
+│       ├── niri/            # Niri daily driver
+│       ├── swaylock/        # Niri lock screen
 │       ├── nvim/
-│       └── waybar/
+│       ├── scripts/         # wallpaper, idle, refresh-rate, …
+│       └── waybar/          # config + config-niri
 ├── flags/               # flags for mostly native wayland
 ├── zsh/                 # Zsh config
 │   └── .zshrc
@@ -106,6 +110,24 @@ pacman -Qqem | sort > pkglist-aur.txt
 ```
 
 `install.sh` runs both restores and installs `yay` from the AUR if it is missing.
+
+---
+
+## 🪟 Compositors
+
+| Session | Config | Lock / idle | Bar |
+|---------|--------|-------------|-----|
+| **Niri** (primary) | `~/.config/niri/config.kdl` | `swaylock` + `scripts/niri-idle.sh` | `waybar -c config-niri` |
+| **Hyprland** (fallback) | `~/.config/hypr/` | `hyprlock` + `hypridle` | default `waybar/config` |
+
+After installing packages, pick **Niri** from the greeter. Hyprland remains available.
+
+Useful niri checks once logged in:
+
+```bash
+niri msg outputs
+niri msg validate   # if available
+```
 
 ---
 

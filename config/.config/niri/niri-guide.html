@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Niri guide — your dual-monitor setup</title>
+  <style>
+    :root {
+      --bg: #0c0a0b;
+      --panel: #161214;
+      --panel2: #1e181a;
+      --text: #e8e0e2;
+      --muted: #9a8c90;
+      --border: #865042;
+      --border-dim: #30100e;
+      --accent: #c4785c;
+      --accent2: #ba3444;
+      --ok: #7dba7a;
+      --warn: #d4a24c;
+      --kbd-bg: #2a2224;
+      --kbd-border: #4a3a3c;
+      --code-bg: #120e10;
+      --radius: 10px;
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+      --max: 52rem;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Fira Sans", "Segoe UI", system-ui, sans-serif;
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #30100e55, transparent),
+        radial-gradient(900px 500px at 100% 0%, #86504222, transparent),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      font-size: 16.5px;
+    }
+
+    a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: #e0a890; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 15.5rem 1fr;
+      min-height: 100vh;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+      padding: 1.25rem 1rem 2rem;
+      background: color-mix(in srgb, var(--panel) 92%, black);
+      border-right: 1px solid var(--border-dim);
+    }
+
+    nav .brand {
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.25rem;
+      color: var(--accent);
+    }
+
+    nav .sub {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-bottom: 1.25rem;
+    }
+
+    nav a {
+      display: block;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.35rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    nav a:hover {
+      background: var(--panel2);
+      color: var(--text);
+    }
+
+    main {
+      padding: 2rem 1.5rem 4rem;
+      max-width: calc(var(--max) + 3rem);
+    }
+
+    header.hero {
+      background: linear-gradient(135deg, var(--panel) 0%, var(--panel2) 100%);
+      border: 1px solid var(--border-dim);
+      border-left: 4px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+
+    header.hero h1 {
+      margin: 0 0 0.5rem;
+      font-size: 1.75rem;
+      line-height: 1.2;
+    }
+
+    header.hero p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 40rem;
+    }
+
+    h2 {
+      margin: 2.5rem 0 0.75rem;
+      font-size: 1.35rem;
+      border-bottom: 1px solid var(--border-dim);
+      padding-bottom: 0.4rem;
+    }
+
+    h3 {
+      margin: 1.5rem 0 0.5rem;
+      font-size: 1.08rem;
+      color: var(--accent);
+    }
+
+    p, li { color: var(--text); }
+    .muted { color: var(--muted); }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius);
+      padding: 1rem 1.15rem;
+      margin: 1rem 0;
+    }
+
+    .card.tip { border-left: 4px solid var(--ok); }
+    .card.warn { border-left: 4px solid var(--warn); }
+    .card.try {
+      border-left: 4px solid var(--accent2);
+      background: linear-gradient(90deg, #ba344415, var(--panel));
+    }
+
+    .card h4 {
+      margin: 0 0 0.5rem;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    kbd {
+      display: inline-block;
+      font-family: "Fira Code", ui-monospace, monospace;
+      font-size: 0.82em;
+      background: var(--kbd-bg);
+      border: 1px solid var(--kbd-border);
+      border-bottom-width: 2px;
+      border-radius: 5px;
+      padding: 0.08em 0.4em;
+      white-space: nowrap;
+      color: #f2e8ea;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.75rem 0 1.25rem;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.55rem 0.65rem;
+      border-bottom: 1px solid var(--border-dim);
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    tr:hover td { background: #1a1416aa; }
+
+    .diagram {
+      font-family: "Fira Code", ui-monospace, monospace;
+      font-size: 0.78rem;
+      line-height: 1.35;
+      background: var(--code-bg);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+      overflow-x: auto;
+      white-space: pre;
+      color: #d8c8cc;
+      margin: 1rem 0;
+    }
+
+    .diagram .hl { color: var(--accent); }
+    .diagram .dim { color: #6a5a5e; }
+
+    ol.practice > li {
+      margin: 0.65rem 0;
+      padding-left: 0.25rem;
+    }
+
+    ol.practice > li::marker {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .steps {
+      counter-reset: step;
+      list-style: none;
+      padding: 0;
+    }
+
+    .steps li {
+      counter-increment: step;
+      position: relative;
+      padding: 0.85rem 0.85rem 0.85rem 3rem;
+      margin: 0.6rem 0;
+      background: var(--panel);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius);
+    }
+
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0.75rem;
+      top: 0.85rem;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--border-dim), var(--border));
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-dim);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .pill {
+      display: inline-block;
+      background: #30100e88;
+      border: 1px solid var(--border-dim);
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 0.15rem 0.6rem;
+      font-size: 0.8rem;
+      margin-right: 0.35rem;
+    }
+
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; }
+      nav {
+        position: relative;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-dim);
+      }
+      nav a { display: inline-block; margin: 0.15rem; }
+    }
+
+    @media print {
+      nav { display: none; }
+      .layout { grid-template-columns: 1fr; }
+      body { background: white; color: black; }
+      .card, header.hero, .steps li, .diagram {
+        box-shadow: none;
+        border-color: #ccc;
+      }
+      kbd { border-color: #999; background: #f0f0f0; color: #000; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <nav>
+      <div class="brand">Niri guide</div>
+      <div class="sub">Your dual-monitor setup</div>
+      <a href="#model">1. Mental model</a>
+      <a href="#words">2. Vocabulary</a>
+      <a href="#practice">3. Day-1 practice</a>
+      <a href="#dual">4. Two monitors</a>
+      <a href="#recipes">5. Recipes</a>
+      <a href="#binds">6. Keybinds</a>
+      <a href="#lost">7. I’m lost</a>
+      <a href="#gotchas">8. Gotchas</a>
+      <a href="#ref">9. Quick ref</a>
+    </nav>
+
+    <main>
+      <header class="hero">
+        <h1>How to use niri (scrolling WM)</h1>
+        <p>
+          This guide matches <strong>your</strong> config: Super as Mod,
+          Hyprland-style binds, laptop <code>eDP-1</code> + HDMI on the right.
+          Read the mental model first — the binds only make sense after that.
+        </p>
+        <p style="margin-top:0.75rem">
+          <span class="pill">Mod = Super</span>
+          <span class="pill">eDP-1 left</span>
+          <span class="pill">HDMI-A-1 right</span>
+        </p>
+      </header>
+
+      <section id="model">
+        <h2>1. Mental model</h2>
+        <p>
+          Hyprland fills the screen with a <strong>grid of tiles</strong>.
+          Niri is different: each workspace is an <strong>infinite horizontal strip</strong>
+          of <strong>columns</strong>. The monitor is only a <em>viewport</em> —
+          windows can live off the left or right edge until you scroll to them.
+        </p>
+
+        <div class="diagram"><span class="dim">One monitor = viewport over a long strip</span>
+
+<span class="dim">← scroll with Super+H / Super+L →</span>
+
+[ term ][ browser ][ editor ][ notes ][ chat ]
+              <span class="hl">▲ ▲ ▲</span>
+              <span class="hl">what you see on screen</span>
+</div>
+
+        <table>
+          <thead>
+            <tr><th>Hyprland habit</th><th>Niri reality</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>New window splits the current tile</td>
+              <td>New window becomes a <strong>new column</strong> (often to the right)</td>
+            </tr>
+            <tr>
+              <td>Everything always visible</td>
+              <td>Extra columns sit <strong>off-screen</strong> until you focus/scroll</td>
+            </tr>
+            <tr>
+              <td>Workspaces feel global</td>
+              <td>Each <strong>monitor has its own</strong> vertical stack of workspaces</td>
+            </tr>
+            <tr>
+              <td>Master/stack or dwindle layout</td>
+              <td>Columns side by side; stack windows <em>inside</em> a column</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Two monitors</h3>
+        <div class="diagram">eDP-1 (laptop, left)              HDMI-A-1 (right)
+┌─────────────────────┐         ┌─────────────────────┐
+│ workspace stack     │         │ workspace stack     │
+│   WS1 ── strip →    │         │   WS1 ── strip →    │
+│   WS2 ── strip →    │         │   WS2 ── strip →    │
+│   WS3 ── strip →    │         │   …                 │
+└─────────────────────┘         └─────────────────────┘
+         ▲                               ▲
+   Super+Shift+Left              Super+Shift+Right
+         └──────── focus which monitor ──┘
+</div>
+
+        <div class="card tip">
+          <h4>Rule of thumb</h4>
+          Think: <strong>left/right = scroll the strip</strong>,
+          <strong>up/down = change workspace on this monitor</strong>,
+          <strong>Shift+arrows = jump monitors</strong>.
+        </div>
+      </section>
+
+      <section id="words">
+        <h2>2. Vocabulary</h2>
+        <table>
+          <thead>
+            <tr><th>Term</th><th>Meaning</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Column</strong></td>
+              <td>A vertical slot on the strip. Holds one window, or several stacked.</td>
+            </tr>
+            <tr>
+              <td><strong>Strip / scroll</strong></td>
+              <td>The infinite horizontal desktop of columns.</td>
+            </tr>
+            <tr>
+              <td><strong>Workspace</strong></td>
+              <td>One full strip. Stacked vertically per monitor.</td>
+            </tr>
+            <tr>
+              <td><strong>Overview</strong></td>
+              <td>Bird’s-eye of workspaces. <kbd>Super</kbd>+<kbd>Tab</kbd></td>
+            </tr>
+            <tr>
+              <td><strong>Floating</strong></td>
+              <td>Window leaves the strip (like Hypr float). <kbd>Super</kbd>+<kbd>T</kbd></td>
+            </tr>
+            <tr>
+              <td><strong>Consume / expel</strong></td>
+              <td>Pull a window into the neighboring column (stack) or push it out. <kbd>Super</kbd>+<kbd>[</kbd> / <kbd>]</kbd></td>
+            </tr>
+            <tr>
+              <td><strong>Maximize column</strong></td>
+              <td>Column takes full width (still tiled). <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd></td>
+            </tr>
+            <tr>
+              <td><strong>Fullscreen</strong></td>
+              <td>True fullscreen. <kbd>Super</kbd>+<kbd>F</kbd></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="practice">
+        <h2>3. Day-1 practice path</h2>
+        <p class="muted">Do these in order on the laptop screen. About 10 minutes.</p>
+
+        <ol class="steps">
+          <li>
+            <strong>Open four terminals</strong><br />
+            Press <kbd>Super</kbd>+<kbd>Return</kbd> four times.
+            You should see columns appear; later ones may go off-screen to the right.
+          </li>
+          <li>
+            <strong>Scroll the strip</strong><br />
+            <kbd>Super</kbd>+<kbd>H</kbd> / <kbd>L</kbd> (or ← →).
+            Focus moves column by column; the viewport follows.
+          </li>
+          <li>
+            <strong>Stack two windows in one column</strong><br />
+            Focus a window, press <kbd>Super</kbd>+<kbd>[</kbd> or <kbd>Super</kbd>+<kbd>]</kbd>
+            (consume/expel). Use <kbd>Super</kbd>+<kbd>J</kbd>/<kbd>K</kbd> to move focus up/down in the stack.
+          </li>
+          <li>
+            <strong>Resize</strong><br />
+            <kbd>Super</kbd>+<kbd>-</kbd> / <kbd>Super</kbd>+<kbd>=</kbd> width ±10%.<br />
+            <kbd>Super</kbd>+<kbd>P</kbd> cycles preset widths (⅓, ½, ⅔, full).<br />
+            In a stack: <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>-</kbd> / <kbd>=</kbd> for height.
+          </li>
+          <li>
+            <strong>Fullscreen vs maximize</strong><br />
+            <kbd>Super</kbd>+<kbd>F</kbd> fullscreen · <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd> maximize column ·
+            <kbd>Super</kbd>+<kbd>C</kbd> center column.
+          </li>
+          <li>
+            <strong>Workspaces</strong><br />
+            <kbd>Super</kbd>+<kbd>1</kbd>…<kbd>0</kbd> jump to workspace 1–10.<br />
+            <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>2</kbd> sends the focused window to workspace 2.<br />
+            <kbd>Super</kbd>+<kbd>U</kbd> / <kbd>I</kbd> workspace down / up.
+          </li>
+          <li>
+            <strong>Apps you already know</strong><br />
+            Rofi <kbd>Super</kbd>+<kbd>Ctrl</kbd>+<kbd>Return</kbd> ·
+            Browser <kbd>Super</kbd>+<kbd>B</kbd> ·
+            Files <kbd>Super</kbd>+<kbd>E</kbd> ·
+            Close <kbd>Super</kbd>+<kbd>Q</kbd>.
+          </li>
+          <li>
+            <strong>Overview when confused</strong><br />
+            <kbd>Super</kbd>+<kbd>Tab</kbd> — pick a workspace visually, then Esc or click.
+          </li>
+          <li>
+            <strong>Hotkey overlay</strong><br />
+            <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>/</kbd> (often Super+?) shows important binds.
+          </li>
+          <li>
+            <strong>Two monitors</strong> — next section.
+          </li>
+        </ol>
+      </section>
+
+      <section id="dual">
+        <h2>4. Two monitors — how it actually works</h2>
+
+        <div class="card warn">
+          <h4>Important difference from Hyprland</h4>
+          <p style="margin:0">
+            On niri, <strong>each monitor has its own workspace list</strong>.
+            <kbd>Super</kbd>+<kbd>1</kbd> on the laptop is <em>not</em> the same space as
+            <kbd>Super</kbd>+<kbd>1</kbd> on the HDMI monitor.
+            Focus a monitor first, then change workspaces on <em>that</em> monitor.
+          </p>
+        </div>
+
+        <h3>Focus which screen you’re on</h3>
+        <table>
+          <thead><tr><th>Action</th><th>Bind</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Focus monitor to the left (laptop)</td>
+              <td><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>←</kbd></td>
+            </tr>
+            <tr>
+              <td>Focus monitor to the right (HDMI)</td>
+              <td><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>→</kbd></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="muted">
+          You can also just move the mouse onto the other screen (focus-follows-mouse is on).
+        </p>
+
+        <h3>Move a whole workspace to the other monitor</h3>
+        <p>
+          This is the main dual-monitor “send my layout over” tool:
+        </p>
+        <table>
+          <thead><tr><th>Action</th><th>Bind</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Move current workspace to left monitor</td>
+              <td><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>←</kbd></td>
+            </tr>
+            <tr>
+              <td>Move current workspace to right monitor</td>
+              <td><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>→</kbd></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="card try">
+          <h4>Try this (dual-monitor drill)</h4>
+          <ol class="practice">
+            <li>On laptop: open a terminal and a browser (two columns).</li>
+            <li><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>→</kbd> — focus HDMI.</li>
+            <li>Open another terminal there — it belongs to HDMI’s strip.</li>
+            <li><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>←</kbd> — back to laptop; your first strip is still there.</li>
+            <li>On laptop, press <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>→</kbd> —
+                the whole laptop workspace jumps to the HDMI monitor.</li>
+            <li><kbd>Super</kbd>+<kbd>Tab</kbd> if you lose track of where things went.</li>
+          </ol>
+        </div>
+
+        <h3>Moving a single window to the other screen</h3>
+        <p>You don’t have a one-key “send window to other monitor” bind. Use either:</p>
+        <ol>
+          <li>
+            <strong>Focus other monitor first</strong>, open the app there, or
+          </li>
+          <li>
+            Put the window on a workspace (<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd>),
+            then <strong>move that workspace</strong> to the other monitor
+            (<kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+arrows), or
+          </li>
+          <li>
+            Focus the other monitor and use Overview / open fresh windows there.
+          </li>
+        </ol>
+      </section>
+
+      <section id="recipes">
+        <h2>5. Practical recipes</h2>
+
+        <div class="card">
+          <h4>Coding</h4>
+          <ul>
+            <li><strong>Laptop:</strong> editor column (maximize with <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd>).</li>
+            <li><strong>HDMI:</strong> browser / docs / terminal strip; scroll with <kbd>H</kbd>/<kbd>L</kbd>.</li>
+            <li>Jump screens with <kbd>Super</kbd>+<kbd>Shift</kbd>+arrows without rearranging windows.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h4>Reference on the side</h4>
+          <ul>
+            <li>On one monitor: editor at ~⅔ (<kbd>Super</kbd>+<kbd>P</kbd> until wide).</li>
+            <li>Second column: docs/terminal at ~⅓.</li>
+            <li>Need a third app? Open it — it becomes column 3 off-screen; scroll when needed.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h4>Floating tools</h4>
+          <ul>
+            <li>Clipboard: <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> (clipse, floating).</li>
+            <li>Volume UI: <kbd>Super</kbd>+<kbd>A</kbd> (pwvucontrol, floating).</li>
+            <li>Spotify: <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> (floating).</li>
+            <li>Manual float toggle: <kbd>Super</kbd>+<kbd>T</kbd>.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h4>Focus mode / gaming</h4>
+          <ul>
+            <li><kbd>Super</kbd>+<kbd>F1</kbd> gamemode (disables animations on niri).</li>
+            <li><kbd>Super</kbd>+<kbd>F</kbd> fullscreen the game.</li>
+            <li><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> power off monitors (wake with input).</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="binds">
+        <h2>6. Your keybind cheatsheet</h2>
+        <p class="muted">From <code>~/.config/niri/config.kdl</code>. Mod = Super.</p>
+
+        <h3>Apps &amp; system</h3>
+        <table>
+          <thead><tr><th>Bind</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>Super</kbd>+<kbd>Return</kbd></td><td>Terminal (wezterm)</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Ctrl</kbd>+<kbd>Return</kbd></td><td>Rofi launcher</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Q</kbd></td><td>Close window</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>B</kbd></td><td>Browser</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>E</kbd></td><td>File manager</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>W</kbd></td><td>Wallpaper picker</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>A</kbd></td><td>Volume (pwvucontrol)</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td><td>Spotify</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd></td><td>Clipboard (clipse)</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd></td><td>Lock (swaylock)</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>R</kbd></td><td>Screen record toggle</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>M</kbd></td><td>Quit niri</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Focus &amp; move on the strip</h3>
+        <table>
+          <thead><tr><th>Bind</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>Super</kbd>+<kbd>H</kbd>/<kbd>L</kbd> or ←/→</td><td>Focus column left/right (scroll)</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>J</kbd>/<kbd>K</kbd> or ↓/↑</td><td>Focus window down/up in column</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Ctrl</kbd>+<kbd>H</kbd>/<kbd>L</kbd></td><td>Move column left/right</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Ctrl</kbd>+<kbd>J</kbd>/<kbd>K</kbd></td><td>Move window down/up in column</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>[</kbd> / <kbd>]</kbd></td><td>Consume or expel window (stack)</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Size &amp; layout</h3>
+        <table>
+          <thead><tr><th>Bind</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>Super</kbd>+<kbd>T</kbd></td><td>Toggle floating</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>F</kbd></td><td>Fullscreen</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd></td><td>Maximize column</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>P</kbd></td><td>Preset column widths</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>-</kbd> / <kbd>=</kbd></td><td>Column width −/+ 10%</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>-</kbd> / <kbd>=</kbd></td><td>Window height −/+ 10%</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>C</kbd></td><td>Center column</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>O</kbd></td><td>Toggle <strong>global</strong> glass ↔ solid (all windows)</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>F1</kbd></td><td>Gamemode: no animations + solid</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Workspaces</h3>
+        <table>
+          <thead><tr><th>Bind</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>Super</kbd>+<kbd>1</kbd>…<kbd>0</kbd></td><td>Focus workspace 1–10 <em>on current monitor</em></td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>1</kbd>…<kbd>0</kbd></td><td>Move window to workspace 1–10</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>U</kbd> / <kbd>I</kbd></td><td>Workspace down / up</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Tab</kbd></td><td>Overview</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Monitors</h3>
+        <table>
+          <thead><tr><th>Bind</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>←</kbd>/<kbd>→</kbd></td><td>Focus left/right monitor</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>←</kbd>/<kbd>→</kbd></td><td>Move workspace to left/right monitor</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Screenshots &amp; extras</h3>
+        <table>
+          <thead><tr><th>Bind</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>Print</kbd></td><td>Screenshot focused screen</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Print</kbd></td><td>Screenshot focused window</td></tr>
+            <tr><td><kbd>Shift</kbd>+<kbd>Print</kbd></td><td>Screenshot region (interactive)</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd></td><td>Reload waybar</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Ctrl</kbd>+<kbd>B</kbd></td><td>Toggle waybar</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Ctrl</kbd>+<kbd>C</kbd></td><td>Toggle eww clock</td></tr>
+            <tr><td><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd></td><td>Toggle refresh rate (eDP-1)</td></tr>
+            <tr><td>Media / brightness keys</td><td>Volume &amp; backlight (same as Hypr)</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="lost">
+        <h2>7. “I’m lost” emergency kit</h2>
+        <ol class="steps">
+          <li><kbd>Super</kbd>+<kbd>Tab</kbd> — Overview. Find the workspace with your windows.</li>
+          <li><kbd>Super</kbd>+<kbd>Shift</kbd>+arrows — Are you on the wrong monitor?</li>
+          <li><kbd>Super</kbd>+<kbd>H</kbd>/<kbd>L</kbd> — Scroll; the window may be off-screen on the strip.</li>
+          <li><kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>/</kbd> — Hotkey overlay.</li>
+          <li><kbd>Super</kbd>+<kbd>Ctrl</kbd>+<kbd>Return</kbd> — Rofi; open a fresh terminal to reorient.</li>
+          <li>Still stuck? Open this file again or check config at <code>~/.config/niri/config.kdl</code>.</li>
+        </ol>
+      </section>
+
+      <section id="gotchas">
+        <h2>8. Common gotchas</h2>
+        <ul>
+          <li>
+            <strong>“My window vanished.”</strong>
+            It’s probably still open, just off the edge of the strip. Scroll or use Overview.
+          </li>
+          <li>
+            <strong>“Why won’t it split like Hypr?”</strong>
+            Niri doesn’t dwindle-split. Use a new column, or stack with <kbd>[</kbd>/<kbd>]</kbd>.
+          </li>
+          <li>
+            <strong>“Super+1 did the wrong thing.”</strong>
+            You’re on the other monitor’s workspace 1. Focus the right monitor first.
+          </li>
+          <li>
+            <strong>Floating apps</strong> (clipse, spotify, volume) ignore the strip until unfloated.
+          </li>
+          <li>
+            <strong>Closing the last window</strong> doesn’t always “reset” scroll position the way you expect.
+            Open a new window or switch workspace.
+          </li>
+          <li>
+            <strong>New windows default to half width</strong> in your config — use <kbd>Super</kbd>+<kbd>P</kbd> or maximize.
+          </li>
+        </ul>
+      </section>
+
+      <section id="ref">
+        <h2>9. Quick reference</h2>
+        <table>
+          <thead><tr><th>What</th><th>Where / command</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>This guide</td>
+              <td><code>~/.config/niri/niri-guide.html</code><br />
+                <code>xdg-open ~/.config/niri/niri-guide.html</code></td>
+            </tr>
+            <tr>
+              <td>Niri config</td>
+              <td><code>~/.config/niri/config.kdl</code></td>
+            </tr>
+            <tr>
+              <td>List monitors</td>
+              <td><code>niri msg outputs</code></td>
+            </tr>
+            <tr>
+              <td>Waybar (niri)</td>
+              <td><code>~/.config/waybar/config-niri</code></td>
+            </tr>
+            <tr>
+              <td>Lock / idle</td>
+              <td>swaylock + <code>~/.config/scripts/niri-idle.sh</code></td>
+            </tr>
+            <tr>
+              <td>Official docs</td>
+              <td><a href="https://niri-wm.github.io/niri/">niri-wm.github.io/niri</a></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="card tip">
+          <h4>Default daily loop</h4>
+          <p style="margin:0">
+            Open apps → scroll strip with <kbd>H</kbd>/<kbd>L</kbd> →
+            park projects on workspaces 1–4 →
+            HDMI for secondary strip →
+            <kbd>Super</kbd>+<kbd>Tab</kbd> whenever the map gets fuzzy.
+          </p>
+        </div>
+      </section>
+
+      <footer>
+        Generated for your dotfiles niri migration · binds from <code>config.kdl</code> ·
+        dual-monitor layout eDP-1 @ 0,0 + HDMI-A-1 @ 1920,0
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

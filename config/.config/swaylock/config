@@ -1,0 +1,27 @@
+daemonize
+ignore-empty-password
+show-failed-attempts
+
+image=/home/narayan/.config/ml4w/wallpapers/blossom.jpeg
+scaling=fill
+
+color=07050Aaa
+inside-color=ba3444ff
+inside-clear-color=ba3444ff
+inside-ver-color=ba3444ff
+inside-wrong-color=cc2222ff
+ring-color=151515ff
+ring-clear-color=cc8822ff
+ring-ver-color=865042ff
+ring-wrong-color=cc2222ff
+line-color=00000000
+line-clear-color=00000000
+line-ver-color=00000000
+line-wrong-color=00000000
+key-hl-color=865042ff
+bs-hl-color=cc2222ff
+text-color=c8c8c8ff
+text-clear-color=c8c8c8ff
+text-ver-color=c8c8c8ff
+text-wrong-color=c8c8c8ff
+font=Fira Sans

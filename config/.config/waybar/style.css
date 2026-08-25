@@ -35,21 +35,21 @@ window#waybar {
  * ----------------------------------------------------- */
 
 #workspaces {
-    margin: 5px 1px 6px 1px;
+    margin: 3px 1px 3px 1px;
     padding: 0px 2px;
-    border-radius: 15px;
+    border-radius: 10px;
     border: 0px;
     font-weight: bold;
     font-style: normal;
-    font-size: 16px;
+    font-size: 12px;
     color: @iconcolor;
     background: @backgroundlight;
 }
 
 #workspaces button {
-    padding: 0px 5px;
-    margin: 4px 3px;
-    border-radius: 15px;
+    padding: 0px 4px;
+    margin: 2px 2px;
+    border-radius: 10px;
     border: 0px;
     color: @textcolor3;
     transition: all 0.3s ease-in-out;
@@ -58,15 +58,15 @@ window#waybar {
 #workspaces button.active {
     color: @textcolor1;
     background: @iconcolor;
-    border-radius: 15px;
-    min-width: 40px;
+    border-radius: 10px;
+    min-width: 24px;
     transition: all 0.3s ease-in-out;
 }
 
 #workspaces button:hover {
     color: @textcolor1;
     background: @workspacesbackground2;
-    border-radius: 15px;
+    border-radius: 10px;
 }
 
 /* -----------------------------------------------------
@@ -91,11 +91,11 @@ tooltip label {
 
 #window {
     background: @backgroundlight;
-    margin: 10px 15px 10px 10px;
-    padding: 2px 10px 0px 10px;
-    border-radius: 12px;
+    margin: 4px 8px 4px 6px;
+    padding: 1px 8px 0px 8px;
+    border-radius: 10px;
     color:@textcolor2;
-    font-size:16px;
+    font-size:12px;
     font-weight:normal;
 }
 
@@ -144,15 +144,15 @@ window#waybar.empty #window {
 #network,
 #pulseaudio,
 #battery,
+#idle_inhibitor,
 #power-profiles-daemon,
 #custom-appmenu,
 #clock {
-    margin-right: 20px;
-    font-size: 20px;
+    margin-right: 6px;
     font-weight: bold;
     color: @iconcolor;
-    padding: 4px 10px 2px 10px;
-    font-size: 16px;
+    padding: 2px 6px 1px 6px;
+    font-size: 12px;
 }
 
 #custom-quicklink1,
@@ -166,8 +166,8 @@ window#waybar.empty #window {
 #custom-quicklink9,
 #custom-quicklink10 {
     padding:0px;
-    margin-right: 7px;
-    font-size:20px;
+    margin-right: 4px;
+    font-size:12px;
     color: @iconcolor;
 }
 
@@ -178,8 +178,8 @@ window#waybar.empty #window {
 #custom-appmenu {
     background-color: @backgrounddark;
     color: @textcolor1;
-    border-radius: 15px;
-    margin: 10px 10px 10px 10px;
+    border-radius: 10px;
+    margin: 4px;
 }
 
 /* -----------------------------------------------------
@@ -187,9 +187,9 @@ window#waybar.empty #window {
  * ----------------------------------------------------- */
 
 #custom-exit {
-    margin: 2px 20px 0px 0px;
+    margin: 2px 8px 0px 0px;
     padding:0px;
-    font-size:20px;
+    font-size:12px;
     color: @iconcolor;
 }
 
@@ -200,12 +200,12 @@ window#waybar.empty #window {
  #disk,#memory,#cpu,#language {
     margin:0px;
     padding:0px;
-    font-size:16px;
+    font-size:12px;
     color:@textcolor2;
 }
 
 #language {
-    margin-right:10px;
+    margin-right:6px;
 }
 
 /* -----------------------------------------------------
@@ -214,10 +214,10 @@ window#waybar.empty #window {
 
 #clock {
     background-color: @backgrounddark;
-    font-size: 16px;
+    font-size: 12px;
     color: @textcolor1;
-    border-radius: 15px;
-    margin: 10px 7px 10px 0px;
+    border-radius: 10px;
+    margin: 4px 4px 4px 0px;
 }
 
 /* -----------------------------------------------------
@@ -226,10 +226,10 @@ window#waybar.empty #window {
 
 #pulseaudio {
     background-color: @backgroundlight;
-    font-size: 16px;
+    font-size: 12px;
     color: @textcolor2;
-    border-radius: 15px;
-    margin: 10px 10px 10px 0px;
+    border-radius: 10px;
+    margin: 4px 4px 4px 0px;
 }
 
 #pulseaudio.muted {
@@ -243,10 +243,10 @@ window#waybar.empty #window {
 
 #network {
     background-color: @backgroundlight;
-    font-size: 16px;
+    font-size: 12px;
     color: @textcolor2;
-    border-radius: 15px;
-    margin: 10px 10px 10px 0px;
+    border-radius: 10px;
+    margin: 4px 4px 4px 0px;
 }
 
 #network.ethernet {
@@ -265,17 +265,34 @@ window#waybar.empty #window {
 
  #bluetooth, #bluetooth.on, #bluetooth.connected {
     background-color: @backgroundlight;
-    font-size: 16px;
+    font-size: 12px;
     color: @textcolor2;
-    border-radius: 15px;
-    margin: 10px 15px 10px 0px;
-    padding: 5px;
+    border-radius: 10px;
+    margin: 4px 6px 4px 0px;
+    padding: 2px 4px;
 }
 
 #bluetooth.off {
     background-color: transparent;
     margin: 0px;
-    padding: 5px;
+    padding: 2px;
+}
+
+/* -----------------------------------------------------
+ * Idle Inhibitor
+ * ----------------------------------------------------- */
+
+#idle_inhibitor {
+    background-color: @backgroundlight;
+    font-size: 12px;
+    color: @textcolor2;
+    border-radius: 10px;
+    margin: 4px 6px 4px 0px;
+}
+
+#idle_inhibitor.activated {
+    color: @textcolor1;
+    background-color: @backgrounddark;
 }
 
 /* -----------------------------------------------------
@@ -284,10 +301,10 @@ window#waybar.empty #window {
 
 #battery {
     background-color: @backgroundlight;
-    font-size: 16px;
+    font-size: 12px;
     color: @textcolor2;
-    border-radius: 15px;
-    margin: 10px 15px 10px 0px;
+    border-radius: 10px;
+    margin: 4px 6px 4px 0px;
 }
 
 #battery.charging, #battery.plugged {
@@ -317,7 +334,7 @@ window#waybar.empty #window {
  * ----------------------------------------------------- */
 
 #tray {
-    margin:0px 10px 0px 0px;
+    margin:0px 6px 0px 0px;
 }
 
 #tray > .passive {
@@ -353,95 +370,72 @@ label:focus {
     background-color: #000000;
     color: #cdd6f4;
     border-radius: 8px;
-    padding: 4px 4px;
-    margin: 2px 4px;
-    font-size: 16px;
+    padding: 2px 4px;
+    margin: 2px 3px;
+    font-size: 12px;
     font-weight: 500;
-    min-width: 24px;
+    min-width: 18px;
     transition: all 0.3s ease;
 }
-/* Spotify Control Buttons */
-#custom-spotify-prev,
-#custom-spotify-next {
-    background: #1db954;
-    color: #ffffff;
-    border-radius: 15px;
-    padding: 8px 12px;
-    margin: 3px 2px;
-    font-size: 16px;
+
+/* -----------------------------------------------------
+ * MPRIS media controls (wallust-themed)
+ * ----------------------------------------------------- */
+
+#custom-mpris-prev,
+#custom-mpris-next {
+    background-color: @iconcolor;
+    color: @textcolor1;
+    border-radius: 10px;
+    padding: 0 4px;
+    margin: 4px 1px;
+    font-size: 11px;
     font-weight: bold;
-    border: 2px solid transparent;
-    min-width: 40px;
+    min-width: 16px;
 }
 
-#custom-spotify-prev:hover,
-#custom-spotify-next:hover {
-    background: #1aa34a;
-    border-color: rgba(255, 255, 255, 0.2);
+#custom-mpris-prev:hover,
+#custom-mpris-next:hover {
+    background-color: @backgrounddark;
+    color: @textcolor1;
 }
 
-/* Main Spotify Info Display */
-#custom-spotify-info {
-    background: #191414;
-    color: #ffffff;
-    border-radius: 20px;
-    padding: 8px 15px;
-    margin: 3px 5px;
-    font-size: 14px;
+#mpris {
+    background-color: @backgroundlight;
+    color: @textcolor2;
+    border-radius: 10px;
+    padding: 1px 8px;
+    margin: 4px 2px;
+    font-size: 12px;
     font-weight: 500;
-    border: 2px solid #BA3444;
-    min-width: 200px;
+    border: 1px solid @bordercolor;
+    min-width: 0;
 }
 
-#custom-spotify-info:hover {
-    background: #2a2a2a;
-    border-color: #BA3444;
+#mpris:hover {
+    background-color: @backgrounddark;
+    color: @textcolor1;
 }
 
-/* Different states for the info display */
-#custom-spotify-info.playing {
-    border-color: #BA3444;
-    background: #191414;
+#mpris.playing {
+    border-color: @iconcolor;
+    background-color: @backgroundlight;
+    color: @textcolor2;
 }
 
-#custom-spotify-info.paused {
-    border-color: #ffa500;
-    background: #2a2a2a;
-    opacity: 0.8;
+#mpris.paused {
+    border-color: @bordercolor;
+    background-color: @backgrounddark;
+    color: @textcolor3;
+    opacity: 0.85;
 }
 
-#custom-spotify-info.stopped {
-    border-color: #ff6b6b;
-    background: #404040;
-    opacity: 0.6;
-}
-
-#custom-spotify-info.no-spotify,
-#custom-spotify-info.no-track {
-    background: #ff6b6b;
-    border-color: #ff1744;
-    color: #ffffff;
-}
-
-/* Pulse animation for playing state - using supported keyframes */
-@keyframes pulse {
-    0% {
-        border-color: #1db954;
-    }
-    50% {
-        border-color: #1ed760;
-    }
-    100% {
-        border-color: #1db954;
-    }
-}
-
-#custom-spotify-info.playing {
-    animation-name: pulse;
-    animation-duration: 2s;
-    animation-timing-function: steps(12);
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+#mpris.stopped {
+    opacity: 0;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
 }
 
 /* -----------------------------------------------------
@@ -450,9 +444,9 @@ label:focus {
 
 #power-profiles-daemon {
     background-color: @backgroundlight;
-    font-size: 16px;
+    font-size: 12px;
     color: @textcolor2;
-    border-radius: 15px;
-    margin: 10px 15px 10px 0px;
-    padding: 2px 10px;
+    border-radius: 10px;
+    margin: 4px 6px 4px 0px;
+    padding: 1px 6px;
 }

@@ -1,0 +1,8 @@
+// Written by ~/.config/scripts/opacity-toggle.sh and gamemode.sh
+// Included last from config.kdl — global opacity + blur (glass mode).
+window-rule {
+    opacity 0.9
+    background-effect {
+        blur true
+    }
+}

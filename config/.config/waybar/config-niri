@@ -1,21 +1,12 @@
 {
-    // "layer": "top", // Waybar at top layer
-
-    // "position": "bottom", // Waybar position (top|bottom|left|right)
-
     "height": 34,
-    // "width": 1280, // Waybar width
-
     "spacing": 2,
-    // Choose the order of the modules
-
-    // Load Modules
     "include": [
         "~/.config/ml4w/settings/waybar-quicklinks.json",
-        "~/.config/waybar/modules.json",
+        "~/.config/waybar/modules.json"
     ],
     "modules-left": [
-        "hyprland/workspaces",
+        "niri/workspaces"
     ],
     "modules-center": [
         "custom/mpris-prev",
@@ -25,14 +16,13 @@
     "modules-right": [
         "pulseaudio",
         "network",
-				"group/hardware",
-				"power-profiles-daemon",
+        "group/hardware",
+        "power-profiles-daemon",
         "battery",
         "idle_inhibitor",
         "clock",
-				"custom/obsidian",
+        "custom/obsidian",
         "tray",
         "custom/exit"
-
     ]
 }
