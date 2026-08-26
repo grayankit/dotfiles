@@ -129,3 +129,4 @@ A: Some are git submodules under `config/.config/tmux/plugins/`; others can stil
 A: Use `git submodule add <url>` and clone with `--recursive`.
 
 ---
+[![wakatime](https://wakatime.com/badge/github/grayankit/dotfiles.svg)](https://wakatime.com/badge/github/grayankit/dotfiles)
