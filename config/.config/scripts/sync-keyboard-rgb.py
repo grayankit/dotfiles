@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fade MSI keyboard to wallust accent (waybar color2) via OpenRGB SDK."""
+"""Fade MSI keyboard to waybar textcolor (wallust foreground) via OpenRGB SDK."""
 
 from __future__ import annotations
 

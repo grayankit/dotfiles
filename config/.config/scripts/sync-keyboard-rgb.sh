@@ -1,6 +1,6 @@
 #!/bin/bash
 # Fade MSI keyboard to wallust accent via OpenRGB SDK (~1.5s smoothstep).
-# Needs: openrgb --server (niri startup) + local venv with openrgb-python.
+# Needs: openrgb --server + local venv with openrgb-python.
 
 set -u
 

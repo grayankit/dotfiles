@@ -25,12 +25,6 @@
         }
     },
 
-    "niri/workspaces": {
-        "on-click": "activate",
-        "format": "{index}",
-        "all-outputs": false
-    },
-
     // Hyprland Window
     "hyprland/window": {
         "rewrite": {

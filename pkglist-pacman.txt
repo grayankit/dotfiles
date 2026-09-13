@@ -90,7 +90,6 @@ ncdu
 neovim
 networkmanager
 network-manager-applet
-niri
 nmap
 noto-fonts-cjk
 ntfs-3g
@@ -137,8 +136,6 @@ sof-firmware
 sshfs
 steam
 stow
-swayidle
-swaylock
 sxiv
 syncthing
 thunar
@@ -170,14 +167,12 @@ wireplumber
 woff2-font-awesome
 wofi
 wpewebkit
-xdg-desktop-portal-gnome
 xdg-desktop-portal-hyprland
 xdg-utils
 xdotool
 xorg-server
 xorg-server-xephyr
 xorg-xinit
-xwayland-satellite
 yazi
 yt-dlp
 zed

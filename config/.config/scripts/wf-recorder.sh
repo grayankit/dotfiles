@@ -4,19 +4,7 @@ current_output=$(pactl get-default-sink)
 
 pgrep -x "wf-recorder" && pkill -INT -x wf-recorder && notify-send -h string:wf-recorder:record -t 1000 "Finished Recording" && exit 0
 
-list_monitors() {
-    if [ "${XDG_CURRENT_DESKTOP:-}" = "niri" ] || pgrep -x niri >/dev/null 2>&1; then
-        if niri msg --json outputs >/dev/null 2>&1; then
-            niri msg --json outputs | jq -r 'keys[]'
-            return
-        fi
-        niri msg outputs 2>/dev/null | awk '/^Output / {print $2}' | tr -d ':'
-        return
-    fi
-    hyprctl monitors -j | jq -r '.[].name'
-}
-
-monitors=$(list_monitors)
+monitors=$(hyprctl monitors -j | jq -r '.[].name')
 selected_monitor=$(echo "$monitors" | rofi -dmenu -p "Record Monitor" -lines 3)
 
 if [ -z "$selected_monitor" ]; then
