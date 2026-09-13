@@ -3,7 +3,7 @@ set -e
 
 echo "[*] Cleaning up ~/.config for stow..."
 
-CONFIG_APPS=(hypr nvim waybar alacritty tmux wlogout ml4w rofi scripts niri yazi beets eww dunst wallust)
+CONFIG_APPS=(hypr nvim waybar alacritty tmux wlogout ml4w rofi scripts yazi beets eww dunst wallust)
 
 for app in "${CONFIG_APPS[@]}"; do
   if [ -L "$HOME/.config/$app" ]; then
@@ -81,5 +81,21 @@ elif [ -d "$HOME/.config/ghostty" ]; then
 fi
 
 stow -t "$HOME/.config" ghostty
+
+echo "[*] Linking local bin helpers..."
+
+mkdir -p "$HOME/.local/bin"
+for bin in neo-browser neocolab-box; do
+  SRC="$HOME/.local/bin/$bin"
+  if [ -L "$SRC" ]; then
+    echo "  - Removing symlink: $bin"
+    rm "$SRC"
+  elif [ -f "$SRC" ]; then
+    echo "  - Replacing existing file: $bin"
+    rm "$SRC"
+  fi
+done
+
+stow local
 
 echo "[✓] Setup complete."

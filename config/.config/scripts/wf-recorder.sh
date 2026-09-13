@@ -24,4 +24,5 @@ notify-send -h string:wf-recorder:record -t 950 "Recording in:" "<span color='#9
 sleep 1
 
 dateTime=$(date +%m-%d-%Y-%H:%M:%S)
-wf-recorder --bframes max_b_frames -f $HOME/Videos/$dateTime.mp4 -o "$selected_monitor" --audio="${current_output}".monitor
+mkdir -p "$HOME/Videos"
+wf-recorder --bframes max_b_frames -f "$HOME/Videos/$dateTime.mp4" -o "$selected_monitor" --audio="${current_output}".monitor

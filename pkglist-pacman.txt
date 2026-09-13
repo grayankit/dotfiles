@@ -10,11 +10,13 @@ bluetui
 bluez-utils
 brightnessctl
 btop
+cage
 cava
 ccache
 chromaprint
 clang
 cliphist
+cloudflare-speed-cli
 cmake
 cpio
 distrobox
@@ -41,7 +43,6 @@ fuse2
 fuzzel
 fzf
 gdu
-ghostty
 gimp
 git
 github-cli
@@ -49,7 +50,7 @@ glow
 go
 gptfdisk
 greetd
-greetd-tuigreet
+greetd-regreet
 grim
 grub
 gst-libav
@@ -140,6 +141,7 @@ syncthing
 thunar
 tk
 tlp
+tlp-pd
 tmux
 tree-sitter-cli
 ttf-fira-code
@@ -168,6 +170,7 @@ wpewebkit
 xdg-desktop-portal-hyprland
 xdg-utils
 xdotool
+xorg-server
 xorg-server-xephyr
 xorg-xinit
 yazi

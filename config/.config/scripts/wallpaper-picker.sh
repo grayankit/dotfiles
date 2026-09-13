@@ -51,6 +51,9 @@ awww img "$REAL_WALLPAPER_PATH" --transition-type wipe
 # Extract colors from the new wallpaper using Wallust (skipping terminal sequences)
 wallust run -s -q "$REAL_WALLPAPER_PATH"
 
+# Sync keyboard backlight to waybar text color (foreground)
+"$HOME/.config/scripts/sync-keyboard-rgb.sh" &
+
 # Reload UI components to apply the new colors
 # Reload Waybar
 if pgrep -x waybar > /dev/null; then
@@ -63,4 +66,4 @@ killall dunst 2>/dev/null
 dunst > /dev/null 2>&1 &
 
 # Reload Hyprland to apply the new border colors
-hyprctl reload
+command -v hyprctl >/dev/null 2>&1 && hyprctl reload

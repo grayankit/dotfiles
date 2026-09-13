@@ -3,10 +3,10 @@
 
     // "position": "bottom", // Waybar position (top|bottom|left|right)
 
-    "height": 48, // Waybar height (to be removed for auto height)
+    "height": 34,
     // "width": 1280, // Waybar width
 
-    "spacing": 4, // Gaps between modules (4px)
+    "spacing": 2,
     // Choose the order of the modules
 
     // Load Modules
@@ -18,7 +18,9 @@
         "hyprland/workspaces",
     ],
     "modules-center": [
-			"custom/spotify-info"
+        "custom/mpris-prev",
+        "mpris",
+        "custom/mpris-next"
     ],
     "modules-right": [
         "pulseaudio",
@@ -26,6 +28,7 @@
 				"group/hardware",
 				"power-profiles-daemon",
         "battery",
+        "idle_inhibitor",
         "clock",
 				"custom/obsidian",
         "tray",

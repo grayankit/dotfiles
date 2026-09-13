@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -eu
+export ELECTRON_OZONE_PLATFORM_HINT=x11
+export OZONE_PLATFORM=x11
+export GDK_BACKEND=x11
+export XCURSOR_THEME="${XCURSOR_THEME:-Bibata-Modern-Classic}"
+export XCURSOR_SIZE="${XCURSOR_SIZE:-24}"
+export XCURSOR_PATH="${XCURSOR_PATH:-/run/host/usr/share/icons:/run/host${HOME}/.local/share/icons}"
+exec "$(dirname "$0")/neocolab-box" run Neo-Browser.AppImage "$@"

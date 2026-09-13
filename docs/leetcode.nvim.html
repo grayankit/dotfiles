@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>leetcode.nvim — Usage Guide</title>
+<style>
+  :root {
+    --bg: #1a1b26;
+    --bg-alt: #16161e;
+    --fg: #c0caf5;
+    --fg-dim: #a9b1d6;
+    --muted: #565f89;
+    --accent: #7aa2f7;
+    --accent-bright: #bb9af7;
+    --green: #9ece6a;
+    --yellow: #e0af68;
+    --red: #f7768e;
+    --cyan: #7dcfff;
+    --border: #292e42;
+    --code: #24283b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+    line-height: 1.65;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { color: var(--accent-bright); font-size: 2.1rem; margin: 0 0 .25rem; }
+  .subtitle { color: var(--muted); margin-top: 0; font-size: 1.02rem; }
+  h2 {
+    color: var(--accent);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: .35rem;
+    margin-top: 2.75rem;
+    font-size: 1.4rem;
+  }
+  h3 { color: var(--cyan); font-size: 1.12rem; margin-bottom: .4rem; }
+  p { color: var(--fg-dim); }
+  code, pre {
+    font-family: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+    background: var(--code);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: .9em;
+  }
+  code { padding: .12em .4em; color: var(--green); }
+  pre { padding: .9rem 1rem; overflow-x: auto; line-height: 1.5; }
+  pre code { color: var(--fg); background: none; border: none; padding: 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: .93rem;
+  }
+  th, td {
+    text-align: left;
+    padding: .55rem .75rem;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th { color: var(--accent); background: var(--bg-alt); }
+  td:first-child { color: var(--green); font-family: ui-monospace, monospace; white-space: nowrap; }
+  blockquote {
+    margin: 1rem 0;
+    padding: .6rem 1rem;
+    border-left: 4px solid var(--yellow);
+    background: var(--bg-alt);
+    border-radius: 0 6px 6px 0;
+  }
+  blockquote.warn { border-left-color: var(--red); }
+  blockquote p { margin: 0; color: var(--fg); }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  ul, ol { color: var(--fg-dim); }
+  li { margin: .3rem 0; }
+  .kbd {
+    background: var(--code);
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    padding: .1em .45em;
+    font-family: ui-monospace, monospace;
+    font-size: .88em;
+    color: var(--yellow);
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .75rem; margin: 1rem 0; }
+  .card {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: .9rem 1rem;
+  }
+  .card strong { color: var(--green); }
+  .card span { color: var(--muted); font-size: .85rem; display: block; margin-top: .2rem; }
+  footer { margin-top: 4rem; color: var(--muted); font-size: .85rem; text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>leetcode.nvim</h1>
+<p class="subtitle">A complete guide to solving LeetCode problems inside Neovim &middot; <a href="https://github.com/kawre/leetcode.nvim">github.com/kawre/leetcode.nvim</a></p>
+
+<h2>1. What is it?</h2>
+<p>
+  <strong>leetcode.nvim</strong> is a Neovim plugin that lets you fetch, browse, solve, run,
+  and submit LeetCode problems without ever leaving your editor. It ships a dashboard
+  menu, formatted question descriptions, an interactive console for running code against
+  test cases, profile statistics, and support for the daily &amp; random questions.
+</p>
+
+<h2>2. Your installed setup</h2>
+<p>
+  The plugin is already installed via <strong>lazy.nvim</strong> in
+  <code>config/.config/nvim/lua/custom/plugins/leetcode.lua</code>:
+</p>
+<pre><code>return {
+  "kawre/leetcode.nvim",
+  cmd = "Leet",                    -- lazy-loads on :Leet
+  build = ":TSUpdate html",        -- keeps html parser for description formatting
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "MunifTanjim/nui.nvim",
+    "nvim-telescope/telescope.nvim", -- your picker provider
+  },
+  opts = {
+    lang = "cpp",                   -- default language
+    plugins = { non_standalone = true },
+  },
+}</code></pre>
+<p>Key fact: <code>non_standalone = true</code> lets you open leetcode.nvim from a normal
+Neovim session even if you have other buffers open.</p>
+
+<h2>3. Launching</h2>
+<p>Two ways to start leetcode.nvim:</p>
+<ul>
+  <li><strong>Inside any session:</strong> run <span class="kbd">:Leet</span> &mdash; opens the dashboard menu. (Preferred with your setup.)</li>
+  <li><strong>Standalone:</strong> start Neovim with the plugin&rsquo;s argument — <code>nvim leetcode.nvim</code>.</li>
+</ul>
+<p>Since the plugin is lazy-loaded with <code>cmd = "Leet"</code>, it loads the first time you run the command.</p>
+
+<h2>4. Signing in (getting your cookie)</h2>
+<p>
+  leetcode.nvim authenticates using the <code>Cookie</code> header from your browser session.
+  On first launch it prompts you to paste a cookie; afterwards you can update it with
+  <code>:Leet cookie update</code>.
+</p>
+<ol>
+  <li>Log in to <a href="https://leetcode.com">leetcode.com</a> in your browser.</li>
+  <li>Open <strong>DevTools</strong> (<span class="kbd">F12</span>) → <strong>Network</strong> tab.</li>
+  <li><strong>Reload the page</strong>, then click any request to <code>leetcode.com</code> in the list.</li>
+  <li>Under <strong>Headers → Request Headers</strong>, find the <code>Cookie:</code> header.</li>
+  <li>Copy the full value and paste it into <code>:Leet cookie update</code>.</li>
+</ol>
+<blockquote>
+  <p>Copy from <strong>request headers</strong>, NOT the <code>set-cookie</code> response header.</p>
+</blockquote>
+<blockquote class="warn">
+  <p>The cookie <strong>expires</strong> — if you see a <em>&ldquo;Your cookie may have expired&rdquo;</em>
+  error, grab a fresh one. This also happens when LeetCode is rate-limiting during contests.
+  Brave users: see <a href="https://github.com/kawre/leetcode.nvim/issues/160">issue #160</a>.</p>
+</blockquote>
+
+<h2>5. Dashboard &amp; navigation</h2>
+<p>The <code>:Leet</code> menu is a focused dashboard. From it you can pick actions, read
+your profile stats, or jump into problems. Inside the dashboard:</p>
+<ul>
+  <li><span class="kbd">q</span> — toggle (close) the current panel</li>
+  <li><span class="kbd">&lt;CR&gt;</span> (Enter) — confirm / select</li>
+</ul>
+
+<h2>6. Commands</h2>
+<p>All functionality hangs off the <code>:Leet</code> command with subcommands. Note that
+<code>:Leet test</code> and <code>:Leet run</code> are equivalent, and <code>:Leet menu</code> is the same as <code>:Leet</code>.</p>
+
+<table>
+  <thead><tr><th>Command</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td>Leet</td><td>Open the dashboard menu</td></tr>
+    <tr><td>Leet list</td><td>Picker of all problems, with filters (see §7)</td></tr>
+    <tr><td>Leet daily</td><td>Open the question of the day</td></tr>
+    <tr><td>Leet random</td><td>Open a random question, optionally filtered</td></tr>
+    <tr><td>Leet run</td><td>Run the current question against test cases</td></tr>
+    <tr><td>Leet test</td><td>Same as <code>Leet run</code></td></tr>
+    <tr><td>Leet submit</td><td>Submit the current question to LeetCode</td></tr>
+    <tr><td>Leet tabs</td><td>Switch between open question tabs (picker)</td></tr>
+    <tr><td>Leet lang</td><td>Change the language of the current question</td></tr>
+    <tr><td>Leet info</td><td>Popup with details about the current question</td></tr>
+    <tr><td>Leet console</td><td>Open the result/testcase console popup</td></tr>
+    <tr><td>Leet yank</td><td>Copy the code section</td></tr>
+    <tr><td>Leet desc</td><td>Toggle the question description (synonym: <code>toggle</code>)</td></tr>
+    <tr><td>Leet desc stats</td><td>Toggle description statistics visibility</td></tr>
+    <tr><td>Leet open</td><td>Open the current question in your default browser</td></tr>
+    <tr><td>Leet restore</td><td>Restore the default question layout</td></tr>
+    <tr><td>Leet last_submit</td><td>Replace the editor code with your latest submitted code</td></tr>
+    <tr><td>Leet reset</td><td>Reset the editor code to the default snippet</td></tr>
+    <tr><td>Leet inject</td><td>Re-inject editor code, keeping the solution intact</td></tr>
+    <tr><td>Leet fold</td><td>Fold the imports section of the current question</td></tr>
+    <tr><td>Leet exit</td><td>Close leetcode.nvim</td></tr>
+    <tr><td>Leet cookie update</td><td>Prompt for a new cookie (re-auth)</td></tr>
+    <tr><td>Leet cookie delete</td><td>Delete the stored cookie and log out</td></tr>
+    <tr><td>Leet cache update</td><td>Fetch all problems and refresh the local cache</td></tr>
+  </tbody>
+</table>
+
+<h2>7. Filtering lists &amp; random</h2>
+<p><code>list</code> and <code>random</code> accept optional arguments. Divide values with <code>&lt;key&gt;=&lt;value&gt;</code>;
+stack multiple values of one key by separating them with a comma:</p>
+<pre><code>:Leet list      status=accepted,solved difficulty=easy
+:Leet list      status=new difficulty=medium,hard
+:Leet random    difficulty=hard tags=dynamic-programming
+:Leet random    status=bug difficulty=medium tags=graph,depth-first-search</code></pre>
+<div class="grid">
+  <div class="card"><strong>status</strong><span>new · accepted · not-accepted · solved · not-solved · bug</span></div>
+  <div class="card"><strong>difficulty</strong><span>easy · medium · hard</span></div>
+  <div class="card"><strong>tags</strong><span>any LeetCode topic, e.g. array, hash-table, graph …</span></div>
+</div>
+
+<h2>8. In-editor keys</h2>
+<h3>Console / results</h3>
+<ul>
+  <li><span class="kbd">1</span>, <span class="kbd">2</span>, … — switch between test cases</li>
+  <li><span class="kbd">r</span> — reset test cases</li>
+  <li><span class="kbd">U</span> — use a testcase</li>
+  <li><span class="kbd">H</span> / <span class="kbd">L</span> — focus the testcases / result panel</li>
+</ul>
+<h3>Switching questions</h3>
+<p>Each question opens in its own tab. Use <span class="kbd">:Leet tabs</span> to jump between them.</p>
+
+<h2>9. Configuration reference</h2>
+<p>All options go in the <code>opts</code> table of your plugin spec.
+The full type definitions live in the plugin itself at
+<code>lua/leetcode/config/template.lua</code>.</p>
+
+<table>
+  <thead><tr><th>Option</th><th>Default</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td>arg</td><td>"leetcode.nvim"</td><td>Argument that starts standalone mode (<code>nvim leetcode.nvim</code>)</td></tr>
+    <tr><td>lang</td><td>"cpp"</td><td>Default language (cpp, python3, golang, rust, …)</td></tr>
+    <tr><td>cn</td><td>{ enabled=false }</td><td>Use leetcode.cn, with optional translation</td></tr>
+    <tr><td>storage.home</td><td>stdpath data/leetcode</td><td>Where question files live</td></tr>
+    <tr><td>storage.cache</td><td>stdpath cache/leetcode</td><td>Where cached problem lists live</td></tr>
+    <tr><td>plugins.non_standalone</td><td>false</td><td>Allow running from a session with other buffers</td></tr>
+    <tr><td>logging</td><td>true</td><td>Log status notifications</td></tr>
+    <tr><td>cache.update_interval</td><td>7 days</td><td>How often to refresh the problem cache</td></tr>
+    <tr><td>injector</td><td>{}</td><td>Inject imports/before/after code snippets per language</td></tr>
+    <tr><td>editor.reset_previous_code</td><td>true</td><td>Restore code snippet on reopen</td></tr>
+    <tr><td>editor.fold_imports</td><td>true</td><td>Fold injected imports</td></tr>
+    <tr><td>console.open_on_runcode</td><td>true</td><td>Auto-open console when running code</td></tr>
+    <tr><td>description.position</td><td>"left"</td><td>Where the description panel sits</td></tr>
+    <tr><td>description.width</td><td>"40%"</td><td>Width of the description panel</td></tr>
+    <tr><td>picker.provider</td><td>nil</td><td>Auto-detects snacks → fzf-lua → telescope → mini.pick</td></tr>
+    <tr><td>hooks</td><td>{}</td><td>enter / question_enter / leave callbacks</td></tr>
+    <tr><td>theme</td><td>{}</td><td>Override highlight groups</td></tr>
+    <tr><td>image_support</td><td>false</td><td>Render images (needs 3rd/image.nvim v1.4+)</td></tr>
+  </tbody>
+</table>
+
+<h3>Example: customizing for Python + an injector</h3>
+<pre><code>opts = {
+  lang = "python3",
+  injector = {
+    ["python3"] = {
+      imports = function(default_imports)
+        vim.list_extend(default_imports, { "from .leetcode import *" })
+        return default_imports
+      end,
+    },
+  },
+  console = { dir = "row" }, -- run result below instead of to the side
+}</code></pre>
+
+<h2>10. Tips &amp; troubleshooting</h2>
+<ul>
+  <li><strong>&ldquo;Cookie may have expired&rdquo;</strong> — refresh your cookie with <code>:Leet cookie update</code>.
+      During contests LeetCode often rate-limits; wait and retry.</li>
+  <li><strong>No LSP completions?</strong> Some languages need extra setup (e.g. Rust —
+      see <a href="https://github.com/kawre/leetcode.nvim/issues/86">issue #86</a>).
+      C++/clangd works out of the box with your setup.</li>
+  <li><strong>Description not formatted</strong> — the <code>html</code> tree-sitter parser must be installed
+      (it already is in your config).</li>
+  <li><strong>Keep the cache fresh</strong> — run <code>:Leet cache update</code> if new problems don&rsquo;t show up.</li>
+  <li><strong>Quick iteration</strong> — solve, then <code>:Leet run</code> locally; only push to the server with <code>:Leet submit</code>.</li>
+</ul>
+
+<footer>Generated for your dotfiles — docs/leetcode.nvim.html</footer>
+
+</div>
+</body>
+</html>
