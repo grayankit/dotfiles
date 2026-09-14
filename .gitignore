@@ -7,3 +7,8 @@ config/.config/waybar/colors.css
 config/.config/dunst/dunstrc.d/01-wallust.conf
 config/.config/scripts/keyboard-color.txt
 config/.config/scripts/keyboard-color.prev
+config/.config/wezterm/colors/wallust.toml
+config/.config/wiremix/wiremix.toml
+config/.config/gtk-3.0/colors.css
+config/.config/gtk-4.0/colors.css
+config/.config/cava/themes/wallust

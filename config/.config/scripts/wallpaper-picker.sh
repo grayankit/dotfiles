@@ -62,6 +62,9 @@ fi
 
 pkill -USR2 cava 2>/dev/null || true
 
+# Reload WezTerm colors (wallust scheme)
+touch "$HOME/.wezterm.lua" 2>/dev/null || true
+
 # Reload Dunst and ensure Mako doesn't hijack D-Bus
 killall mako 2>/dev/null
 killall dunst 2>/dev/null
