@@ -65,6 +65,22 @@ pkill -USR2 cava 2>/dev/null || true
 # Reload WezTerm colors (wallust scheme)
 touch "$HOME/.wezterm.lua" 2>/dev/null || true
 
+# Apply KDE/Qt colors (Dolphin). Outside full Plasma, live palette reload is
+# unreliable — apply-kde-colors.sh alternates schemes, emits D-Bus notifies,
+# and soft-restarts Dolphin while restoring open folders.
+if [ -x "$HOME/.config/scripts/apply-kde-colors.sh" ]; then
+    "$HOME/.config/scripts/apply-kde-colors.sh" || true
+    # kde-gtk-config may overwrite GTK CSS — regenerate so adw-gtk3 wins
+    wallust run -s -q "$REAL_WALLPAPER_PATH"
+fi
+
+# Nudge GTK apps to pick up new colors.css (GTK4 often needs app restart)
+if command -v gsettings >/dev/null 2>&1; then
+    gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-dark 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface color-scheme prefer-dark 2>/dev/null || true
+fi
+
 # Reload Dunst and ensure Mako doesn't hijack D-Bus
 killall mako 2>/dev/null
 killall dunst 2>/dev/null

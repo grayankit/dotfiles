@@ -181,3 +181,4 @@ zoxide
 zram-generator
 zsh
 zsh-completions
+adw-gtk-theme
