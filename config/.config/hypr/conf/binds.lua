@@ -80,6 +80,7 @@ hl.bind(
 		"wezterm start --class clipse -- clipse"
 	)
 )
+hl.bind("ALT + V", hl.dsp.exec_cmd("$HOME/.config/scripts/writec-clipboard.sh"))
 hl.bind(SUPER_SHIFT .. " + R", hl.dsp.exec_cmd("$HOME/.config/scripts/refresh-rate.sh"))
 
 --ScreenShots Binds

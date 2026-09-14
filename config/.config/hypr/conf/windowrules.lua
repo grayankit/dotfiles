@@ -26,6 +26,22 @@ hl.window_rule({
 })
 
 hl.window_rule({
+	name = "wiremix",
+	match = { class = "wiremix" },
+	float = true,
+	size = { 900, 600 },
+	center = true,
+})
+
+hl.window_rule({
+	name = "nmtui",
+	match = { class = "nmtui" },
+	float = true,
+	size = { 800, 500 },
+	center = true,
+})
+
+hl.window_rule({
 	name = "spotify",
 	match = { class = "^([sS]potify)$" },
 	float = true,
