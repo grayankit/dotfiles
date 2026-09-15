@@ -86,5 +86,10 @@ killall mako 2>/dev/null
 killall dunst 2>/dev/null
 dunst > /dev/null 2>&1 &
 
+# Reload Spotifast palette without interrupting playback
+if command -v spotifast >/dev/null 2>&1; then
+    spotifast reload-themes >/dev/null 2>&1 || true
+fi
+
 # Reload Hyprland to apply the new border colors
 command -v hyprctl >/dev/null 2>&1 && hyprctl reload

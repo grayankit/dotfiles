@@ -15,3 +15,4 @@ wiremix = { template = 'wiremix.j2', target = '~/.config/wiremix/wiremix.toml' }
 gtk3 = { template = 'gtk-colors.j2', target = '~/.config/gtk-3.0/colors.css' }
 gtk4 = { template = 'gtk-colors.j2', target = '~/.config/gtk-4.0/colors.css' }
 kde = { template = 'kde-colors.j2', target = '~/.local/share/color-schemes/Wallust.colors' }
+spotifast = { template = 'spotifast.j2', target = '~/.config/fastpotify/themes/wallust.json' }
