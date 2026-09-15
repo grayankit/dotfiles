@@ -13,3 +13,4 @@ config/.config/gtk-3.0/colors.css
 config/.config/gtk-4.0/colors.css
 config/.config/cava/themes/wallust
 config/.config/fastpotify/themes/wallust.json
+config/.config/vesktop/themes/wallust.theme.css

@@ -1,0 +1,78 @@
+/**
+ * @name Wallust
+ * @author wallust
+ * @version 1.0.0
+ * @description Colors from wallpaper via wallust.
+ */
+
+.theme-dark,
+.theme-darker,
+.theme-midnight {
+    --background-primary: {{ background }};
+    --background-secondary: {{ color0 }};
+    --background-secondary-alt: {{ color0 | lighten(0.08) }};
+    --background-tertiary: {{ background }};
+    --background-accent: {{ color4 | lighten(0.25) }};
+    --background-floating: {{ color0 }};
+    --background-mobile-primary: {{ background }};
+    --background-mobile-secondary: {{ color0 }};
+    --home-background: {{ background }};
+    --modal-background: {{ color0 }};
+    --modal-footer-background: {{ background }};
+    --channeltextarea-background: {{ color0 | lighten(0.08) }};
+
+    --bg-base-primary: {{ background }};
+    --bg-base-secondary: {{ color0 }};
+    --bg-base-tertiary: {{ background }};
+    --bg-surface-overlay: {{ color0 }};
+    --bg-surface-raised: {{ color0 | lighten(0.08) }};
+    --bg-overlay-2: {{ color0 | lighten(0.08) }};
+    --bg-overlay-3: {{ color0 }};
+    --bg-brand: {{ color4 | lighten(0.3) }};
+    --bg-mod-faint: {{ color0 | lighten(0.06) }};
+    --bg-mod-subtle: {{ color0 | lighten(0.1) }};
+    --bg-mod-strong: {{ color0 | lighten(0.14) }};
+
+    --text-normal: {{ foreground }};
+    --text-muted: {{ color7 }};
+    --text-link: {{ color4 | lighten(0.4) }};
+    --text-positive: {{ color2 | lighten(0.4) }};
+    --text-warning: {{ color3 | lighten(0.35) }};
+    --text-danger: {{ color1 | lighten(0.4) }};
+    --text-brand: {{ color4 | lighten(0.35) }};
+    --text-default: {{ foreground }};
+    --header-primary: {{ foreground }};
+    --header-secondary: {{ color7 }};
+    --channels-default: {{ color7 }};
+    --channel-icon: {{ color7 }};
+    --interactive-normal: {{ foreground }};
+    --interactive-hover: {{ foreground }};
+    --interactive-active: {{ foreground }};
+    --interactive-muted: {{ color8 }};
+
+    --brand-500: {{ color4 | lighten(0.3) }};
+    --brand-560: {{ color4 | lighten(0.35) }};
+    --brand-600: {{ color4 | lighten(0.25) }};
+    --brand-experiment: {{ color4 | lighten(0.3) }};
+    --brand-experiment-560: {{ color4 | lighten(0.35) }};
+    --button-secondary-background: {{ color0 | lighten(0.1) }};
+
+    --scrollbar-auto-thumb: {{ color4 | lighten(0.3) }};
+    --scrollbar-auto-track: {{ color0 }};
+    --scrollbar-thin-thumb: {{ color7 }};
+    --scrollbar-thin-track: transparent;
+
+    --mention-foreground: {{ foreground }};
+    --mention-background: {{ color4 | lighten(0.2) }};
+    --background-mentioned: {{ color4 | lighten(0.15) }};
+    --background-mentioned-hover: {{ color4 | lighten(0.22) }};
+
+    --input-background: {{ color0 | lighten(0.08) }};
+    --deprecated-card-bg: {{ color0 }};
+    --deprecated-card-editable-bg: {{ color0 | lighten(0.08) }};
+    --elevation-stroke: 0 0 0 1px {{ color8 }};
+}
+
+.theme-light {
+    --text-normal: {{ foreground }};
+}
