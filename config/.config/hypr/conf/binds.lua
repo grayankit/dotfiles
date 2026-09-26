@@ -17,7 +17,6 @@ hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("~/.config/ml4w/settings/browser.sh"))
 hl.bind(SUPER_SHIFT .. " + B", hl.dsp.exec_cmd("~/.config/ml4w/scripts/waybar.sh reload"))
 hl.bind("SUPER + CTRL + B", hl.dsp.exec_cmd("~/.config/ml4w/scripts/waybar.sh toggle"))
-hl.bind("SUPER + CTRL + C", hl.dsp.exec_cmd("~/.config/eww/scripts/toggle-clock.sh"))
 hl.bind(mainMod .. " + F1", hl.dsp.exec_cmd("~/.config/scripts/gamemode.sh"))
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("~/.config/scripts/wallpaper-picker.sh"))
 
@@ -47,6 +46,7 @@ hl.bind(
 	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
 	{ locked = true, repeating = true }
 )
+hl.bind("XF86Bluetooth", hl.dsp.exec_cmd("wezterm start --class bluetui -- bluetui"))
 
 -- Move focus
 hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))
@@ -74,12 +74,7 @@ hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- More execs
-hl.bind(
-	SUPER_SHIFT .. " + V",
-	hl.dsp.exec_cmd(
-		"wezterm start --class clipse -- clipse"
-	)
-)
+hl.bind(SUPER_SHIFT .. " + V", hl.dsp.exec_cmd("wezterm start --class clipse -- clipse"))
 hl.bind("ALT + V", hl.dsp.exec_cmd("$HOME/.config/scripts/writec-clipboard.sh"))
 hl.bind(SUPER_SHIFT .. " + R", hl.dsp.exec_cmd("$HOME/.config/scripts/refresh-rate.sh"))
 

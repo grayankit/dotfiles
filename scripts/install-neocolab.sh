@@ -106,6 +106,18 @@ box_enter() {
   "$DISTROBOX" enter "$BOX_NAME" -- "$@"
 }
 
+distrobox_exec() {
+  if [ -t 0 ] && [ -t 1 ]; then
+    exec "$DISTROBOX" enter "$BOX_NAME" -- "$@"
+  fi
+  local cmd
+  cmd=$(printf '%q ' "$DISTROBOX" enter "$BOX_NAME" -- "$@")
+  if command -v script >/dev/null 2>&1; then
+    exec script -qefc "$cmd" /dev/null
+  fi
+  exec "$DISTROBOX" enter "$BOX_NAME" -- "$@"
+}
+
 ensure_binfmt() {
   box_enter sh -c '
     if [ -e /proc/sys/fs/binfmt_misc/appimage_type_2 ] ||
@@ -171,6 +183,21 @@ EOF
   fi
 }
 
+wait_for_box() {
+  local i
+  echo "Waiting for Distrobox first-time setup (this can take several minutes)..."
+  for i in $(seq 1 90); do
+    if "$DISTROBOX" enter "$BOX_NAME" -- true >/dev/null 2>&1; then
+      echo "Box '${BOX_NAME}' is ready."
+      return 0
+    fi
+    sleep 10
+  done
+  echo "Timed out waiting for '${BOX_NAME}' init." >&2
+  echo "Retry: distrobox enter ${BOX_NAME} -- true" >&2
+  return 1
+}
+
 ensure_box() {
   mkdir -p "$BOX_HOME"
   ensure_cursor
@@ -193,6 +220,7 @@ ensure_box() {
       --additional-flags "--device /dev/fuse --shm-size=2g"
   fi
 
+  wait_for_box
   ensure_binfmt
   ensure_dbus
 }
@@ -238,7 +266,7 @@ cmd_run() {
       ;;
   esac
 
-  exec "$DISTROBOX" enter "$BOX_NAME" -- "$target" "$@"
+  distrobox_exec "$target" "$@"
 }
 
 install_neo_appimage() {

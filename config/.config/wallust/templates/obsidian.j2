@@ -1,0 +1,71 @@
+.theme-dark {
+    --background-primary: {{ background }};
+    --background-primary-alt: {{ color0 }};
+    --background-secondary: {{ color0 }};
+    --background-secondary-alt: {{ color0 | lighten(0.08) }};
+    --background-modifier-border: {{ color8 }};
+    --background-modifier-border-hover: {{ color4 | lighten(0.25) }};
+    --background-modifier-border-focus: {{ color4 | lighten(0.35) }};
+    --background-modifier-form-field: {{ color0 | lighten(0.06) }};
+    --background-modifier-hover: {{ color0 | lighten(0.1) }};
+    --background-modifier-active-hover: {{ color0 | lighten(0.14) }};
+    --background-modifier-cover: {{ background }};
+
+    --text-normal: {{ foreground }};
+    --text-muted: {{ color7 }};
+    --text-faint: {{ color8 }};
+    --text-on-accent: {{ background }};
+    --text-accent: {{ color4 | lighten(0.35) }};
+    --text-accent-hover: {{ color4 | lighten(0.45) }};
+    --text-error: {{ color1 | lighten(0.4) }};
+    --text-success: {{ color2 | lighten(0.4) }};
+    --text-selection: {{ color4 | lighten(0.2) }};
+
+    --interactive-normal: {{ color0 | lighten(0.1) }};
+    --interactive-hover: {{ color0 | lighten(0.16) }};
+    --interactive-accent: {{ color4 | lighten(0.3) }};
+    --interactive-accent-hover: {{ color4 | lighten(0.4) }};
+
+    --titlebar-background: {{ background }};
+    --titlebar-background-focused: {{ color0 }};
+    --titlebar-text-color-focused: {{ foreground }};
+
+    --ribbon-background: {{ background }};
+    --tab-container-background: {{ background }};
+    --tab-active-background: {{ color0 }};
+    --nav-item-color: {{ foreground }};
+    --nav-item-background-active: {{ color0 | lighten(0.1) }};
+    --nav-item-color-active: {{ foreground }};
+    --nav-item-color-hover: {{ foreground }};
+
+    --scrollbar-bg: {{ background }};
+    --scrollbar-thumb-bg: {{ color4 | lighten(0.25) }};
+
+    --h1-color: {{ foreground }};
+    --h2-color: {{ color4 | lighten(0.4) }};
+    --h3-color: {{ color6 | lighten(0.3) }};
+    --h4-color: {{ color3 | lighten(0.3) }};
+    --h5-color: {{ color7 }};
+    --h6-color: {{ color8 }};
+
+    --link-color: {{ color4 | lighten(0.4) }};
+    --link-color-hover: {{ color4 | lighten(0.5) }};
+    --link-unresolved-color: {{ color1 | lighten(0.35) }};
+    --tag-color: {{ color5 | lighten(0.35) }};
+    --tag-background: {{ color0 | lighten(0.08) }};
+
+    --code-normal: {{ foreground }};
+    --code-background: {{ color0 | lighten(0.06) }};
+    --inline-code: {{ color6 | lighten(0.3) }};
+
+    --graph-node: {{ color4 | lighten(0.35) }};
+    --graph-line: {{ color8 }};
+    --graph-node-focused: {{ foreground }};
+    --graph-node-unresolved: {{ color1 | lighten(0.35) }};
+    --graph-node-tag: {{ color5 | lighten(0.35) }};
+    --graph-node-attachment: {{ color3 | lighten(0.3) }};
+
+    --prompt-border-color: {{ color8 }};
+    --modal-border-color: {{ color8 }};
+    --divider-color: {{ color8 }};
+}

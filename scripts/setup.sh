@@ -85,7 +85,7 @@ stow -t "$HOME/.config" ghostty
 echo "[*] Linking local bin helpers..."
 
 mkdir -p "$HOME/.local/bin"
-for bin in neo-browser neocolab-box; do
+for bin in neo-browser neocolab-box neocolab-chrome; do
   SRC="$HOME/.local/bin/$bin"
   if [ -L "$SRC" ]; then
     echo "  - Removing symlink: $bin"

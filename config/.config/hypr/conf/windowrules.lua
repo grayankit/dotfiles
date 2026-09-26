@@ -42,9 +42,9 @@ hl.window_rule({
 })
 
 hl.window_rule({
-	name = "spotify",
-	match = { class = "^([sS]potify)$" },
+	name = "bluetui",
+	match = { class = "bluetui" },
 	float = true,
-	size = { 1200, 800 },
+	size = { 800, 500 },
 	center = true,
 })
