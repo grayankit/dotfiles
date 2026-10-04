@@ -1,4 +1,86 @@
 #!/usr/bin/env bash
+# Install Neo Browser (NeoColab) inside Ubuntu WSL2 via Distrobox + Podman.
+#
+# Run this *inside* WSL Ubuntu, or via scripts/install-neocolab.ps1 from Windows.
+#
+# Usage:
+#   ./install-neocolab-wsl.sh /path/to/Neo-Browser-x.y.z.AppImage
+#
+# Idempotent: re-running with a new AppImage upgrades in place.
+set -euo pipefail
+
+BOX_NAME="neocolab"
+BOX_IMAGE="docker.io/library/ubuntu:24.04"
+BOX_HOME="${HOME}/.local/share/distrobox/neocolab"
+BIN_DIR="${HOME}/.local/bin"
+APPS_DIR="${HOME}/.local/share/applications"
+ICONS_DIR="${HOME}/.local/share/icons"
+
+die() {
+  echo "error: $*" >&2
+  exit 1
+}
+
+need_rootless_ids() {
+  local conf=$1
+  local user=$2
+  local uid=$3
+  if [ ! -f "$conf" ] || ! grep -q "^${user}:" "$conf" 2>/dev/null; then
+    echo "  configuring $(basename "$conf") for rootless containers..."
+    echo "${user}:${uid}00000:65536" | sudo tee -a "$conf" >/dev/null
+  fi
+}
+
+require_wsl() {
+  if grep -qiE 'microsoft|wsl' /proc/version 2>/dev/null || [ -n "${WSL_DISTRO_NAME:-}" ]; then
+    return 0
+  fi
+  die "this script must run inside WSL2 Ubuntu (use install-neocolab.ps1 from Windows)"
+}
+
+install_host_packages() {
+  echo "[1/7] Installing WSL packages (apt)..."
+  sudo apt-get update
+  sudo apt-get install -y software-properties-common ca-certificates curl
+  sudo add-apt-repository -y universe >/dev/null 2>&1 || true
+  sudo apt-get update
+  sudo apt-get install -y \
+    podman \
+    fuse3 \
+    fuse-overlayfs \
+    rsync \
+    desktop-file-utils \
+    xdg-utils \
+    curl \
+    ca-certificates \
+    uidmap \
+    slirp4netns \
+    bsdutils
+
+  sudo apt-get install -y libfuse2t64 2>/dev/null || \
+    sudo apt-get install -y libfuse2 2>/dev/null || true
+
+  if ! sudo apt-get install -y distrobox; then
+    echo "distrobox not in apt; installing from upstream..."
+    curl -fsSL https://raw.githubusercontent.com/89luca89/distrobox/main/install |
+      sudo sh
+  fi
+
+  command -v distrobox >/dev/null || die "distrobox is not installed"
+  command -v podman >/dev/null || die "podman is not installed"
+
+  need_rootless_ids /etc/subuid "$(id -un)" "$(id -u)"
+  need_rootless_ids /etc/subgid "$(id -un)" "$(id -u)"
+
+  export DBX_CONTAINER_MANAGER=podman
+}
+
+write_helpers() {
+  echo "[2/7] Installing launchers to ${BIN_DIR}..."
+  mkdir -p "$BIN_DIR"
+
+  cat > "${BIN_DIR}/neocolab-box" <<'NEOCOLAB_BOX'
+#!/usr/bin/env bash
 set -eu
 
 BOX_NAME="neocolab"
@@ -51,7 +133,6 @@ box_enter() {
   "$DISTROBOX" enter "$BOX_NAME" -- "$@"
 }
 
-# Windows Start Menu / wsl.exe has no TTY; podman exec -t then exits at once.
 distrobox_exec() {
   if [ -t 0 ] && [ -t 1 ]; then
     exec "$DISTROBOX" enter "$BOX_NAME" -- "$@"
@@ -65,9 +146,6 @@ distrobox_exec() {
 }
 
 ensure_binfmt() {
-  # Host binfmt interpreters are not visible in the container, so exec of
-  # an AppImage fails with ENOENT. A private empty binfmt_misc makes the
-  # kernel run the AppImage ELF directly (its own runtime is the parent).
   box_enter sh -c '
     if [ -e /proc/sys/fs/binfmt_misc/appimage_type_2 ] ||
        [ ! -e /proc/sys/fs/binfmt_misc/register ]
@@ -99,35 +177,37 @@ ensure_appimage_deps() {
 }
 
 ensure_cursor() {
-  local theme="${XCURSOR_THEME:-Bibata-Modern-Classic}"
+  local theme="${XCURSOR_THEME:-}"
   local size="${XCURSOR_SIZE:-24}"
   local host_theme=""
 
   mkdir -p "$BOX_HOME/.icons/default" "$BOX_HOME/.config/gtk-3.0"
 
-  for d in \
-    "/run/host/usr/share/icons/${theme}" \
-    "/run/host${HOME}/.local/share/icons/${theme}" \
-    "/run/host${HOME}/.icons/${theme}"
-  do
-    if [ -d "$d" ] || [ -L "$d" ]; then
-      host_theme=$d
-      break
-    fi
-  done
+  if [ -n "$theme" ]; then
+    for d in \
+      "/run/host/usr/share/icons/${theme}" \
+      "/run/host${HOME}/.local/share/icons/${theme}" \
+      "/run/host${HOME}/.icons/${theme}"
+    do
+      if [ -d "$d" ] || [ -L "$d" ]; then
+        host_theme=$d
+        break
+      fi
+    done
+  fi
 
-  [ -n "$host_theme" ] || return 0
-
-  ln -sfn "$host_theme" "$BOX_HOME/.icons/${theme}"
-  cat > "$BOX_HOME/.icons/default/index.theme" <<EOF
+  if [ -n "$host_theme" ]; then
+    ln -sfn "$host_theme" "$BOX_HOME/.icons/${theme}"
+    cat > "$BOX_HOME/.icons/default/index.theme" <<EOF
 [Icon Theme]
 Inherits=${theme}
 EOF
-  cat > "$BOX_HOME/.config/gtk-3.0/settings.ini" <<EOF
+    cat > "$BOX_HOME/.config/gtk-3.0/settings.ini" <<EOF
 [Settings]
 gtk-cursor-theme-name=${theme}
 gtk-cursor-theme-size=${size}
 EOF
+  fi
 }
 
 wait_for_box() {
@@ -226,7 +306,7 @@ install_neo_appimage() {
   chmod +x "${BOX_APPS}/${base}"
 
   case "$base" in
-    Neo-Browser*.AppImage | Neo-Browser*.appimage)
+    Neo-Browser*.AppImage | Neo-Browser*.appimage | *.AppImage | *.appimage)
       ln -sfn "$base" "${BOX_APPS}/${NEO_APPIMAGE}"
       ;;
   esac
@@ -409,7 +489,7 @@ cmd_enter() {
   if [ "$#" -eq 0 ]; then
     exec "$DISTROBOX" enter "$BOX_NAME"
   fi
-  distrobox_exec "$@"
+  exec "$DISTROBOX" enter "$BOX_NAME" -- "$@"
 }
 
 usage() {
@@ -471,6 +551,168 @@ main() {
       cmd_enter "$@"
       ;;
   esac
+}
+
+main "$@"
+NEOCOLAB_BOX
+
+  cat > "${BIN_DIR}/neo-browser" <<'NEO_BROWSER'
+#!/usr/bin/env bash
+set -eu
+exec "$(dirname "$0")/neocolab-box" run Neo-Browser.AppImage "$@"
+NEO_BROWSER
+
+  cat > "${BIN_DIR}/neocolab-chrome" <<'NEO_CHROME'
+#!/usr/bin/env bash
+set -eu
+export PATH="${HOME}/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export DISPLAY="${DISPLAY:-:0}"
+export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-0}"
+export PULSE_SERVER="${PULSE_SERVER:-unix:/mnt/wslg/PulseServer}"
+export ELECTRON_OZONE_PLATFORM_HINT=x11
+export OZONE_PLATFORM=x11
+export GDK_BACKEND=x11
+LOG="${HOME}/.local/share/distrobox/neocolab/chrome-launch.log"
+mkdir -p "$(dirname "$LOG")"
+exec >>"$LOG" 2>&1
+echo "$(date -Iseconds) neocolab-chrome $*"
+if [ ! -t 0 ] && command -v script >/dev/null 2>&1; then
+  exec script -qefc "$(printf '%q ' "${HOME}/.local/bin/neocolab-box" run google-chrome-stable --no-first-run --no-default-browser-check "$@")" /dev/null
+fi
+exec "${HOME}/.local/bin/neocolab-box" run google-chrome-stable --no-first-run --no-default-browser-check "$@"
+NEO_CHROME
+
+  chmod +x "${BIN_DIR}/neocolab-box" "${BIN_DIR}/neo-browser" "${BIN_DIR}/neocolab-chrome"
+
+  # Ensure ~/.local/bin is on PATH for this and future shells.
+  case ":${PATH}:" in
+    *":${BIN_DIR}:"*) ;;
+    *)
+      export PATH="${BIN_DIR}:${PATH}"
+      if [ -f "${HOME}/.zshrc" ] && ! grep -q '\.local/bin' "${HOME}/.zshrc" 2>/dev/null; then
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "${HOME}/.zshrc"
+      fi
+      if [ -f "${HOME}/.bashrc" ] && ! grep -q '\.local/bin' "${HOME}/.bashrc" 2>/dev/null; then
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "${HOME}/.bashrc"
+      fi
+      ;;
+  esac
+}
+
+write_desktop() {
+  echo "[3/7] Installing desktop entry..."
+  mkdir -p "$APPS_DIR" "$ICONS_DIR" "${HOME}/.icons"
+
+  cat > "${APPS_DIR}/neo-browser.desktop" <<EOF
+[Desktop Entry]
+Name=Neo Browser
+Comment=Secure browser for online examinations (NeoColab)
+Exec=${HOME}/.local/bin/neo-browser %U
+Icon=${HOME}/.icons/neo.png
+Type=Application
+Categories=Utility;Education;Network;
+Terminal=false
+StartupNotify=false
+StartupWMClass=neo-browser
+MimeType=x-scheme-handler/neoexam;
+EOF
+
+  cat > "${APPS_DIR}/neocolab-chrome.desktop" <<EOF
+[Desktop Entry]
+Name=Chrome (NeoColab box)
+Comment=Google Chrome inside the neocolab Distrobox
+Exec=${BIN_DIR}/neocolab-chrome %U
+Icon=google-chrome
+Type=Application
+Categories=Network;WebBrowser;
+Terminal=false
+StartupNotify=true
+StartupWMClass=Google-chrome
+EOF
+
+  update-desktop-database "$APPS_DIR" 2>/dev/null || true
+
+  # WSLg Start Menu scan often only sees /usr/share/applications
+  if command -v sudo >/dev/null 2>&1; then
+    sudo mkdir -p /usr/share/applications
+    sudo cp -f "${APPS_DIR}/neo-browser.desktop" \
+      "${APPS_DIR}/neocolab-chrome.desktop" \
+      /usr/share/applications/ 2>/dev/null || true
+    sudo update-desktop-database /usr/share/applications 2>/dev/null || true
+  fi
+}
+
+install_appimage() {
+  local appimage=$1
+  echo "[4/7] Creating box and installing AppImage (first enter can take several minutes)..."
+  echo "      Waiting for Distrobox init is normal — it is not stuck."
+
+  export DBX_CONTAINER_MANAGER=podman
+  "${BIN_DIR}/neocolab-box" install "$appimage"
+}
+
+install_chrome() {
+  echo "[5/7] Installing Google Chrome inside the box..."
+  "${BIN_DIR}/neocolab-box" bash -c '
+    set -e
+    if command -v google-chrome-stable >/dev/null 2>&1; then
+      google-chrome-stable --version
+      exit 0
+    fi
+    cd /tmp
+    curl -fsSL -o google-chrome-stable_current_amd64.deb \
+      https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    sudo apt-get update
+    sudo apt-get install -y ./google-chrome-stable_current_amd64.deb || sudo apt-get install -y -f
+    google-chrome-stable --version
+  '
+}
+
+finish() {
+  echo "[6/7] Done."
+  echo
+  echo "Launch from WSL:"
+  echo "  $BIN_DIR/neo-browser"
+  echo "  $BIN_DIR/neocolab-chrome"
+  echo
+  echo "Windows Start Menu shortcuts are created by install-neocolab.ps1"
+  echo "  Start → NeoColab → Neo Browser"
+  echo
+  echo "From PowerShell (do not export Windows PATH):"
+  echo "  wsl -d Ubuntu -e $BIN_DIR/neo-browser"
+  echo
+  echo "Later upgrades (inside WSL):"
+  echo "  neocolab-box upgrade /path/to/Neo-Browser-x.y.z.AppImage"
+  echo
+  echo "Note: Windows windows can still appear in a full-screen share (WSLg)."
+}
+
+main() {
+  if [ "$#" -ne 1 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    echo "usage: $0 /path/to/Neo-Browser-x.y.z.AppImage" >&2
+    exit 2
+  fi
+
+  local appimage
+  appimage=$(readlink -f "$1") || die "cannot resolve path: $1"
+  [ -f "$appimage" ] || die "no such file: $appimage"
+  case "$appimage" in
+    *.AppImage | *.appimage) ;;
+    *) die "expected an .AppImage file, got: $appimage" ;;
+  esac
+
+  echo "NeoColab installer (WSL2 Ubuntu + Distrobox + Podman)"
+  echo "AppImage: $appimage"
+  echo
+
+  require_wsl
+  install_host_packages
+  write_helpers
+  write_desktop
+  install_appimage "$appimage"
+  install_chrome
+  echo "[7/7] Finished."
+  finish
 }
 
 main "$@"

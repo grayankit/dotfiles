@@ -1,5 +1,7 @@
 # Neo Browser (NeoColab) Distrobox
 
+**How to run the installers:** [neocolab-scripts.md](neocolab-scripts.md)
+
 Ubuntu 24.04 box for [Examly Neo Browser](https://lpucolab438.examly.io/) on Arch. Isolated from the host PID namespace and from CodeTantra’s `ubuntu22` box.
 
 ## Layout
@@ -23,6 +25,17 @@ From the apps menu, or:
 ```bash
 neo-browser
 ```
+
+### Chrome in the same box (visibility tests)
+
+Google Chrome is installed inside **`neocolab`** (same PID/IPC isolation, same shared display as Neo):
+
+```bash
+neocolab-chrome
+# or apps menu: "Chrome (NeoColab box)"
+```
+
+Use it to check what screen capture / `getDisplayMedia` sees from inside the box. Other Hyprland/niri workspaces on the shared monitor still appear in a full-monitor share.
 
 Prefer the menu / `gtk-launch neo-browser` over a shell. Neo can reject some parent process names (`zsh`, `timeout`, …).
 
@@ -56,6 +69,16 @@ It will:
 5. Create the `neocolab` box and install the AppImage
 
 Re-run with a newer AppImage to upgrade.
+
+## Windows (WSL2)
+
+See [neocolab-wsl.md](neocolab-wsl.md). From PowerShell:
+
+```powershell
+.\scripts\install-neocolab.ps1 .\Neo-Browser-x.y.z.AppImage
+```
+
+Uses WSL2 Ubuntu + Podman + Distrobox. Do not use Docker Desktop for GUI.
 
 ## Upgrade
 
