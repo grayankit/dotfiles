@@ -34,10 +34,23 @@ hl.bind(
 	hl.dsp.exec_cmd("wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-"),
 	{ repeating = true }
 )
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("$HOME/.config/scripts/brightness-notify.sh up"), { repeating = true })
+-- Brightness goes through DMS's own brightness service instead of a helper
+-- script: it renders the native BrightnessOSD, targets the preferred device
+-- (pinned to the focused screen, else the default), and drives the external
+-- panel's DDC natively - no ddcutil + /tmp + flock polling loop.
+--
+-- NOTE: BOTH ipc args are mandatory. The CLI validates arity before the QML
+-- `step || "5"` / `device || getPreferredDevice()` defaults can apply, so
+-- passing an empty device is what selects the preferred one. Omitting it
+-- fails with "Too few arguments provided (2 required but 1 were provided)".
+hl.bind(
+	"XF86MonBrightnessUp",
+	hl.dsp.exec_cmd('dms ipc call brightness increment 1 ""'),
+	{ repeating = true }
+)
 hl.bind(
 	"XF86MonBrightnessDown",
-	hl.dsp.exec_cmd("$HOME/.config/scripts/brightness-notify.sh down"),
+	hl.dsp.exec_cmd('dms ipc call brightness decrement 1 ""'),
 	{ repeating = true }
 )
 hl.bind(
