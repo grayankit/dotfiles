@@ -5,9 +5,14 @@ DOTFILES="${DOTFILES:-$HOME/dotfiles}"
 PACMAN_LIST="$DOTFILES/pkglist-pacman.txt"
 AUR_LIST="$DOTFILES/pkglist-aur.txt"
 
+# NOTE: only packages that come from the official repos belong here -
+# `pacman -S` fails on AUR packages. You run the AUR nightly wezterm
+# (wezterm-nightly-bin) and quickshell is pulled in automatically as a
+# dependency of dms-shell, so neither is listed; both are covered below
+# by pkglist-aur.txt / dms-shell's own deps.
 echo "[*] Installing essential packages..."
 sudo pacman -S --needed base-devel git stow zsh neovim tmux \
-  dms-shell quickshell matugen wtype wezterm
+  dms-shell matugen wtype
 
 if [[ -f "$PACMAN_LIST" ]]; then
   echo "[*] Restoring official packages from pkglist-pacman.txt..."
