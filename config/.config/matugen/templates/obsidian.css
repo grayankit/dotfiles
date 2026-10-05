@@ -1,0 +1,71 @@
+.theme-dark {
+    --background-primary: {{colors.background.default.hex}};
+    --background-primary-alt: {{dank16.color0.default.hex}};
+    --background-secondary: {{dank16.color0.default.hex}};
+    --background-secondary-alt: {{dank16.color0.default.hex | to_color | lighten: 8.0}};
+    --background-modifier-border: {{dank16.color8.default.hex}};
+    --background-modifier-border-hover: {{dank16.color4.default.hex | to_color | lighten: 25.0}};
+    --background-modifier-border-focus: {{dank16.color4.default.hex | to_color | lighten: 35.0}};
+    --background-modifier-form-field: {{dank16.color0.default.hex | to_color | lighten: 6.0}};
+    --background-modifier-hover: {{dank16.color0.default.hex | to_color | lighten: 10.0}};
+    --background-modifier-active-hover: {{dank16.color0.default.hex | to_color | lighten: 14.0}};
+    --background-modifier-cover: {{colors.background.default.hex}};
+
+    --text-normal: {{colors.on_surface.default.hex}};
+    --text-muted: {{dank16.color7.default.hex}};
+    --text-faint: {{dank16.color8.default.hex}};
+    --text-on-accent: {{colors.background.default.hex}};
+    --text-accent: {{dank16.color4.default.hex | to_color | lighten: 35.0}};
+    --text-accent-hover: {{dank16.color4.default.hex | to_color | lighten: 45.0}};
+    --text-error: {{dank16.color1.default.hex | to_color | lighten: 40.0}};
+    --text-success: {{dank16.color2.default.hex | to_color | lighten: 40.0}};
+    --text-selection: {{dank16.color4.default.hex | to_color | lighten: 20.0}};
+
+    --interactive-normal: {{dank16.color0.default.hex | to_color | lighten: 10.0}};
+    --interactive-hover: {{dank16.color0.default.hex | to_color | lighten: 16.0}};
+    --interactive-accent: {{dank16.color4.default.hex | to_color | lighten: 30.0}};
+    --interactive-accent-hover: {{dank16.color4.default.hex | to_color | lighten: 40.0}};
+
+    --titlebar-background: {{colors.background.default.hex}};
+    --titlebar-background-focused: {{dank16.color0.default.hex}};
+    --titlebar-text-color-focused: {{colors.on_surface.default.hex}};
+
+    --ribbon-background: {{colors.background.default.hex}};
+    --tab-container-background: {{colors.background.default.hex}};
+    --tab-active-background: {{dank16.color0.default.hex}};
+    --nav-item-color: {{colors.on_surface.default.hex}};
+    --nav-item-background-active: {{dank16.color0.default.hex | to_color | lighten: 10.0}};
+    --nav-item-color-active: {{colors.on_surface.default.hex}};
+    --nav-item-color-hover: {{colors.on_surface.default.hex}};
+
+    --scrollbar-bg: {{colors.background.default.hex}};
+    --scrollbar-thumb-bg: {{dank16.color4.default.hex | to_color | lighten: 25.0}};
+
+    --h1-color: {{colors.on_surface.default.hex}};
+    --h2-color: {{dank16.color4.default.hex | to_color | lighten: 40.0}};
+    --h3-color: {{dank16.color6.default.hex | to_color | lighten: 30.0}};
+    --h4-color: {{dank16.color3.default.hex | to_color | lighten: 30.0}};
+    --h5-color: {{dank16.color7.default.hex}};
+    --h6-color: {{dank16.color8.default.hex}};
+
+    --link-color: {{dank16.color4.default.hex | to_color | lighten: 40.0}};
+    --link-color-hover: {{dank16.color4.default.hex | to_color | lighten: 50.0}};
+    --link-unresolved-color: {{dank16.color1.default.hex | to_color | lighten: 35.0}};
+    --tag-color: {{dank16.color5.default.hex | to_color | lighten: 35.0}};
+    --tag-background: {{dank16.color0.default.hex | to_color | lighten: 8.0}};
+
+    --code-normal: {{colors.on_surface.default.hex}};
+    --code-background: {{dank16.color0.default.hex | to_color | lighten: 6.0}};
+    --inline-code: {{dank16.color6.default.hex | to_color | lighten: 30.0}};
+
+    --graph-node: {{dank16.color4.default.hex | to_color | lighten: 35.0}};
+    --graph-line: {{dank16.color8.default.hex}};
+    --graph-node-focused: {{colors.on_surface.default.hex}};
+    --graph-node-unresolved: {{dank16.color1.default.hex | to_color | lighten: 35.0}};
+    --graph-node-tag: {{dank16.color5.default.hex | to_color | lighten: 35.0}};
+    --graph-node-attachment: {{dank16.color3.default.hex | to_color | lighten: 30.0}};
+
+    --prompt-border-color: {{dank16.color8.default.hex}};
+    --modal-border-color: {{dank16.color8.default.hex}};
+    --divider-color: {{dank16.color8.default.hex}};
+}

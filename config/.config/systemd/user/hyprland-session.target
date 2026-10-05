@@ -1,0 +1,18 @@
+[Unit]
+Description=Hyprland Session Target
+BindsTo=graphical-session.target
+
+# Session prerequisites + DMS itself, wanted INLINE rather than through a
+# .wants/ directory: systemd does not follow a symlinked .wants/ dir, and
+# stow requires .wants/ to be a symlink. Inlining also keeps the dependency
+# visible in `systemctl show -p Wants`.
+#
+# NO Before=graphical-session.target here: dms.service declares
+# After=/Requisite= graphical-session.target, and a .target gains
+# After= on everything it Wants. Declaring Before= therefore closed a
+# cycle (target -> graphical-session.target -> dms -> target) and systemd
+# broke it by DELETING the dms start job, leaving no shell at login.
+# Correct order is:
+#   graphical-session-pre -> graphical-session.target -> dms -> this target
+Wants=graphical-session-pre.target dms.service
+After=graphical-session-pre.target graphical-session.target

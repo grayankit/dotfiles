@@ -3,15 +3,21 @@ set -e
 
 echo "[*] Cleaning up ~/.config for stow..."
 
-CONFIG_APPS=(hypr nvim waybar alacritty tmux wlogout ml4w rofi scripts yazi beets eww dunst wallust nmtui wiremix gtk-3.0 gtk-4.0)
+CONFIG_APPS=(hypr nvim alacritty tmux ml4w rofi scripts yazi beets nmtui matugen systemd)
 
 for app in "${CONFIG_APPS[@]}"; do
   if [ -L "$HOME/.config/$app" ]; then
     echo "  - Removing symlink: $app"
     rm "$HOME/.config/$app"
   elif [ -d "$HOME/.config/$app" ]; then
-    echo "  - Moving folder: $app"
-    mv "$HOME/.config/$app" "$HOME/dotfiles/config/.config/"
+    if [ -e "$HOME/dotfiles/config/.config/$app" ]; then
+      # Never `mv` a dir onto an existing repo dir: mv would nest it as
+      # <dest>/<app>/ instead of replacing, silently corrupting the repo.
+      echo "  - Skipping $app (already present in dotfiles)"
+    else
+      echo "  - Moving folder: $app"
+      mv "$HOME/.config/$app" "$HOME/dotfiles/config/.config/"
+    fi
   fi
 done
 

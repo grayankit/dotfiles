@@ -1,0 +1,19 @@
+{
+  "base": "dark",
+  "colors": {
+    "window": "{{colors.background.default.hex}}",
+    "panel": "{{dank16.color0.default.hex}}",
+    "surface": "{{dank16.color0.default.hex | to_color | lighten: 8.0}}",
+    "surface_hover": "{{dank16.color0.default.hex | to_color | lighten: 12.0}}",
+    "surface_active": "{{dank16.color0.default.hex | to_color | lighten: 18.0}}",
+    "outline": "{{dank16.color8.default.hex}}",
+    "text": "{{colors.on_surface.default.hex}}",
+    "secondary": "{{dank16.color7.default.hex}}",
+    "dim": "{{dank16.color7.default.hex | to_color | lighten: -20.0}}",
+    "accent": "{{dank16.color4.default.hex | to_color | lighten: 30.0}}",
+    "accent_hover": "{{dank16.color4.default.hex | to_color | lighten: 40.0}}",
+    "on_accent": "{{colors.background.default.hex}}",
+    "danger": "{{dank16.color1.default.hex | to_color | lighten: 40.0}}",
+    "warning": "{{dank16.color3.default.hex | to_color | lighten: 35.0}}"
+  }
+}

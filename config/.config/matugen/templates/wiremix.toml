@@ -1,0 +1,16 @@
+theme = "wallust"
+mouse = true
+peaks = "auto"
+
+[themes.wallust]
+inherit = "default"
+selector = { fg = "{{dank16.color4.default.hex}}", add_modifier = "BOLD" }
+tab = { fg = "{{dank16.color7.default.hex}}" }
+tab_selected = { fg = "{{colors.on_surface.default.hex}}", add_modifier = "BOLD" }
+volume_filled = { fg = "{{dank16.color4.default.hex}}" }
+volume_empty = { fg = "{{dank16.color8.default.hex}}" }
+meter_active = { fg = "{{dank16.color3.default.hex}}" }
+meter_inactive = { fg = "{{dank16.color8.default.hex}}" }
+meter_overload = { fg = "{{dank16.color1.default.hex}}", add_modifier = "BOLD" }
+dropdown_selected = { fg = "{{colors.background.default.hex}}", bg = "{{dank16.color4.default.hex}}" }
+default_device = { fg = "{{dank16.color6.default.hex}}" }

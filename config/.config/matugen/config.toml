@@ -1,0 +1,61 @@
+# matugen user templates — merged into DMS's own matugen run
+# (`dms matugen generate`; --run-user-templates defaults true and Theme.qml
+# never passes the flag, so the default always holds).
+#
+# DMS reads <configDir>/matugen/config.toml where configDir is
+# StandardPaths.ConfigLocation (= ~/.config). It copies from the first literal
+# config-table marker to end of file, prepends that to its merged config, then
+# appends its own built-in templates. This file is therefore additive.
+#
+# WARNING: extraction is a plain substring search, not a TOML parse. Never write
+# the bracketed table markers in prose in this file — a comment mentioning them
+# matches mid-comment and corrupts the merged config.
+#
+# Replaces wallust/wallust.toml. Of wallust's 13 templates:
+#   ported below ................ keyboard, cava, wiremix, spotifast, obsidian x2
+#   now owned by DMS ............ hyprland, wezterm, gtk3, gtk4, kde, vesktop
+#   retired with the app ........ waybar, rofi, dunst
+#
+# Paths must be absolute — DMS does no ~ expansion here.
+# Output filenames keep their wallust-era names on purpose so the consumers
+# (cava config, wiremix config, spotifast settings, obsidian appearance.json)
+# keep working untouched.
+
+[config]
+
+# --- keyboard backlight (consumed by scripts/sync-keyboard-rgb.py) -----------
+[templates.keyboard]
+input_path = '/home/narayan/.config/matugen/templates/keyboard.txt'
+output_path = '/home/narayan/.config/scripts/keyboard-color.txt'
+post_hook = '/home/narayan/.config/scripts/sync-keyboard-rgb.sh'
+
+# --- cava (config has `theme = wallust`) -------------------------------------
+[templates.cava]
+input_path = '/home/narayan/.config/matugen/templates/cava.conf'
+output_path = '/home/narayan/.config/cava/themes/wallust'
+post_hook = 'pkill -USR2 cava || true'
+
+# --- wiremix (config has `theme = "wallust"`) --------------------------------
+# post_hook activates the KDE scheme too: DMS already GENERATES
+# ~/.local/share/color-schemes/DankMatugen.colors (its own kcolorscheme
+# template), but nothing activates it — kdeglobals still said Wallust1.
+# No kde entry here on purpose, it would collide with DMS's output path.
+[templates.wiremix]
+input_path = '/home/narayan/.config/matugen/templates/wiremix.toml'
+output_path = '/home/narayan/.config/wiremix/wiremix.toml'
+post_hook = '/home/narayan/.config/scripts/apply-kde-colors.sh'
+
+# --- spotifast / fastpotify (settings has `custom_theme: wallust.json`) ------
+[templates.spotifast]
+input_path = '/home/narayan/.config/matugen/templates/spotifast.json'
+output_path = '/home/narayan/.config/fastpotify/themes/wallust.json'
+post_hook = 'command -v spotifast >/dev/null 2>&1 && spotifast reload-themes || true'
+
+# --- obsidian snippets (both vaults share one template) ----------------------
+[templates.obsidian-personal]
+input_path = '/home/narayan/.config/matugen/templates/obsidian.css'
+output_path = '/home/narayan/vaults/personal/.obsidian/snippets/wallust.css'
+
+[templates.obsidian-spells]
+input_path = '/home/narayan/.config/matugen/templates/obsidian.css'
+output_path = '/home/narayan/Documents/Spells/.obsidian/snippets/wallust.css'

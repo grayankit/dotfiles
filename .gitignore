@@ -4,7 +4,6 @@ tmp/
 config/.config/hypr/dms/colors.lua
 config/.config/scripts/keyboard-color.txt
 config/.config/scripts/keyboard-color.prev
-config/.config/rofi/colors.rasi
 config/.config/nvim/colors/
 config/.config/nvim/lua/lualine/
 config/.config/gtk-3.0/gtk.css
