@@ -1,0 +1,62 @@
+/* youtube.com — DMS palette via Zen's userContent.css.
+ *
+ * Current YouTube (color-version=v2_0) has NO CSS color variables — colors are
+ * literals — so this retints the structural surfaces instead (verified live).
+ * Every rule is gated on html[dark]: when YouTube itself is in light theme,
+ * nothing changes (dark literals would keep the page readable, palette
+ * surfaces would not). Brand red, the video player and status greens are kept.
+ */
+@-moz-document domain("youtube.com") {
+	/* page base */
+	html[dark],
+	html[dark] ytd-app,
+	html[dark] #page-manager {
+		background-color: var(--zen-main-browser-background, #131318) !important;
+		color: var(--toolbar-color, #e4e1e9) !important;
+	}
+
+	/* masthead (translucent bar that content scrolls under) */
+	html[dark] ytd-masthead div#background {
+		background-color: color-mix(
+				in srgb,
+				var(--arrowpanel-background, #1f1f25) 88%,
+				transparent
+			) !important;
+	}
+
+	/* guide sidebar */
+	html[dark] #guide-content,
+	html[dark] #contentContainer.tp-yt-app-drawer {
+		background-color: var(--arrowpanel-background, #1f1f25) !important;
+	}
+
+	/* search field */
+	html[dark] ytd-searchbox #search-input {
+		background-color: color-mix(
+				in srgb,
+				var(--toolbar-color, #e4e1e9) 9%,
+				var(--zen-main-browser-background, #131318)
+			) !important;
+	}
+	html[dark] ytd-searchbox input {
+		color: var(--toolbar-color, #e4e1e9) !important;
+	}
+
+	/* filter chips on home/search */
+	html[dark] yt-chip-cloud-chip-renderer #container {
+		background-color: color-mix(
+				in srgb,
+				var(--toolbar-color, #e4e1e9) 10%,
+				var(--arrowpanel-background, #1f1f25)
+			) !important;
+	}
+	html[dark] yt-chip-cloud-chip-renderer .yt-formatted-string {
+		color: var(--toolbar-color, #e4e1e9) !important;
+	}
+
+	/* description & comment links: blue -> palette accent */
+	html[dark] #description a,
+	html[dark] ytd-comment-thread-renderer #content-text a {
+		color: var(--toolbarbutton-icon-fill, #bec2ff) !important;
+	}
+}

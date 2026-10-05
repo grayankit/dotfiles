@@ -1,0 +1,175 @@
+/* wikipedia.org (all language subdomains) — DMS palette via Zen's userContent.css.
+ *
+ * MediaWiki's modern Vector skin is token-driven: an @media screen :root block
+ * defines --color-* (verified live — their night theme is just a second value
+ * set on html.skin-theme-clientpref-night). We remap the neutral/progressive
+ * tokens to the palette and keep semantics (error/warning/success/diff
+ * options/ANSI) intact. Container backgrounds are literal #fff/#f8f9fa, so
+ * those get painted structurally, along with a text flip for leaves that
+ * hardcode dark ink.
+ */
+@-moz-document domain("wikipedia.org") {
+	:root {
+		color-scheme: dark !important;
+		accent-color: var(--toolbarbutton-icon-fill, #bec2ff) !important;
+
+		/* text family (--color-base is the primary TEXT token) */
+		--color-base: var(--toolbar-color, #e4e1e9) !important;
+		--color-base-fixed: var(--toolbar-color, #e4e1e9) !important;
+		--color-base--hover: color-mix(
+				in srgb,
+				var(--toolbar-color, #e4e1e9) 86%,
+				var(--toolbarbutton-icon-fill, #bec2ff)
+			) !important;
+		--color-base--subtle: color-mix(
+				in srgb,
+				var(--toolbar-color, #e4e1e9) 70%,
+				var(--zen-main-browser-background, #131318)
+			) !important;
+		--color-emphasized: var(--toolbar-color, #e4e1e9) !important;
+		--color-neutral: color-mix(
+				in srgb,
+				var(--toolbar-color, #e4e1e9) 78%,
+				var(--zen-main-browser-background, #131318)
+			) !important;
+		--color-subtle: color-mix(
+				in srgb,
+				var(--toolbar-color, #e4e1e9) 64%,
+				var(--zen-main-browser-background, #131318)
+			) !important;
+		--color-placeholder: color-mix(
+				in srgb,
+				var(--toolbar-color, #e4e1e9) 55%,
+				var(--zen-main-browser-background, #131318)
+			) !important;
+		--color-disabled: color-mix(
+				in srgb,
+				var(--toolbar-color, #e4e1e9) 42%,
+				var(--zen-main-browser-background, #131318)
+			) !important;
+		--color-disabled-emphasized: color-mix(
+				in srgb,
+				var(--toolbar-color, #e4e1e9) 52%,
+				var(--zen-main-browser-background, #131318)
+			) !important;
+		--color-inverted: var(--zen-main-browser-background, #131318) !important;
+		--color-inverted-fixed: var(--zen-main-browser-background, #131318) !important;
+
+		/* links */
+		--color-progressive: var(--toolbarbutton-icon-fill, #bec2ff) !important;
+		--color-progressive--hover: color-mix(
+				in srgb,
+				var(--toolbarbutton-icon-fill, #bec2ff) 84%,
+				white
+			) !important;
+		--color-progressive--active: color-mix(
+				in srgb,
+				var(--toolbarbutton-icon-fill, #bec2ff) 76%,
+				black
+			) !important;
+		--color-progressive--focus: var(--toolbarbutton-icon-fill, #bec2ff) !important;
+		--color-visited: color-mix(
+				in srgb,
+				var(--toolbarbutton-icon-fill, #bec2ff) 62%,
+				var(--zen-primary-color, #3d4279)
+			) !important;
+		--color-visited--hover: color-mix(
+				in srgb,
+				var(--toolbarbutton-icon-fill, #bec2ff) 72%,
+				var(--zen-primary-color, #3d4279)
+			) !important;
+		--color-visited--active: color-mix(
+				in srgb,
+				var(--toolbarbutton-icon-fill, #bec2ff) 55%,
+				var(--zen-primary-color, #3d4279)
+			) !important;
+		--color-icon-progressive: var(--toolbarbutton-icon-fill, #bec2ff) !important;
+		--color-icon-notice: color-mix(
+				in srgb,
+				var(--toolbar-color, #e4e1e9) 58%,
+				var(--zen-main-browser-background, #131318)
+			) !important;
+
+		/* surfaces */
+		--color-surface: var(--zen-main-browser-background, #131318) !important;
+		--color-surface--neutral: var(--zen-main-browser-background, #131318) !important;
+		--color-surface--raised: var(--arrowpanel-background, #1f1f25) !important;
+		--color-content-background: var(--zen-main-browser-background, #131318) !important;
+		--color-content-text: var(--toolbar-color, #e4e1e9) !important;
+		--color-header-background: var(--zen-main-browser-background, #131318) !important;
+		--color-border: color-mix(in srgb, var(--toolbar-color, #e4e1e9) 16%, transparent) !important;
+		--color-line: color-mix(in srgb, var(--toolbar-color, #e4e1e9) 16%, transparent) !important;
+		--color-text: var(--toolbar-color, #e4e1e9) !important;
+		--color-text--subtle: color-mix(
+				in srgb,
+				var(--toolbar-color, #e4e1e9) 70%,
+				var(--zen-main-browser-background, #131318)
+			) !important;
+		--color-subtle-background: var(--arrowpanel-background, #1f1f25) !important;
+		--color-emphasized-background: color-mix(
+				in srgb,
+				var(--arrowpanel-background, #1f1f25) 85%,
+				var(--zen-main-browser-background, #131318)
+			) !important;
+	}
+
+	/* page shells (literal #fff / #f8f9fa) */
+	html,
+	body,
+	.mw-page-container,
+	.mw-page-container-main,
+	.vector-header-container,
+	.mw-header,
+	.mw-footer-container,
+	.mw-body,
+	#content {
+		background-color: var(--zen-main-browser-background, #131318) !important;
+		color: var(--toolbar-color, #e4e1e9) !important;
+	}
+
+	#firstHeading {
+		color: var(--toolbar-color, #e4e1e9) !important;
+	}
+
+	/* flip literal dark ink to inherit the palette text color (links and
+	 * semantic colors live on <a>, which is deliberately not in this list) */
+	body
+		:is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, th, td, div, span, strong, em, b, i, small, sub, sup, blockquote, pre, code, caption, figcaption, legend, label, summary, dl, ul, ol) {
+		color: inherit !important;
+	}
+
+	/* elevated cards / boxes */
+	.infobox,
+	table.infobox th,
+	table.infobox td,
+	.toc,
+	#toc,
+	table.wikitable,
+	table.wikitable > * > th,
+	.navbox,
+	.navbox-group,
+	.navbox-title,
+	.navbox-abovebelow,
+	.mbox,
+	.ambox,
+	pre,
+	.mw-highlight,
+	code {
+		background-color: var(--arrowpanel-background, #1f1f25) !important;
+		color: var(--toolbar-color, #e4e1e9) !important;
+	}
+
+	/* forms */
+	.mw-ui-button,
+	input,
+	textarea,
+	select {
+		background-color: var(--arrowpanel-background, #1f1f25) !important;
+		color: var(--toolbar-color, #e4e1e9) !important;
+		border-color: color-mix(in srgb, var(--toolbar-color, #e4e1e9) 20%, transparent) !important;
+	}
+	.mw-ui-primary {
+		background-color: var(--toolbarbutton-icon-fill, #bec2ff) !important;
+		color: var(--zen-main-browser-background, #131318) !important;
+	}
+}

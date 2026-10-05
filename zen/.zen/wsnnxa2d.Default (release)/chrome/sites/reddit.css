@@ -1,0 +1,53 @@
+/* reddit.com — DMS palette via Zen's userContent.css.
+ *
+ * New Reddit (shreddit) is token-driven: --color-* custom properties on :root
+ * (verified live in both light #fff and dark #0e1113 states). The black feed
+ * column and utility-class surfaces get structural fallbacks. Vote/status
+ * colors (upvote orange, awards, flairs) stay semantic.
+ */
+@-moz-document domain("reddit.com") {
+	:root,
+	body {
+		color-scheme: dark !important;
+
+		--color-neutral-background: var(--zen-main-browser-background, #131318) !important;
+		--color-neutral-background-hover: color-mix(
+				in srgb,
+				var(--toolbar-color, #e4e1e9) 8%,
+				var(--zen-main-browser-background, #131318)
+			) !important;
+		--color-secondary-background: var(--arrowpanel-background, #1f1f25) !important;
+		--color-secondary-background-hover: color-mix(
+				in srgb,
+				var(--arrowpanel-background, #1f1f25) 88%,
+				var(--toolbar-color, #e4e1e9)
+			) !important;
+		--color-border: color-mix(in srgb, var(--toolbar-color, #e4e1e9) 16%, transparent) !important;
+		--color-highlight-background: color-mix(
+				in srgb,
+				var(--zen-primary-color, #3d4279) 45%,
+				transparent
+			) !important;
+		--color-action-font: var(--toolbarbutton-icon-fill, #bec2ff) !important;
+		--color-global-blue: var(--toolbarbutton-icon-fill, #bec2ff) !important;
+		accent-color: var(--toolbarbutton-icon-fill, #bec2ff) !important;
+	}
+
+	body,
+	shreddit-app {
+		background-color: var(--zen-main-browser-background, #131318) !important;
+		color: var(--toolbar-color, #e4e1e9) !important;
+	}
+
+	/* the black main feed column + header (structural fallbacks) */
+	shreddit-app > div,
+	header.v2,
+	[class*="bg-black"],
+	[class*="bg-[#000]"],
+	[class*="bg-neutral-background"] {
+		background-color: var(--zen-main-browser-background, #131318) !important;
+	}
+	[class*="bg-secondary-background"] {
+		background-color: var(--arrowpanel-background, #1f1f25) !important;
+	}
+}

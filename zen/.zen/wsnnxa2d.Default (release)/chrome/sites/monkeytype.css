@@ -1,0 +1,27 @@
+/* monkeytype.com — DMS palette via Zen's userContent.css.
+ *
+ * Monkeytype's theme system is pure :root custom properties (verified live:
+ * --bg-color, --main-color, --sub-color, --sub-alt-color, --text-color,
+ * --caret-color). User-origin !important beats the site's selected theme.
+ * Error colors (--error-color family) stay semantic.
+ */
+@-moz-document domain("monkeytype.com") {
+	:root,
+	body {
+		--bg-color: var(--zen-main-browser-background, #131318) !important;
+		--sub-alt-color: var(--arrowpanel-background, #1f1f25) !important;
+		--main-color: var(--toolbarbutton-icon-fill, #bec2ff) !important;
+		--caret-color: var(--toolbarbutton-icon-fill, #bec2ff) !important;
+		--sub-color: color-mix(
+				in srgb,
+				var(--toolbar-color, #e4e1e9) 60%,
+				var(--zen-main-browser-background, #131318)
+			) !important;
+		--text-color: var(--toolbar-color, #e4e1e9) !important;
+	}
+
+	body {
+		background-color: var(--zen-main-browser-background, #131318) !important;
+		color: var(--toolbar-color, #e4e1e9) !important;
+	}
+}

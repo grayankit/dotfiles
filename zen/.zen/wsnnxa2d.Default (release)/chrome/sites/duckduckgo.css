@@ -1,0 +1,46 @@
+/* duckduckgo.com — DMS palette via Zen's userContent.css.
+ *
+ * DuckDuckGo has no useful color tokens for the SERP (verified live: SDS
+ * palette aside, surfaces are literals like #181818/#161616), so this is a
+ * structural retint. Gated on prefers-color-scheme: dark — DDG themes itself
+ * from the system, so the gate applies exactly when DDG is dark. Link blues
+ * map to the palette accent; the duck-orange branding is an image and stays.
+ */
+@-moz-document domain("duckduckgo.com") {
+	@media (prefers-color-scheme: dark) {
+		body,
+		body.body--serp,
+		div.site-wrapper,
+		.js-site-wrapper {
+			background-color: var(--zen-main-browser-background, #131318) !important;
+			color: var(--toolbar-color, #e4e1e9) !important;
+		}
+
+		#header_wrapper,
+		.header-wrap,
+		#zero_click_wrapper,
+		.zci-wrap,
+		.footer,
+		.nav-menu--slideout {
+			background-color: var(--arrowpanel-background, #1f1f25) !important;
+		}
+
+		body a {
+			color: var(--toolbarbutton-icon-fill, #bec2ff) !important;
+		}
+		body a:hover {
+			color: color-mix(in srgb, var(--toolbarbutton-icon-fill, #bec2ff) 84%, white) !important;
+		}
+
+		input[type="text"],
+		input[type="search"],
+		textarea {
+			background-color: color-mix(
+					in srgb,
+					var(--toolbar-color, #e4e1e9) 9%,
+					var(--zen-main-browser-background, #131318)
+				) !important;
+			color: var(--toolbar-color, #e4e1e9) !important;
+		}
+	}
+}

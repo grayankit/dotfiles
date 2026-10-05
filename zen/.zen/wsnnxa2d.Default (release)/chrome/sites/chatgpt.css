@@ -1,0 +1,87 @@
+/* chatgpt.com / chat.openai.com — DMS palette via Zen's userContent.css.
+ *
+ * Two layers: (1) the --main-surface-*/--text-* variable map that the
+ * token-driven builds consume, (2) structural fallbacks for the current
+ * hashed-class builds (verified live: body/main/shell paint literals).
+ * Gated on prefers-color-scheme: dark so a light-pinned ChatGPT stays
+ * untouched. Accent blues map to the palette; error/warning hues stay.
+ */
+@-moz-document domain("chatgpt.com"), domain("chat.openai.com") {
+	@media (prefers-color-scheme: dark) {
+		:root,
+		body,
+		main {
+			color-scheme: dark !important;
+
+			--main-surface-primary: var(--zen-main-browser-background, #131318) !important;
+			--main-surface-secondary: var(--arrowpanel-background, #1f1f25) !important;
+			--main-surface-tertiary: color-mix(
+					in srgb,
+					var(--arrowpanel-background, #1f1f25) 70%,
+					var(--zen-main-browser-background, #131318)
+				) !important;
+			--message-surface: color-mix(
+					in srgb,
+					var(--arrowpanel-background, #1f1f25) 60%,
+					var(--zen-main-browser-background, #131318)
+				) !important;
+			--sidebar-surface-primary: var(--zen-main-browser-background, #131318) !important;
+			--sidebar-surface-secondary: var(--arrowpanel-background, #1f1f25) !important;
+			--text-primary: var(--toolbar-color, #e4e1e9) !important;
+			--text-secondary: color-mix(
+					in srgb,
+					var(--toolbar-color, #e4e1e9) 70%,
+					var(--zen-main-browser-background, #131318)
+				) !important;
+			--link: var(--toolbarbutton-icon-fill, #bec2ff) !important;
+			--border: color-mix(in srgb, var(--toolbar-color, #e4e1e9) 16%, transparent) !important;
+			--border-light: color-mix(in srgb, var(--toolbar-color, #e4e1e9) 12%, transparent) !important;
+			accent-color: var(--toolbarbutton-icon-fill, #bec2ff) !important;
+		}
+
+		/* structural fallbacks (hashed-class builds paint literals) */
+		body,
+		main,
+		[data-testid="desktop-app-shell"] {
+			background-color: var(--zen-main-browser-background, #131318) !important;
+			color: var(--toolbar-color, #e4e1e9) !important;
+		}
+		/* sidebar: current build uses <aside> with hashed classes (verified live),
+		 * token builds use nav/testids — cover both */
+		aside,
+		aside > div,
+		aside > div > div,
+		nav,
+		[data-testid="sidebar"],
+		[data-testid*="sidebar" i] {
+			background-color: var(--zen-main-browser-background, #131318) !important;
+		}
+		dialog,
+		[role="dialog"],
+		[role="menu"] {
+			background-color: var(--arrowpanel-background, #1f1f25) !important;
+			color: var(--toolbar-color, #e4e1e9) !important;
+		}
+
+		/* token utility classes (present in token-driven builds) */
+		[class*="bg-token-main-surface-primary"] {
+			background-color: var(--zen-main-browser-background, #131318) !important;
+		}
+		[class*="bg-token-main-surface-secondary"] {
+			background-color: var(--arrowpanel-background, #1f1f25) !important;
+		}
+		[class*="bg-token-sidebar-surface-primary"] {
+			background-color: var(--zen-main-browser-background, #131318) !important;
+		}
+		[class*="text-token-text-primary"] {
+			color: var(--toolbar-color, #e4e1e9) !important;
+		}
+		[class*="text-token-text-secondary"] {
+			color: color-mix(
+					in srgb,
+					var(--toolbar-color, #e4e1e9) 70%,
+					var(--zen-main-browser-background, #131318)
+				) !important;
+		}
+	}
+}

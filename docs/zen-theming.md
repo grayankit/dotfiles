@@ -11,7 +11,8 @@ wallpaper change
   └─ dms/matugen regenerates ~/.config/DankMaterialShell/zen.css
        └─ chrome/dms.css (symlink) feeds it to:
             ├─ userChrome.css  → browser chrome (toolbar, sidebar, tabs)
-            └─ userContent.css → internal about: pages
+            └─ userContent.css → internal about: pages + websites
+                                 (websites: chrome/sites/*.css, one per domain)
 ```
 
 `custom.css` (hand-written) adds the personal touches: palette sidebar and
@@ -20,11 +21,51 @@ defaults to black), radii, and border cleanup.
 
 ## Reload rules (empirically verified 2026-10-05)
 
-- **`userContent.css` (about: pages)** — re-read **per document**: open a new
-  tab to see changes. No restart needed.
+- **`userContent.css` (about: pages + themed websites)** — re-read **per
+  document**: open a new tab to see changes. No restart needed.
 - **`userChrome.css` / `dms.css` / `custom.css` (chrome colors)** — loaded once
   at startup. **Restart Zen after a wallpaper change** to pick up the new
   palette. (Live-editing `zen.css` while Zen runs does nothing — tested.)
+
+## Websites (`chrome/sites/`)
+
+`userContent.css` imports one file per website from `chrome/sites/`, each
+wrapped in `@-moz-document domain("…")` so only that site is affected. The
+site CSS reads the same `dms.css` palette as the about: pages, so a wallpaper
+change restyles every site on the next tab. Two rules for site files:
+
+- every override needs `!important` (it has to beat the site's own styles);
+- keep the light-mode gates (`html[dark]`, `@media (prefers-color-scheme:
+  dark)`) so light visits are never force-darkened.
+
+### Per-site mechanism
+
+| site | mechanism |
+|---|---|
+| GitHub | Primer token remap on `:root`/body (`--bgColor-*`, `--fgColor-*`, `--borderColor-*`, grey `--button-default/outline-*`) + `color-scheme: dark`; `--button-primary-*` (GitHub's green CTA), status colors and ANSI stay untouched |
+| YouTube | structural retint gated on `html[dark]` — current YT (`color-version=v2_0`) ships no color vars |
+| ChatGPT | var map (`--main-surface-*`, `--text-*`) + structural fallbacks for the hashed emotion classes, gated on `prefers-color-scheme: dark` |
+| Monkeytype | `:root`/body remap (`--bg-color`, `--main-color`, `--caret-color`, `--sub-color`, `--sub-alt-color`, `--text-color`) |
+| Reddit | `--color-*` token remap + black-feed structural fallbacks; vote colors kept |
+| Wikipedia | `--color-*` remap (`--color-base`, `--color-progressive`) + structural paint of literal `#fff`/`#f8f9fa` containers + text-flip |
+| DuckDuckGo | structural retint gated on `prefers-color-scheme: dark` (DDG themes itself from the system) |
+
+Brand/semantic colors stay as drawn everywhere: YouTube red, GitHub
+green/red, Monkeytype error red, Reddit vote arrows, DDG duck orange. The
+palette drives backgrounds, text, borders, links and neutral buttons only.
+The logged-out github.com landing page is Primer *Brand* marketing (literal
+artwork, no app tokens) and stays as GitHub draws it — repo/profile/settings
+pages are token-driven and follow the palette.
+
+### Adding a site
+
+1. create `chrome/sites/<name>.css` with an `@-moz-document domain("<name>")`
+   wrapper around the overrides;
+2. add one `@import url("sites/<name>.css");` line to `userContent.css`.
+
+Both live in the repo and are symlinked into the profile (files individually,
+`sites/` as a whole directory), so a fresh tab picks the change up — no
+`stow`, no restart. A fresh profile still needs `stow zen` once.
 
 ## Required prefs
 

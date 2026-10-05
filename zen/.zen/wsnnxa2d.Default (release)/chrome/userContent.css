@@ -1,4 +1,5 @@
-/* userContent.css — themes Zen's internal (about:) pages with the DMS palette.
+/* userContent.css — themes Zen's internal (about:) pages and a curated set of
+ * websites with the DMS palette.
  *
  * Colors arrive via dms.css (symlink -> ~/.config/DankMaterialShell/zen.css),
  * which DMS regenerates on every wallpaper change / theme switch.
@@ -9,10 +10,20 @@
  * default (near-black) wins over the palette.
  *
  * NOTE: Firefox/Zen loads user stylesheets per document — changes to this file
- * show up in newly opened tabs; the dms.css color chain needs a Zen restart.
+ * (or sites/*) show up in newly opened tabs; no Zen restart needed.
  */
 
 @import url("dms.css");
+
+/* Per-site palettes — one file per domain under sites/, each scoped with
+ * @-moz-document domain() so nothing leaks onto other sites. */
+@import url("sites/github.css");
+@import url("sites/youtube.css");
+@import url("sites/chatgpt.css");
+@import url("sites/monkeytype.css");
+@import url("sites/reddit.css");
+@import url("sites/wikipedia.css");
+@import url("sites/duckduckgo.css");
 
 /* Scoped to browser-internal pages ONLY — userContent.css would otherwise
  * paint every website you visit. */
