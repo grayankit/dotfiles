@@ -1,0 +1,98 @@
+/* userContent.css — themes Zen's internal (about:) pages with the DMS palette.
+ *
+ * Colors arrive via dms.css (symlink -> ~/.config/DankMaterialShell/zen.css),
+ * which DMS regenerates on every wallpaper change / theme switch.
+ * Tracked in dotfiles under the `zen/` stow package.
+ *
+ * CRITICAL: every override here needs !important. Page (author-origin) styles
+ * beat user-origin styles at normal priority, so without it the page's own
+ * default (near-black) wins over the palette.
+ *
+ * NOTE: Firefox/Zen loads user stylesheets per document — changes to this file
+ * show up in newly opened tabs; the dms.css color chain needs a Zen restart.
+ */
+
+@import url("dms.css");
+
+/* Scoped to browser-internal pages ONLY — userContent.css would otherwise
+ * paint every website you visit. */
+@-moz-document url-prefix("about:"), url-prefix("moz://") {
+
+	:root {
+		color-scheme: dark !important;
+
+		/* Firefox's in-content variable family rethemes preferences, addons,
+		 * downloads, logins, about:config etc. in one shot. */
+		--in-content-page-background: var(--zen-main-browser-background, #151217) !important;
+		--in-content-box-background: var(--arrowpanel-background, #221e24) !important;
+		--in-content-box-border-color: color-mix(
+				in srgb,
+				var(--toolbar-color, #e8e0e8) 14%,
+				transparent
+			) !important;
+		--in-content-border-color: color-mix(
+				in srgb,
+				var(--toolbar-color, #e8e0e8) 14%,
+				transparent
+			) !important;
+		--in-content-text-color: var(--toolbar-color, #e8e0e8) !important;
+		--in-content-secondary-text-color: color-mix(
+				in srgb,
+				var(--toolbar-color, #e8e0e8) 72%,
+				transparent
+			) !important;
+		--in-content-deemphasized-text: color-mix(
+				in srgb,
+				var(--toolbar-color, #e8e0e8) 60%,
+				transparent
+			) !important;
+		--in-content-link-color: var(--toolbarbutton-icon-fill, #dcb9f8) !important;
+		--in-content-link-color-hover: color-mix(
+				in srgb,
+				var(--toolbarbutton-icon-fill, #dcb9f8) 82%,
+				white
+			) !important;
+		--in-content-link-color-active: color-mix(
+				in srgb,
+				var(--toolbarbutton-icon-fill, #dcb9f8) 72%,
+				black
+			) !important;
+		--in-content-focus-outline-color: var(--zen-primary-color, #573a70) !important;
+		--in-content-highlight-background-color: color-mix(
+				in srgb,
+				var(--zen-primary-color, #573a70) 45%,
+				transparent
+			) !important;
+		--in-content-table-header-background: var(--arrowpanel-background, #221e24) !important;
+		--in-content-button-background: color-mix(
+				in srgb,
+				var(--zen-primary-color, #573a70) 30%,
+				var(--zen-main-browser-background, #151217)
+			) !important;
+	}
+
+	/* Fallback for pages that paint their own root/wrapper (incl. about:newtab). */
+	html,
+	body,
+	#preferences {
+		background-color: var(--zen-main-browser-background, #151217) !important;
+	}
+
+	::selection {
+		background-color: color-mix(
+			in srgb,
+			var(--zen-primary-color, #573a70) 55%,
+			transparent
+		);
+	}
+
+	/* about:newtab (activity stream) keeps its own background unless told. */
+	.outer-wrapper,
+	.activity-stream {
+		background-color: var(--zen-main-browser-background, #151217) !important;
+	}
+
+	.activity-stream {
+		color: var(--toolbar-color, #e8e0e8) !important;
+	}
+}

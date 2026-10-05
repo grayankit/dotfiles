@@ -71,6 +71,25 @@ fi
 
 stow wezterm
 
+echo "[*] Linking Zen profile chrome..."
+
+ZEN_CHROME="$HOME/.zen/wsnnxa2d.Default (release)/chrome"
+ZEN_PKG="$HOME/dotfiles/zen/.zen/wsnnxa2d.Default (release)/chrome"
+
+for f in userChrome.css userContent.css custom.css; do
+  SRC="$ZEN_CHROME/$f"
+  if [ -L "$SRC" ]; then
+    echo "  - Removing symlink: $f"
+    rm "$SRC"
+  elif [ -f "$SRC" ]; then
+    echo "  - Moving existing $f to dotfiles"
+    mkdir -p "$ZEN_PKG"
+    mv "$SRC" "$ZEN_PKG/$f"
+  fi
+done
+
+stow zen
+
 echo "[*] Linking Ghostty config..."
 
 if [ -L "$HOME/.config/ghostty/config" ]; then

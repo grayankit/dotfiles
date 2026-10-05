@@ -1,0 +1,103 @@
+/* ============================================================
+   Zen + DankMaterialShell
+   Personal customization
+   ============================================================ */
+
+/* ---------- Browser background ---------- */
+
+#zen-browser-background {
+    background: var(--zen-main-browser-background) !important;
+}
+
+
+/* ---------- Zen sidebar ---------- */
+
+/* Zen's built-in --zen-navigator-toolbox-background defaults to black and
+   DMS's zen.css never redefines it, so retint it to the palette here
+   (user-origin + !important beats Zen's author-origin default), and paint
+   every sidebar container that otherwise falls back to Zen's near-black. */
+:root {
+    --zen-navigator-toolbox-background: var(--zen-main-browser-background) !important;
+}
+
+#navigator-toolbox {
+    background: color-mix(
+        in srgb,
+        var(--zen-main-browser-background) 88%,
+        transparent
+    ) !important;
+
+    border: none !important;
+}
+
+#TabsToolbar,
+#sidebar-box,
+.sidebar-browser-stack,
+.zen-sidebar {
+    background-color: var(--zen-main-browser-background) !important;
+}
+
+
+/* ---------- Tabs ---------- */
+
+.tabbrowser-tab {
+    border-radius: 10px !important;
+}
+
+.tabbrowser-tab .tab-background {
+    border-radius: 10px !important;
+}
+
+
+/* Selected tab */
+
+.tabbrowser-tab[selected="true"] .tab-background {
+    background: color-mix(
+        in srgb,
+        var(--zen-primary-color) 20%,
+        var(--zen-navigator-toolbox-background)
+    ) !important;
+}
+
+
+/* ---------- URL bar ---------- */
+
+#urlbar-background {
+    border-radius: 12px !important;
+    background: color-mix(
+        in srgb,
+        var(--zen-primary-color) 10%,
+        var(--zen-main-browser-background)
+    ) !important;
+}
+
+
+/* ---------- New tab button ---------- */
+
+#vertical-tabs-newtab-button {
+    border-radius: 10px !important;
+}
+
+
+/* ---------- Workspace buttons ---------- */
+
+#zen-workspaces-button {
+    border-radius: 12px !important;
+}
+
+
+/* ---------- Remove unnecessary borders ---------- */
+
+#navigator-toolbox,
+#TabsToolbar,
+#nav-bar,
+#zen-sidebar-splitter {
+    border: none !important;
+}
+
+
+/* ---------- Web content ---------- */
+
+#zen-tabbox-wrapper {
+    border: none !important;
+}
