@@ -7,6 +7,7 @@ codetantra-sea
 debtap
 dsearch-bin
 google-chrome
+greetd-dms-greeter-bin
 helium-browser-bin
 hummingbird-player
 hunk-bin

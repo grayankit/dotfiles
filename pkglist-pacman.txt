@@ -11,7 +11,6 @@ bluetui
 bluez-utils
 brightnessctl
 btop
-cage
 cava
 ccache
 chromaprint
@@ -32,8 +31,8 @@ dosfstools
 dpkg
 efibootmgr
 espeak-ng
-ex-vi-compat
 exfatprogs
+ex-vi-compat
 eza
 fastfetch
 fd
@@ -51,7 +50,6 @@ glow
 go
 gptfdisk
 greetd
-greetd-regreet
 grim
 grub
 gst-libav
@@ -91,8 +89,8 @@ nano
 nasm
 ncdu
 neovim
-network-manager-applet
 networkmanager
+network-manager-applet
 nmap
 noto-fonts-cjk
 ntfs-3g
@@ -133,6 +131,7 @@ rnote
 rofi
 rsync
 rust
+scrcpy
 scrot
 sdl2_image
 sdl2_ttf
@@ -156,15 +155,15 @@ tor
 torsocks
 tree-sitter-cli
 ttf-fira-code
-ttf-fira-sans
 ttf-firacode-nerd
+ttf-fira-sans
 ttf-nerd-fonts-symbols-mono
 ttf-vlgothic
 unzip
 vim
+vlc-plugins-extra
 vlc-plugin-x264
 vlc-plugin-x265
-vlc-plugins-extra
 vulkan-intel
 vulkan-mesa-layers
 webkit2gtk-4.1
