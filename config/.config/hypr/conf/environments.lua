@@ -15,3 +15,7 @@ hl.env("WLR_RENDERER_ALLOW_SOFTWARE", "1")
 hl.env("VK_INSTANCE_LAYERS", "VK_LAYER_MESA_device_select")
 hl.env("VK_LAYER_MESA_device_select", "1")
 hl.env("AQ_DRM_DEVICES", "/dev/dri/card1:/dev/dri/card0")
+-- KDE apps (Dolphin file-manager + kded6) under a non-Plasma compositor:
+-- without this KService can't build the XDG menu tree, so Dolphin's
+-- "Open with…" dialog is empty and double-clicks don't open files.
+hl.env("XDG_MENU_PREFIX", "plasma-")

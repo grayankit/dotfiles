@@ -1,13 +1,38 @@
 #!/bin/bash
-# Apply wallust KDE colors and force Qt apps (esp. Dolphin) to pick them up.
-# plasma-apply-colorscheme no-ops when the same scheme name is already active,
-# so we alternate Wallust1/Wallust2. Outside a full Plasma session Dolphin
-# often ignores D-Bus palette notifies — restart it and restore open folders.
+# Activate the KDE color scheme DMS generates and force Qt apps (esp. Dolphin)
+# to pick them up. DMS emits DankMatugenDark/Light.colors and *does* call
+# plasma-apply-colorscheme, but it always passes the same scheme name — and
+# plasma-apply-colorscheme no-ops when that name is already active. DMS's apply
+# therefore only lands once, after which kdeglobals freezes and KDE apps stop
+# following the wallpaper. Alternating DankMatugen1/DankMatugen2 around it forces
+# each of DMS's applies to be a real name change, which is what unfreezes it.
+#
+# The base is the mode-correct DankMatugenDark/Light file (read from DMS's own
+# dms-colors.json), not the generic DankMatugen.colors — those two differ in
+# DecorationFocus, which would leave Dolphin's focus accent out of step with
+# other KDE apps.
+#
+# Outside a full Plasma session Dolphin often ignores D-Bus palette notifies —
+# restart it and restore open folders.
 
 set -euo pipefail
 
 SCHEME_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/color-schemes"
-BASE_SCHEME="$SCHEME_DIR/Wallust.colors"
+STATE_COLORS="${XDG_STATE_HOME:-$HOME/.local/state}/DankMaterialShell/dms-colors.json"
+CACHE_COLORS="${XDG_CACHE_HOME:-$HOME/.cache}/DankMaterialShell/dms-colors.json"
+
+MODE="dark"
+for f in "$STATE_COLORS" "$CACHE_COLORS"; do
+    [ -f "$f" ] || continue
+    MODE="$(sed -n 's/.*"mode"[[:space:]]*:[[:space:]]*"\([a-z]*\)".*/\1/p' "$f" | head -1)"
+    [ -n "$MODE" ] && break
+done
+case "$MODE" in
+    light) BASE_SCHEME="$SCHEME_DIR/DankMatugenLight.colors" ;;
+    *)     BASE_SCHEME="$SCHEME_DIR/DankMatugenDark.colors" ;;
+esac
+# Fall back to the generic scheme if the mode-specific one is not there yet.
+[ -f "$BASE_SCHEME" ] || BASE_SCHEME="$SCHEME_DIR/DankMatugen.colors"
 
 if [ ! -f "$BASE_SCHEME" ]; then
     exit 0
@@ -18,18 +43,20 @@ if ! command -v plasma-apply-colorscheme >/dev/null 2>&1; then
 fi
 
 mkdir -p "$SCHEME_DIR"
-sed -e 's/^Name=Wallust$/Name=Wallust1/' \
-    -e 's/^ColorScheme=Wallust$/ColorScheme=Wallust1/' \
-    "$BASE_SCHEME" >"$SCHEME_DIR/Wallust1.colors"
-sed -e 's/^Name=Wallust$/Name=Wallust2/' \
-    -e 's/^ColorScheme=Wallust$/ColorScheme=Wallust2/' \
-    "$BASE_SCHEME" >"$SCHEME_DIR/Wallust2.colors"
+# DMS names the scheme "Dank Matugen"; the alternating copies need matching
+# Name=/ColorScheme= keys or plasma-apply-colorscheme silently rejects them.
+sed -e 's/^Name=.*/Name=DankMatugen1/' \
+    -e 's/^ColorScheme=.*/ColorScheme=DankMatugen1/' \
+    "$BASE_SCHEME" >"$SCHEME_DIR/DankMatugen1.colors"
+sed -e 's/^Name=.*/Name=DankMatugen2/' \
+    -e 's/^ColorScheme=.*/ColorScheme=DankMatugen2/' \
+    "$BASE_SCHEME" >"$SCHEME_DIR/DankMatugen2.colors"
 
 CURRENT="$(kreadconfig6 --file kdeglobals --group General --key ColorScheme 2>/dev/null || true)"
-if [ "$CURRENT" = "Wallust1" ]; then
-    NEXT="Wallust2"
+if [ "$CURRENT" = "DankMatugen1" ]; then
+    NEXT="DankMatugen2"
 else
-    NEXT="Wallust1"
+    NEXT="DankMatugen1"
 fi
 
 plasma-apply-colorscheme "$NEXT" >/dev/null 2>&1 || true

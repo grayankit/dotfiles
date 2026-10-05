@@ -12,13 +12,17 @@ hl.bind(
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("~/.config/ml4w/settings/filemanager.sh"))
 hl.bind(mainMod .. " + T", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle" }))
-hl.bind(mainMod .. " + CTRL + RETURN", hl.dsp.exec_cmd("/home/narayan/.config/rofi/launchers/type-6/launcher.sh"))
+hl.bind(mainMod .. " + CTRL + RETURN", hl.dsp.exec_cmd("dms ipc call spotlight toggle"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("~/.config/ml4w/settings/browser.sh"))
-hl.bind(SUPER_SHIFT .. " + B", hl.dsp.exec_cmd("~/.config/ml4w/scripts/waybar.sh reload"))
-hl.bind("SUPER + CTRL + B", hl.dsp.exec_cmd("~/.config/ml4w/scripts/waybar.sh toggle"))
 hl.bind(mainMod .. " + F1", hl.dsp.exec_cmd("~/.config/scripts/gamemode.sh"))
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("~/.config/scripts/wallpaper-picker.sh"))
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("dms ipc call dash toggle wallpaper"))
+
+-- DMS shell surfaces
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("dms ipc call notifications toggle"))
+hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("dms ipc call clipboard toggle"))
+hl.bind(mainMod .. " + COMMA", hl.dsp.exec_cmd("dms ipc call settings focusOrToggle"))
+hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("dms ipc call lock lock"))
 
 hl.bind(
 	"XF86AudioRaiseVolume",
@@ -83,7 +87,6 @@ hl.bind(mainMod .. " + PRINT", hl.dsp.exec_cmd("hyprshot -m window"))
 hl.bind("PRINT", hl.dsp.exec_cmd("hyprshot -m output"))
 hl.bind("SHIFT + PRINT", hl.dsp.exec_cmd("hyprshot -m region"))
 
-hl.bind(SUPER_SHIFT .. " + L", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(SUPER_SHIFT .. " + S", hl.dsp.exec_cmd("spotify"))
 
 --Screen Recording

@@ -27,3 +27,12 @@ require("conf.windowrules")
 require("conf.binds")
 require("conf.experimental")
 require("conf.plugins")
+
+-- DankMaterialShell fragments (deployed by `dms setup <name>`).
+-- These are required LAST so DMS owns gaps, radius and border colors.
+-- NOTE: require("dms.outputs") is deliberately NOT included — conf/monitor.lua
+-- is authoritative for eDP-1 ICC + DP-1 10-bit/sRGB rules, and dms/outputs.lua
+-- ships a catch-all `mode=preferred` rule that would clobber them.
+require("dms.colors")
+require("dms.layout")
+require("dms.windowrules")

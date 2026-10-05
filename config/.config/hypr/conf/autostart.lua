@@ -1,15 +1,17 @@
 hl.on("hyprland.start", function()
-	hl.exec_cmd("waybar")
-	hl.exec_cmd("awww-daemon")
-	hl.exec_cmd("dunst")
-	hl.exec_cmd("hypridle")
+	-- Export the session environment to systemd so the user manager can
+	-- start graphical-session.target, then start our session target.
+	-- dms is pulled in by the inline Wants= in hyprland-session.target
+	-- (NOT a .wants/ dir: systemd ignores symlinked .wants/ dirs, and
+	--  Before=graphical-session.target would create an ordering cycle).
+	hl.exec_cmd("dbus-update-activation-environment --systemd --all")
+	hl.exec_cmd("systemctl --user start hyprland-session.target")
+
+	-- Clipboard: kept (DMS clipboard uses cliphist as its store)
 	hl.exec_cmd("clipse -listen")
 	hl.exec_cmd("wl-paste --type text --watch cliphist store")
 	hl.exec_cmd("wl-paste --type image --watch cliphist store")
-	hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1")
-	hl.exec_cmd("~/.config/ml4w-hyprland-settings/hyprctl.sh")
-end)
 
-hl.on("config.reloaded", function()
-	hl.exec_cmd("~/.config/ml4w-hyprland-settings/hyprctl.sh")
+	-- Removed: waybar, awww-daemon, dunst, hypridle, polkit-kde-agent-1
+	-- All replaced by DankMaterialShell (started by hyprland-session.target).
 end)

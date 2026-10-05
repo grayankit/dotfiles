@@ -48,11 +48,15 @@ echo "$perc" > /tmp/target_brightness
 ) 9>/tmp/ddcutil_sync.lock &
 
 # ---- 5. Send a progress‑style notification -----------------------------------------
-# Use dunstify when dunst is running – it displays a small bar based on the value hint.
-# Otherwise fall back to a plain notify‑send (no icon, simple text).
-if pgrep dunst >/dev/null; then
-    dunstify -r "$NOTIFY_ID" -h int:value:"$perc" -h string:hlcolor:#BA3444 "Brightness ${perc}%" -t 1500
+# dunst is gone (replaced by DankMaterialShell). notify-send with the
+# `int:value` hint gives DMS a progress-bar notification; hlcolor keeps the
+# accent. Fall back to plain text if hints aren't supported.
+if command -v notify-send >/dev/null; then
+    notify-send -r "$NOTIFY_ID" \
+        -h int:value:"$perc" \
+        -h string:hlcolor:#BA3444 \
+        "Brightness ${perc}%" -t 1500
 else
-    notify-send -r "$NOTIFY_ID" "Brightness ${perc}%" -t 1500
+    echo "Brightness ${perc}%"
 fi
 exit 0
