@@ -1,17 +1,14 @@
 tmp/
 
-# Wallust generated dynamic color files
-config/.config/hypr/conf/colors.lua
-config/.config/rofi/colors.rasi
-config/.config/waybar/colors.css
-config/.config/dunst/dunstrc.d/01-wallust.conf
+# Dynamic color files regenerated on every wallpaper change
+config/.config/hypr/dms/colors.lua
 config/.config/scripts/keyboard-color.txt
 config/.config/scripts/keyboard-color.prev
-config/.config/wezterm/colors/wallust.toml
-config/.config/wiremix/wiremix.toml
-config/.config/gtk-3.0/colors.css
-config/.config/gtk-4.0/colors.css
-config/.config/cava/themes/wallust
-config/.config/fastpotify/themes/wallust.json
-config/.config/vesktop/themes/wallust.theme.css
-config/.config/obsidian/snippets/wallust.css
+config/.config/rofi/colors.rasi
+config/.config/nvim/colors/
+config/.config/nvim/lua/lualine/
+config/.config/gtk-3.0/gtk.css
+config/.config/gtk-4.0/gtk.css
+
+# DMS runtime artifacts
+config/.config/hypr/.dms-backups/

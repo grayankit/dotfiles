@@ -1,6 +1,7 @@
 {
   "99": { "branch": "master", "commit": "c17422457027c913c76c75a921fca1e623d2678e" },
   "LuaSnip": { "branch": "master", "commit": "642b0c595e11608b4c18219e93b88d7637af27bc" },
+  "base46": { "branch": "v3.0", "commit": "83522e02c6c3b4ea901c4bffd9e0a5e0371c1fe6" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "cbc7b02bb99fae35cb42f514762b89b5126651ef" },
   "cmp-nvim-lsp-signature-help": { "branch": "main", "commit": "fd3e882e56956675c620898bf1ffcf4fcbe7ec84" },
   "cmp-path": { "branch": "main", "commit": "c642487086dbd9a93160e1679a1327be111cbc25" },

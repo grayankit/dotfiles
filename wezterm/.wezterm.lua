@@ -8,7 +8,7 @@ return {
 	term = "xterm-256color",
 
 	color_scheme_dirs = { wezterm.home_dir .. "/.config/wezterm/colors" },
-	color_scheme = "wallust",
+	color_scheme = "dank-theme",
 
 	window_background_opacity = 0.85,
 	text_background_opacity = 1.0,
