@@ -12,10 +12,28 @@
 # DecorationFocus, which would leave Dolphin's focus accent out of step with
 # other KDE apps.
 #
+# This fires from a matugen post_hook, so whether DankMatugenDark/Light has been
+# rewritten for the NEW wallpaper yet is a race — sometimes yes, sometimes it
+# still holds the previous wallpaper. When it's the latter the copy below bakes
+# stale colours into DankMatugen1/2, and whenever kdeglobals ends up on one of
+# them every KDE app renders a wallpaper behind (observed: Dolphin stuck on
+# #83D5C5 while kdeglobals said #BEC2FF). A one-shot delayed re-pass, scheduled
+# below, re-copies once DMS is done and carries the Dolphin restart with it, so
+# at rest 1/2 always match Dark and kdeglobals always holds current colours.
+
 # Outside a full Plasma session Dolphin often ignores D-Bus palette notifies —
 # restart it and restore open folders.
 
 set -euo pipefail
+
+if [ "${DANK_KDE_REFRESH:-}" != "1" ]; then
+    # setsid detaches from matugen's process group so the pass survives its exit.
+    if command -v setsid >/dev/null 2>&1; then
+        setsid sh -c "sleep 6; DANK_KDE_REFRESH=1 '$0'" >/dev/null 2>&1 &
+    else
+        ( sleep 6; DANK_KDE_REFRESH=1 "$0" ) >/dev/null 2>&1 &
+    fi
+fi
 
 SCHEME_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/color-schemes"
 STATE_COLORS="${XDG_STATE_HOME:-$HOME/.local/state}/DankMaterialShell/dms-colors.json"
@@ -61,9 +79,11 @@ fi
 
 plasma-apply-colorscheme "$NEXT" >/dev/null 2>&1 || true
 
-if command -v kwriteconfig6 >/dev/null 2>&1; then
-    kwriteconfig6 --file dolphinrc --group UiSettings --key ColorScheme "$NEXT"
-fi
+# Deliberately NOT pinning dolphinrc's [UiSettings] ColorScheme. That key sent
+# Dolphin to DankMatugen1 while kdeglobals pointed at DankMatugenDark, and
+# because of the ordering note above DankMatugen1 held the previous wallpaper's
+# colours — Dolphin was the one app visibly a wallpaper behind (#83D5C5 vs
+# #BEC2FF). It now follows kdeglobals like every other KDE app.
 
 # Extra notifies for Qt / KF apps (helps some clients outside Plasma)
 python3 - "$NEXT" <<'PY' 2>/dev/null || true
@@ -208,4 +228,9 @@ PY
     done
 }
 
-restart_dolphin
+# Only the delayed pass restarts Dolphin: at first-pass time kdeglobals still
+# holds the previous wallpaper's colours, so restarting here would reload the
+# stale palette — the exact bug this is meant to fix.
+if [ "${DANK_KDE_REFRESH:-}" = "1" ]; then
+    restart_dolphin
+fi
