@@ -11,3 +11,4 @@ config/.config/gtk-4.0/gtk.css
 
 # DMS runtime artifacts
 config/.config/hypr/.dms-backups/
+config/.config/hypr/hyprland.lua.backup*
