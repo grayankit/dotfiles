@@ -6,7 +6,8 @@ PACMAN_LIST="$DOTFILES/pkglist-pacman.txt"
 AUR_LIST="$DOTFILES/pkglist-aur.txt"
 
 echo "[*] Installing essential packages..."
-sudo pacman -S --needed base-devel git stow zsh neovim tmux waybar
+sudo pacman -S --needed base-devel git stow zsh neovim tmux \
+  dms-shell quickshell matugen wtype wezterm
 
 if [[ -f "$PACMAN_LIST" ]]; then
   echo "[*] Restoring official packages from pkglist-pacman.txt..."
