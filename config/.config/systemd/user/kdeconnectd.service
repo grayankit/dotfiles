@@ -1,0 +1,10 @@
+[Unit]
+Description=KDE Connect daemon
+PartOf=graphical-session.target
+After=graphical-session.target
+Before=dms.service
+
+[Service]
+ExecStart=/usr/bin/kdeconnectd
+Restart=on-failure
+RestartSec=2

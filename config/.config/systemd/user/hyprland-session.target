@@ -13,6 +13,12 @@ BindsTo=graphical-session.target
 # cycle (target -> graphical-session.target -> dms -> target) and systemd
 # broke it by DELETING the dms start job, leaving no shell at login.
 # Correct order is:
-#   graphical-session-pre -> graphical-session.target -> dms -> this target
-Wants=graphical-session-pre.target dms.service
+#   graphical-session-pre -> graphical-session.target -> kdeconnectd -> dms -> this target
+#
+# kdeconnectd is wanted INLINE (no [Install] in its unit, no .wants/ dir) and
+# ordered Before=dms.service: the DMS Phone Connect plugin only probes for
+# org.kde.kdeconnect when it loads, and its 30s timer calls refreshDevices()
+# which no-ops while unavailable -- so if the daemon comes up after the shell,
+# the plugin stays on "not running" until the shell restarts.
+Wants=graphical-session-pre.target kdeconnectd.service dms.service
 After=graphical-session-pre.target graphical-session.target
