@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
-"""Fade MSI keyboard to waybar textcolor (wallust foreground) via OpenRGB SDK."""
+"""Set the MSI keyboard backlight to the wallpaper accent via OpenRGB SDK.
+
+Washed-out accents (low HSV saturation) glow near-white on an RGB LED, so
+colors below MIN_SAT are boosted to TARGET_SAT first — hue and value are
+preserved, already-punchy colors pass through untouched.
+"""
 
 from __future__ import annotations
 
+import colorsys
 import fcntl
 import os
 import subprocess
@@ -14,6 +20,10 @@ DURATION_S = float(os.environ.get("KEYBOARD_RGB_FADE_MS", "1500")) / 1000.0
 STEPS = int(os.environ.get("KEYBOARD_RGB_FADE_STEPS", "30"))
 HOST = os.environ.get("OPENRGB_HOST", "127.0.0.1")
 PORT = int(os.environ.get("OPENRGB_PORT", "6742"))
+
+# Saturation floor for the physical backlight (see saturate()).
+MIN_SAT = float(os.environ.get("KEYBOARD_RGB_MIN_SAT", "0.35"))
+TARGET_SAT = float(os.environ.get("KEYBOARD_RGB_TARGET_SAT", "0.5"))
 
 SCRIPTS = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")) / "scripts"
 COLOR_FILE = SCRIPTS / "keyboard-color.txt"
@@ -37,6 +47,19 @@ def read_hex(path: Path) -> str | None:
 
 def hex_to_rgb(h: str) -> tuple[int, int, int]:
     return int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+
+
+def rgb_to_hex(r: int, g: int, b: int) -> str:
+    return f"{r:02X}{g:02X}{b:02X}"
+
+
+def saturate(r: int, g: int, b: int) -> tuple[int, int, int]:
+    """Boost washed-out colors so the backlight shows the real hue."""
+    h, s, v = colorsys.rgb_to_hsv(r / 255.0, g / 255.0, b / 255.0)
+    if s >= MIN_SAT:
+        return r, g, b
+    r2, g2, b2 = colorsys.hsv_to_rgb(h, min(TARGET_SAT, 1.0), v)
+    return round(r2 * 255), round(g2 * 255), round(b2 * 255)
 
 
 def smoothstep(t: float) -> float:
@@ -94,6 +117,8 @@ def main() -> int:
     if not new:
         return 0
 
+    new_disp = rgb_to_hex(*saturate(*hex_to_rgb(new)))
+
     lock_f = open(LOCK_PATH, "a+", encoding="utf-8")
     try:
         fcntl.flock(lock_f.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -105,7 +130,7 @@ def main() -> int:
         try:
             from openrgb import OpenRGBClient
         except ImportError:
-            if cli_oneshot(new):
+            if cli_oneshot(new_disp):
                 PREV_FILE.write_text(new + "\n", encoding="utf-8")
             return 0
 
@@ -115,7 +140,7 @@ def main() -> int:
             cli = None
 
         if cli is None or not cli.devices:
-            if cli_oneshot(new):
+            if cli_oneshot(new_disp):
                 PREV_FILE.write_text(new + "\n", encoding="utf-8")
             return 0
 
@@ -124,14 +149,14 @@ def main() -> int:
             return 0
 
         old = read_hex(PREV_FILE)
-        nr, ng, nb = hex_to_rgb(new)
+        nr, ng, nb = saturate(*hex_to_rgb(new))
 
         if not old or old == new or STEPS < 2 or DURATION_S <= 0:
             set_color(dev, nr, ng, nb)
             PREV_FILE.write_text(new + "\n", encoding="utf-8")
             return 0
 
-        or_, og, ob = hex_to_rgb(old)
+        or_, og, ob = saturate(*hex_to_rgb(old))
         steps = max(2, STEPS)
         interval = DURATION_S / steps
 

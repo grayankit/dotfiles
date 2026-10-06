@@ -1,6 +1,7 @@
 #!/bin/bash
-# Fade MSI keyboard to wallust accent via OpenRGB SDK (~1.5s smoothstep).
-# Needs: openrgb --server + local venv with openrgb-python.
+# Set the MSI keyboard to the palette accent (matugen keyboard-color.txt).
+# Prefers the OpenRGB SDK with a ~1.5s smoothstep fade; falls back to a
+# one-shot `openrgb -c` write when no SDK server is reachable.
 
 set -u
 
