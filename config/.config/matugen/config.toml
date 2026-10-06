@@ -51,6 +51,11 @@ input_path = '/home/narayan/.config/matugen/templates/spotifast.json'
 output_path = '/home/narayan/.config/fastpotify/themes/wallust.json'
 post_hook = 'command -v spotifast >/dev/null 2>&1 && spotifast reload-themes || true'
 
+[templates.spotify]
+input_path = "/home/narayan/.config/matugen/templates/spicetify.ini"
+output_path = "/home/narayan/.config/spicetify/Themes/Sleek/color.ini"
+post_hook = 'pgrep -x spicetify > /dev/null || spicetify apply -n'
+
 # --- obsidian snippets (both vaults share one template) ----------------------
 [templates.obsidian-personal]
 input_path = '/home/narayan/.config/matugen/templates/obsidian.css'
