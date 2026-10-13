@@ -23,11 +23,6 @@ hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("dms ipc call notifications toggle"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("dms ipc call clipboard toggle"))
 hl.bind(mainMod .. " + COMMA", hl.dsp.exec_cmd("dms ipc call settings focusOrToggle"))
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("dms ipc call lock lock"))
-hl.bind(
-	mainMod .. " + SHIFT + COMMA",
-	hl.dsp.exec_cmd("dms ipc call settings focusOrToggle"),
-	{ description = "Settings: Focus or Toggle" }
-)
 
 hl.bind(
 	"XF86AudioRaiseVolume",

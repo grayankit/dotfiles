@@ -33,6 +33,11 @@ require("conf.plugins")
 -- NOTE: require("dms.outputs") is deliberately NOT included — conf/monitor.lua
 -- is authoritative for eDP-1 ICC + DP-1 10-bit/sRGB rules, and dms/outputs.lua
 -- ships a catch-all `mode=preferred` rule that would clobber them.
-require("dms.colors")
-require("dms.layout")
-require("dms.windowrules")
+-- colors.lua is generated on the first matugen run and gitignored, so a fresh
+-- stow has no file yet. A bare require would abort this script and skip the
+-- layout + windowrules requires below.
+-- layout.lua and windowrules.lua are DMS-generated and gitignored, same as
+-- colors.lua. Missing files must not abort the rest of this script.
+pcall(require, "dms.colors")
+pcall(require, "dms.layout")
+pcall(require, "dms.windowrules")

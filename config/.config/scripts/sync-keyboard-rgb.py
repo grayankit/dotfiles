@@ -97,6 +97,14 @@ def set_color(dev, r: int, g: int, b: int) -> None:
     dev.set_color(RGBColor(r, g, b))
 
 
+def paint_oneshot(raw_hex: str, display_hex: str) -> int:
+    """CLI fallback. Return 0 only when a zone was actually painted."""
+    if not cli_oneshot(display_hex):
+        return 1
+    PREV_FILE.write_text(raw_hex + "\n", encoding="utf-8")
+    return 0
+
+
 def cli_oneshot(hex_color: str) -> bool:
     """Slow fallback when SDK server is down."""
     for args in (
@@ -130,9 +138,7 @@ def main() -> int:
         try:
             from openrgb import OpenRGBClient
         except ImportError:
-            if cli_oneshot(new_disp):
-                PREV_FILE.write_text(new + "\n", encoding="utf-8")
-            return 0
+            return paint_oneshot(new, new_disp)
 
         try:
             cli = OpenRGBClient(name="wallust-keyboard", address=HOST, port=PORT)
@@ -140,13 +146,11 @@ def main() -> int:
             cli = None
 
         if cli is None or not cli.devices:
-            if cli_oneshot(new_disp):
-                PREV_FILE.write_text(new + "\n", encoding="utf-8")
-            return 0
+            return paint_oneshot(new, new_disp)
 
         dev = find_device(cli)
         if dev is None:
-            return 0
+            return paint_oneshot(new, new_disp)
 
         old = read_hex(PREV_FILE)
         nr, ng, nb = saturate(*hex_to_rgb(new))

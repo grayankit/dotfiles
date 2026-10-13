@@ -11,7 +11,7 @@ It uses [GNU Stow](https://www.gnu.org/software/stow/) to manage symlinks and in
 * 🧠 Symlink-based dotfile management via `stow`
 * ⚡ Auto-installs Tmux plugins (TPM, Resurrect)
 * 💠 Zsh configuration with `.zshrc` tracking
-* 💻 Hyprland, Waybar, and Neovim config management
+* 💻 Hyprland, DankMaterialShell, and Neovim config management
 * 📦 Official + AUR package restore via split package lists
 
 ---
@@ -23,8 +23,8 @@ dotfiles/
 ├── config/              # ~/.config/* files (Hypr, Neovim, etc.)
 │   └── .config/
 │       ├── hypr/
-│       ├── nvim/
-│       └── waybar/
+│       ├── matugen/
+│       └── nvim/
 ├── flags/               # flags for mostly native wayland
 ├── zsh/                 # Zsh config
 │   └── .zshrc
@@ -57,7 +57,7 @@ cd ~/dotfiles/scripts
 ./install.sh
 ```
 
-* Installs base tools (zsh, neovim, tmux, waybar, stow, git)
+* Installs base tools (zsh, neovim, tmux, stow, git, dms-shell, matugen)
 * Restores official packages from `pkglist-pacman.txt`
 * Bootstraps `yay` if needed, then restores AUR packages from `pkglist-aur.txt`
 

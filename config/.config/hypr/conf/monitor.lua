@@ -8,7 +8,7 @@ hl.monitor({
 	mode = "1920x1080@144",
 	position = "0x0",
 	scale = 1,
-	icc = "/home/narayan/.local/share/icc/edid-e2e99a28c31cb2e9702fb801d69358e9.icc",
+	icc = os.getenv("HOME") .. "/.config/hypr/icc/edid-e2e99a28c31cb2e9702fb801d69358e9.icc",
 })
 
 -- External panel (wide-gamut, 10-bit capable per its HDMI vendor block,

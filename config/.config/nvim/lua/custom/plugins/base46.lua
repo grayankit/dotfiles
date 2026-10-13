@@ -12,6 +12,8 @@ return {
 	priority = 1000,
 	opts = {},
 	config = function()
-		vim.cmd.colorscheme("dms")
+		-- colors/dms.lua is generated on the first matugen run and gitignored,
+		-- so a fresh stow has no file yet. A bare colorscheme command errors.
+		pcall(vim.cmd.colorscheme, "dms")
 	end,
 }

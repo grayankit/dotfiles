@@ -54,7 +54,7 @@ post_hook = 'command -v spotifast >/dev/null 2>&1 && spotifast reload-themes || 
 [templates.spotify]
 input_path = "/home/narayan/.config/matugen/templates/spicetify.ini"
 output_path = "/home/narayan/.config/spicetify/Themes/Sleek/color.ini"
-post_hook = '/home/narayan/.spicetify/spicetify apply -n'
+post_hook = '/home/narayan/.spicetify/spicetify apply -n || true'
 
 # --- obsidian snippets (both vaults share one template) ----------------------
 [templates.obsidian-personal]
