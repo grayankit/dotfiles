@@ -51,7 +51,6 @@ box_enter() {
   "$DISTROBOX" enter "$BOX_NAME" -- "$@"
 }
 
-# Windows Start Menu / wsl.exe has no TTY; podman exec -t then exits at once.
 distrobox_exec() {
   if [ -t 0 ] && [ -t 1 ]; then
     exec "$DISTROBOX" enter "$BOX_NAME" -- "$@"
@@ -65,9 +64,6 @@ distrobox_exec() {
 }
 
 ensure_binfmt() {
-  # Host binfmt interpreters are not visible in the container, so exec of
-  # an AppImage fails with ENOENT. A private empty binfmt_misc makes the
-  # kernel run the AppImage ELF directly (its own runtime is the parent).
   box_enter sh -c '
     if [ -e /proc/sys/fs/binfmt_misc/appimage_type_2 ] ||
        [ ! -e /proc/sys/fs/binfmt_misc/register ]
@@ -99,35 +95,37 @@ ensure_appimage_deps() {
 }
 
 ensure_cursor() {
-  local theme="${XCURSOR_THEME:-Bibata-Modern-Classic}"
+  local theme="${XCURSOR_THEME:-}"
   local size="${XCURSOR_SIZE:-24}"
   local host_theme=""
 
   mkdir -p "$BOX_HOME/.icons/default" "$BOX_HOME/.config/gtk-3.0"
 
-  for d in \
-    "/run/host/usr/share/icons/${theme}" \
-    "/run/host${HOME}/.local/share/icons/${theme}" \
-    "/run/host${HOME}/.icons/${theme}"
-  do
-    if [ -d "$d" ] || [ -L "$d" ]; then
-      host_theme=$d
-      break
-    fi
-  done
+  if [ -n "$theme" ]; then
+    for d in \
+      "/run/host/usr/share/icons/${theme}" \
+      "/run/host${HOME}/.local/share/icons/${theme}" \
+      "/run/host${HOME}/.icons/${theme}"
+    do
+      if [ -d "$d" ] || [ -L "$d" ]; then
+        host_theme=$d
+        break
+      fi
+    done
+  fi
 
-  [ -n "$host_theme" ] || return 0
-
-  ln -sfn "$host_theme" "$BOX_HOME/.icons/${theme}"
-  cat > "$BOX_HOME/.icons/default/index.theme" <<EOF
+  if [ -n "$host_theme" ]; then
+    ln -sfn "$host_theme" "$BOX_HOME/.icons/${theme}"
+    cat > "$BOX_HOME/.icons/default/index.theme" <<EOF
 [Icon Theme]
 Inherits=${theme}
 EOF
-  cat > "$BOX_HOME/.config/gtk-3.0/settings.ini" <<EOF
+    cat > "$BOX_HOME/.config/gtk-3.0/settings.ini" <<EOF
 [Settings]
 gtk-cursor-theme-name=${theme}
 gtk-cursor-theme-size=${size}
 EOF
+  fi
 }
 
 wait_for_box() {
@@ -226,7 +224,7 @@ install_neo_appimage() {
   chmod +x "${BOX_APPS}/${base}"
 
   case "$base" in
-    Neo-Browser*.AppImage | Neo-Browser*.appimage)
+    Neo-Browser*.AppImage | Neo-Browser*.appimage | *.AppImage | *.appimage)
       ln -sfn "$base" "${BOX_APPS}/${NEO_APPIMAGE}"
       ;;
   esac
@@ -409,7 +407,7 @@ cmd_enter() {
   if [ "$#" -eq 0 ]; then
     exec "$DISTROBOX" enter "$BOX_NAME"
   fi
-  distrobox_exec "$@"
+  exec "$DISTROBOX" enter "$BOX_NAME" -- "$@"
 }
 
 usage() {
