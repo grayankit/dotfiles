@@ -86,6 +86,8 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 hl.bind(SUPER_SHIFT .. " + V", hl.dsp.exec_cmd("wezterm start --class clipse -- clipse"))
 hl.bind("ALT + V", hl.dsp.exec_cmd("$HOME/.config/scripts/writec-clipboard.sh"))
 hl.bind(SUPER_SHIFT .. " + R", hl.dsp.exec_cmd("$HOME/.config/scripts/refresh-rate.sh"))
+-- Power plans. Max battery is the runtime-first option.
+hl.bind(SUPER_SHIFT .. " + B", hl.dsp.exec_cmd("$HOME/.config/scripts/battery-plan.sh"))
 
 --ScreenShots Binds
 hl.bind(mainMod .. " + PRINT", hl.dsp.exec_cmd("hyprshot -m window"))

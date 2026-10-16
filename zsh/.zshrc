@@ -51,6 +51,7 @@ alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
 alias fbl="flutter build linux --release"
 alias fba="flutter build apk --release"
 alias cat="bat"
+alias battery="$HOME/.config/scripts/battery-plan.sh"
 alias writec="sleep 2 && xdotool type --clearmodifiers"
 alias musicdl='yt-dlp -x --audio-format flac --embed-metadata --embed-thumbnail -o "~/Music/Downloads/%(artist)s - %(title)s.%(ext)s"'
 speak() {
