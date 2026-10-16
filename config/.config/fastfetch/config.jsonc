@@ -1,0 +1,128 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "source": "arch_small",
+    "padding": {
+      "top": 1,
+      "right": 3
+    },
+    "color": {
+      "1": "cyan",
+      "2": "blue"
+    }
+  },
+  "display": {
+    "separator": "  ",
+    "color": {
+      "keys": "cyan",
+      "separator": "blue"
+    },
+    "key": {
+      "type": "both",
+      "width": 16
+    }
+  },
+  "modules": [
+    {
+      "type": "title",
+      "color": {
+        "user": "green",
+        "at": "cyan",
+        "host": "blue"
+      }
+    },
+    "separator",
+    {
+      "type": "os",
+      "format": "{pretty-name}"
+    },
+    {
+      "type": "host",
+      "format": "{name}"
+    },
+    {
+      "type": "kernel",
+      "format": "{sysname} {release}"
+    },
+    "uptime",
+    {
+      "type": "command",
+      "key": "Age",
+      "keyIcon": "󰃭",
+      "text": "sh \"$HOME/.config/fastfetch/age.sh\""
+    },
+    {
+      "type": "packages",
+      "format": "{pacman} (pacman){?flatpak-all}, {flatpak-all} (flatpak){?}"
+    },
+    {
+      "type": "shell",
+      "format": "{pretty-name}{?version} {version}{?}"
+    },
+    {
+      "type": "display",
+      "key": "{type}",
+      "order": "desc",
+      "format": "{width}x{height}{?inch} {inch}\"{?} @ {refresh-rate} Hz"
+    },
+    {
+      "type": "wm",
+      "key": "WM",
+      "format": "{pretty-name} {version}"
+    },
+    {
+      "type": "custom",
+      "key": "Theme",
+      "format": "DMS · dynamic"
+    },
+    {
+      "type": "terminal",
+      "format": "{pretty-name}{?version} {version}{?}"
+    },
+    {
+      "type": "terminalfont",
+      "key": "Font",
+      "format": "{name}"
+    },
+    {
+      "type": "cpu",
+      "format": "{name} ({core-types}) @ {freq-max}"
+    },
+    {
+      "type": "gpu",
+      "key": "GPU",
+      "hideType": "integrated",
+      "format": "{name}"
+    },
+    {
+      "type": "gpu",
+      "key": "iGPU",
+      "hideType": "discrete",
+      "format": "{name}"
+    },
+    {
+      "type": "memory",
+      "format": "{used} / {total} ({percentage})"
+    },
+    {
+      "type": "disk",
+      "key": "Root",
+      "folders": "/",
+      "format": "{size-used} / {size-total} ({size-percentage}) [{filesystem}]"
+    },
+    {
+      "type": "disk",
+      "key": "Windows",
+      "folders": "/mnt/windows",
+      "hideFS": "autofs",
+      "format": "{size-used} / {size-total} ({size-percentage})"
+    },
+    {
+      "type": "battery",
+      "key": "Battery",
+      "format": "{capacity} [{status}]"
+    },
+    "break",
+    "colors"
+  ]
+}

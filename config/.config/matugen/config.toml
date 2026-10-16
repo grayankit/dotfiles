@@ -12,7 +12,7 @@
 # matches mid-comment and corrupts the merged config.
 #
 # Replaces wallust/wallust.toml. Of wallust's 13 templates:
-#   ported below ................ keyboard, cava, wiremix, spotifast, obsidian x2
+#   ported below ................ keyboard, cava, wiremix, spotifast, obsidian x2, t3code
 #   now owned by DMS ............ hyprland, wezterm, gtk3, gtk4, kde, vesktop
 #   retired with the app ........ waybar, rofi, dunst
 #
@@ -55,6 +55,22 @@ post_hook = 'command -v spotifast >/dev/null 2>&1 && spotifast reload-themes || 
 input_path = "/home/narayan/.config/matugen/templates/spicetify.ini"
 output_path = "/home/narayan/.config/spicetify/Themes/Sleek/color.ini"
 post_hook = '/home/narayan/.spicetify/spicetify apply -n || true'
+
+# --- dartotsu (Linux JSON theme; app watches this file and reloads) ----------
+# Enable it in Dartotsu settings (JSON theme). No post hook: the watcher
+# picks up the write. Keys match CustomJsonTheme in the Dartotsu source.
+[templates.dartotsu]
+input_path = '/home/narayan/.config/matugen/templates/dartotsu.json'
+output_path = '/home/narayan/.config/dartotsu/theme.json'
+
+# --- t3 code (environment theme; both appearances, selected on each run) ----
+# Template is a material-token dump. The post_hook maps it onto T3 Code roles,
+# renames the result into the themes dir, and selects it. Do not point
+# output_path at the themes dir: a partial write is dropped, not published.
+[templates.t3code]
+input_path = '/home/narayan/.config/matugen/templates/t3code.json'
+output_path = '/home/narayan/.cache/matugen/t3code.json'
+post_hook = '/home/narayan/.config/scripts/apply-t3code-theme.sh'
 
 # --- obsidian snippets (both vaults share one template) ----------------------
 [templates.obsidian-personal]

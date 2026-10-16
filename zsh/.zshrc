@@ -44,6 +44,7 @@ source <(fzf --zsh)
 [ -f "$HOME/.local/bin/env" ] && source "$HOME/.local/bin/env"
 
 # Aliases
+alias ff="fastfetch"
 alias ls="eza"
 alias vim="nvim"
 alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
