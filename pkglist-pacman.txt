@@ -68,6 +68,7 @@ imagemagick
 intel-ucode
 iwd
 jdk17-openjdk
+jdk21-openjdk
 jq
 kdeconnect
 kdenlive
@@ -78,6 +79,7 @@ libpulse
 libvirt
 linux-firmware
 linux-headers
+llvm
 luarocks
 man-db
 mangohud
@@ -91,6 +93,7 @@ ncdu
 neovim
 networkmanager
 network-manager-applet
+ninja
 nmap
 noto-fonts-cjk
 ntfs-3g
@@ -111,8 +114,8 @@ pipewire-jack
 pipewire-pulse
 plasma-meta
 plasma-workspace
-plasma-x11-session
 plymouth
+podman
 polkit-kde-agent
 proton-vpn-cli
 python-flask
@@ -160,6 +163,8 @@ ttf-fira-sans
 ttf-nerd-fonts-symbols-mono
 ttf-vlgothic
 unzip
+usbip
+usbmuxd
 vim
 vlc-plugins-extra
 vlc-plugin-x264
@@ -186,6 +191,7 @@ xorg-server-xephyr
 xorg-xinit
 yazi
 yt-dlp
+z3
 zed
 zip
 zoxide
