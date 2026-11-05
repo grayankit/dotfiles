@@ -19,3 +19,6 @@
 [submodule "config/.config/tmux/plugins/tpm"]
 	path = config/.config/tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
+[submodule "cachemanager"]
+	path = cachemanager
+	url = https://github.com/grayankit/cachemanager.git

@@ -28,8 +28,10 @@ dotfiles/
 ├── flags/               # flags for mostly native wayland
 ├── zsh/                 # Zsh config
 │   └── .zshrc
+├── cachemanager/        # git submodule: grayankit/cachemanager
 ├── scripts/             # Setup scripts
 │   ├── install.sh       # One-time system setup
+│   ├── install-cachemanager.sh
 │   └── setup.sh         # Safe to run any time
 ├── pkglist-pacman.txt   # Explicit official (repo) packages
 ├── pkglist-aur.txt      # Explicit AUR packages
@@ -72,6 +74,28 @@ cd ~/dotfiles/scripts
 * Cleans conflicting files
 * Moves unmanaged configs into the dotfiles repo
 * Symlinks everything via `stow`
+
+---
+
+## Cache Manager
+
+[cachemanager](https://github.com/grayankit/cachemanager) is a submodule. `setup.sh` builds it and wires it into DankMaterialShell:
+
+* binary at `~/.local/bin/cachemanager`
+* plugin symlink at `~/.config/dms/plugins/cachemanager`
+* Storage entry under Settings → System (a patch of the installed shell, re-applied by the script after a `dms-shell` update)
+
+```bash
+./scripts/install-cachemanager.sh
+```
+
+Pacman, the journal, and coredumps still ask for a password until you opt in:
+
+```bash
+sudo ~/dotfiles/cachemanager/scripts/install-priv.sh
+```
+
+That helper can only run those three operations. It is not installed automatically.
 
 ---
 
