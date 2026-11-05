@@ -99,6 +99,19 @@ That helper can only run those three operations. It is not installed automatical
 
 ---
 
+## Updates
+
+`sysupdate` replaces the built-in System Updater tab. `setup.sh` links it and points Settings → System → Updates at that page. A shell update restores the stock tab; run the script again.
+
+```bash
+./scripts/install-sysupdate.sh
+dms restart
+```
+
+Check lists what is pending. Run and Update all open WezTerm, because `yay` and the others ask before they change the system. The set is packages, Neovim Lazy, Flatpak, tmux plugins, zinit, rustup, Flutter, Deno, Spicetify, firmware, and a fast-forward pull of this repo.
+
+---
+
 ## 🧹 Plugin Installers
 
 ### Tmux Plugins

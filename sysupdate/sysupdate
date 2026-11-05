@@ -1,0 +1,217 @@
+#!/bin/bash
+# Survey and run the updates on this machine. Interactive commands open in WezTerm.
+set -euo pipefail
+
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/flutter/bin:$HOME/.deno/bin:$HOME/.spicetify:${PATH:-/usr/bin:/bin}"
+
+DOTFILES="${DOTFILES:-$HOME/dotfiles}"
+SELF="$(readlink -f "$0")"
+
+have() { command -v "$1" >/dev/null 2>&1; }
+
+available() {
+  case "$1" in
+    packages) have yay ;;
+    neovim) have nvim && [[ -d "$HOME/.local/share/nvim/lazy/lazy.nvim" ]] ;;
+    flatpak) have flatpak ;;
+    tmux) [[ -d "$DOTFILES/config/.config/tmux/plugins/tpm" ]] ;;
+    zinit) [[ -f "$HOME/.local/share/zinit/zinit.git/zinit.zsh" ]] ;;
+    rust) have rustup ;;
+    flutter) have flutter ;;
+    deno) have deno ;;
+    spicetify) have spicetify ;;
+    firmware) have fwupdmgr ;;
+    dotfiles) [[ -d "$DOTFILES/.git" ]] ;;
+    *) return 1 ;;
+  esac
+}
+
+name_of() {
+  case "$1" in
+    packages) echo "Packages" ;;
+    neovim) echo "Neovim plugins" ;;
+    flatpak) echo "Flatpak" ;;
+    tmux) echo "Tmux plugins" ;;
+    zinit) echo "Zsh plugins" ;;
+    rust) echo "Rust" ;;
+    flutter) echo "Flutter" ;;
+    deno) echo "Deno" ;;
+    spicetify) echo "Spicetify" ;;
+    firmware) echo "Firmware" ;;
+    dotfiles) echo "Dotfiles" ;;
+    *) echo "$1" ;;
+  esac
+}
+
+detail_of() {
+  case "$1" in
+    packages) echo "yay -Syu. Official repos and the AUR. Asks before it replaces anything." ;;
+    neovim) echo "Lazy sync. Updates installed plugins and installs missing ones." ;;
+    flatpak) echo "flatpak update. Installed apps and runtimes only." ;;
+    tmux) echo "Pull the tmux plugin submodules in ~/dotfiles, and TPM in ~/.tmux." ;;
+    zinit) echo "zinit self-update, then update every loaded plugin." ;;
+    rust) echo "rustup update." ;;
+    flutter) echo "flutter upgrade." ;;
+    deno) echo "deno upgrade." ;;
+    spicetify) echo "spicetify update. Re-apply the theme afterwards if Spotify looks stock." ;;
+    firmware) echo "fwupdmgr refresh, then update. This can ask for a reboot." ;;
+    dotfiles) echo "git pull --ff-only. Skipped when ~/dotfiles has uncommitted changes." ;;
+    *) echo "" ;;
+  esac
+}
+
+TASKS=(packages neovim flatpak tmux zinit rust flutter deno spicetify firmware dotfiles)
+
+count_lines() {
+  if [[ -z "$1" ]]; then
+    echo 0
+    return
+  fi
+  printf '%s\n' "$1" | grep -c .
+}
+
+check_one() {
+  local id="$1" out official aur
+  case "$id" in
+    packages)
+      official="$(checkupdates 2>/dev/null || true)"
+      aur="$(timeout 60 yay -Qua --color=never 2>/dev/null || true)"
+      echo "$(count_lines "$official") official, $(count_lines "$aur") AUR"
+      ;;
+    flatpak)
+      out="$(timeout 40 flatpak remote-ls --updates --columns=application 2>/dev/null || true)"
+      echo "$(count_lines "$out") pending"
+      ;;
+    rust)
+      out="$(timeout 40 rustup check 2>/dev/null || true)"
+      if grep -q "Update available" <<<"$out"; then
+        echo "update available"
+      elif [[ -n "$out" ]]; then
+        echo "up to date"
+      else
+        echo "could not check"
+      fi
+      ;;
+    *)
+      echo "not scanned"
+      ;;
+  esac
+}
+
+emit_json() {
+  local mode="$1" id summary
+  {
+    for id in "${TASKS[@]}"; do
+      available "$id" || continue
+      if [[ "$mode" == check ]]; then
+        summary="$(check_one "$id")"
+      else
+        summary="Not checked"
+      fi
+      printf '%s\t%s\t%s\t%s\n' "$id" "$(name_of "$id")" "$(detail_of "$id")" "$summary"
+    done
+  } | python3 -c '
+import json, sys
+tasks = []
+for line in sys.stdin:
+    line = line.rstrip("\n")
+    if not line:
+        continue
+    tid, name, detail, summary = line.split("\t", 3)
+    tasks.append({"id": tid, "name": name, "detail": detail, "summary": summary})
+print(json.dumps({"tasks": tasks}))
+'
+}
+
+run_one() {
+  local id="$1"
+  available "$id" || { echo "not installed: $id" >&2; return 1; }
+  echo "==> $(name_of "$id")"
+  case "$id" in
+    packages) yay -Syu ;;
+    neovim) nvim --headless "+Lazy! sync" +qa ;;
+    flatpak) flatpak update ;;
+    tmux)
+      git -C "$DOTFILES" submodule update --remote --merge -- \
+        config/.config/tmux/plugins/tpm \
+        config/.config/tmux/plugins/tmux \
+        config/.config/tmux/plugins/tmux-continuum \
+        config/.config/tmux/plugins/tmux-copycat \
+        config/.config/tmux/plugins/tmux-resurrect \
+        config/.config/tmux/plugins/tmux-sessionx \
+        config/.config/tmux/plugins/tmux-yank
+      if [[ -d "$HOME/.tmux/plugins/tpm/.git" ]]; then
+        git -C "$HOME/.tmux/plugins/tpm" pull --ff-only
+      fi
+      ;;
+    zinit) zsh -lic 'zinit self-update && zinit update --all' ;;
+    rust) rustup update ;;
+    flutter) flutter upgrade ;;
+    deno) deno upgrade ;;
+    spicetify) spicetify update ;;
+    firmware) fwupdmgr refresh && fwupdmgr update ;;
+    dotfiles)
+      if ! git -C "$DOTFILES" diff --quiet || ! git -C "$DOTFILES" diff --cached --quiet; then
+        echo "Skipping pull: ~/dotfiles has uncommitted changes."
+        return 0
+      fi
+      git -C "$DOTFILES" pull --ff-only
+      git -C "$DOTFILES" submodule update --init --recursive
+      ;;
+    *)
+      echo "unknown task: $id" >&2
+      return 1
+      ;;
+  esac
+}
+
+run_all() {
+  local id rc=0
+  for id in "${TASKS[@]}"; do
+    available "$id" || continue
+    echo
+    if ! run_one "$id"; then
+      echo "failed: $id"
+      rc=1
+    fi
+  done
+  return "$rc"
+}
+
+open_terminal() {
+  local id="$1"
+  if ! have wezterm; then
+    echo "wezterm is not installed" >&2
+    return 1
+  fi
+  # setsid -f returns immediately so the settings page does not wait on the update.
+  setsid -f wezterm start --class sysupdate --cwd "$HOME" -- \
+    zsh -lic "$(printf '%q run %q; printf "\nFinished. Press enter to close.\n"; read -r _' "$SELF" "$id")" \
+    >/dev/null 2>&1
+  echo "opened"
+}
+
+usage() {
+  echo "usage: sysupdate list --json | check --json | open <id|all> | run <id|all>" >&2
+  exit 2
+}
+
+cmd="${1:-}"
+shift || true
+case "$cmd" in
+  list) emit_json list ;;
+  check) emit_json check ;;
+  open)
+    [[ $# -eq 1 ]] || usage
+    open_terminal "$1"
+    ;;
+  run)
+    [[ $# -eq 1 ]] || usage
+    if [[ "$1" == all ]]; then
+      run_all
+    else
+      run_one "$1"
+    fi
+    ;;
+  *) usage ;;
+esac

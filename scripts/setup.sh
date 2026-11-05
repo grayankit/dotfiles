@@ -126,4 +126,7 @@ stow local
 echo "[*] Installing cachemanager..."
 "$HOME/dotfiles/scripts/install-cachemanager.sh"
 
+echo "[*] Installing sysupdate..."
+"$HOME/dotfiles/scripts/install-sysupdate.sh"
+
 echo "[✓] Setup complete."
