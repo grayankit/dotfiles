@@ -59,7 +59,7 @@ cd ~/dotfiles/scripts
 ./install.sh
 ```
 
-* Installs base tools (zsh, neovim, tmux, stow, git, dms-shell, matugen)
+* Installs base tools (zsh, neovim, tmux, stow, git, dux-shell, matugen)
 * Restores official packages from `pkglist-pacman.txt`
 * Bootstraps `yay` if needed, then restores AUR packages from `pkglist-aur.txt`
 

@@ -21,7 +21,7 @@ cmake
 cpio
 distrobox
 dkms
-dms-shell
+dux-shell
 dnsmasq
 docker
 docker-compose
